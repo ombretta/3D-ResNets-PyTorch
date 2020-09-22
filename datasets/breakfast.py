@@ -9,7 +9,7 @@ Created on Tue Sep 22 11:58:04 2020
 import torch
 import h5py
 import os
-import pkl
+import pickle as pkl
 
 def check_video_availability(video_list, dataset_path):
     new_list = []
@@ -48,9 +48,7 @@ def load_videos_sets(data_path, dataset_path):
 
 
 def get_breakfast_dataset(videos, dataset_path): 
-    classes_labels = load_data("/tudelft.net/staff-bulk/ewi/insy/VisionLab/\
-                               ombrettastraff/instructional_videos/\
-                            i3d_breakfast/data/processed/classes_labels.dat")
+    classes_labels = load_data("/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/classes_labels.dat")
     dataset = DatasetBreakfast(videos, classes_labels, dataset_path)
     return dataset
 

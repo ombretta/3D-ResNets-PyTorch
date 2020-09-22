@@ -17,7 +17,7 @@ video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/\
 annotation_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/\
     instructional_videos/i3d_breakfast/\
         data/processed/video_sets_split" # used as video_sets_split
-result_path = "./breakfast_results/"
+result_path = "."
 dataset = "breakfast"
 n_classes = 10
 sample_size = 224
@@ -29,6 +29,7 @@ batch_size = 4
 inference_batch_size = 0 # Same as batch_size
 n_epochs = 200
 inference_no_average = True
+n_threads = 1 # Number of threads for multi-thread loading (n_workers)
 checkpoint = 1 # Trained model is saved at every this epochs
 model = "resnet"
 model_depth = 18 # Depth of resnet (10 | 18 | 34 | 50 | 101)
@@ -63,7 +64,7 @@ if submit_on_cluster:
     srun "
     
 text += "python main.py "
-text += " --root_path=" + root_path
+if root_path: text += " --root_path=" + root_path
 text += " --video_path=" + video_path
 text += " --annotation_path=" + annotation_path
 text += " --result_path=" + result_path
@@ -78,6 +79,7 @@ text += " --batch_size=" + str(batch_size)
 text += " --inference_batch_size=" + str(inference_batch_size)
 text += " --n_epochs=" + str(n_epochs)
 if inference_no_average: text += " --inference_no_average"
+text += " --n_threads=" + str(n_threads)
 text += " --checkpoint=" + str(checkpoint)
 text += " --model=" + model
 text += " --model_depth=" + str(model_depth)
@@ -91,7 +93,7 @@ text += " --resnext_cardinality=" + str(resnext_cardinality)
 text += " --input_type=" + input_type
 text += " --manual_seed=" + str(manual_seed)
 text += " --output_topk=" + str(output_topk)
-text += " --file_type=" + file_type
+if file_type: text += " --file_type=" + root_path
 if tensorboard: text += " --tensorboard"
 if distributed: text += " --distributed"
 
