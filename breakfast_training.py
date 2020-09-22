@@ -13,7 +13,7 @@ submit_on_cluster = False
 root_path = None
 video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/uniform_64_segments_raw.hdf5" # used as dataset_path
 annotation_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/video_sets_split" # used as video_sets_split
-result_path = "./"
+result_path = "./breakfast_results/"
 dataset = "breakfast"
 n_classes = 10
 sample_size = 224
@@ -21,8 +21,9 @@ sample_duration = 512
 no_hflip = True
 no_mean_norm = True
 no_std_norm = True
-batch_size = 4
-inference_batch_size = 0 # Same as batch_size
+batch_size = 1
+inference_batch_size = 1
+n_val_samples = 1
 n_epochs = 200
 inference_no_average = True
 n_threads = 1 # Number of threads for multi-thread loading (n_workers)
@@ -73,6 +74,7 @@ if no_mean_norm: text += " --no_mean_norm"
 if no_std_norm: text += " --no_std_norm"
 text += " --batch_size=" + str(batch_size)
 text += " --inference_batch_size=" + str(inference_batch_size)
+text += " --n_val_samples=" + str(n_val_samples)
 text += " --n_epochs=" + str(n_epochs)
 if inference_no_average: text += " --inference_no_average"
 text += " --n_threads=" + str(n_threads)
