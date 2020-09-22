@@ -94,6 +94,6 @@ class DatasetBreakfast(torch.utils.data.Dataset):
         X = X[:,::self.sample_t_stride,:,:,:]
                 
         # Extract label from the video id
-        y = get_label_from_id(video_id, self.classes_labels)
+        y = get_label_from_id(video_id, self.classes_labels).long()
         
         return X, y
