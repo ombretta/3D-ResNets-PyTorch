@@ -24,13 +24,13 @@ def parse_opts():
         '--dataset',
         default='kinetics',
         type=str,
-        help='Used dataset (activitynet | kinetics | ucf101 | hmdb51)')
+        help='Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast)')
     parser.add_argument(
         '--n_classes',
         default=400,
         type=int,
         help=
-        'Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)'
+        'Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51, breakfast: 10)'
     )
     parser.add_argument('--n_pretrain_classes',
                         default=0,
@@ -63,7 +63,7 @@ def parse_opts():
         help='If larger than 1, input frames are subsampled with the stride.')
     parser.add_argument(
         '--train_crop',
-        default='random',
+        default=None,
         type=str,
         help=('Spatial cropping method in training. '
               'random is uniform. '
@@ -84,7 +84,7 @@ def parse_opts():
                         action='store_true',
                         help='If true colorjitter is performed.')
     parser.add_argument('--train_t_crop',
-                        default='random',
+                        default=None,
                         type=str,
                         help=('Temporal cropping method in training. '
                               'random is uniform. '
@@ -194,7 +194,7 @@ def parse_opts():
                         help='Stride of sliding window in inference.')
     parser.add_argument(
         '--inference_crop',
-        default='center',
+        default=None,
         type=str,
         help=('Cropping method in inference. (center | nocrop)'
               'When nocrop, fully convolutional inference is performed,'

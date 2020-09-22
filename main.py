@@ -123,7 +123,7 @@ def get_normalize_method(mean, std, no_mean_norm, no_std_norm):
 
 
 def get_train_utils(opt, model_parameters):
-    assert opt.train_crop in ['random', 'corner', 'center']
+    assert opt.train_crop in ['random', 'corner', 'center', None]
     spatial_transform = []
     if opt.train_crop == 'random':
         spatial_transform.append(
@@ -152,7 +152,7 @@ def get_train_utils(opt, model_parameters):
     spatial_transform.append(normalize)
     spatial_transform = Compose(spatial_transform)
 
-    assert opt.train_t_crop in ['random', 'center']
+    assert opt.train_t_crop in ['random', 'center', None]
     temporal_transform = []
     if opt.sample_t_stride > 1:
         temporal_transform.append(TemporalSubsampling(opt.sample_t_stride))
@@ -262,7 +262,7 @@ def get_val_utils(opt):
 
 
 def get_inference_utils(opt):
-    assert opt.inference_crop in ['center', 'nocrop']
+    assert opt.inference_crop in ['center', 'nocrop', None]
 
     normalize = get_normalize_method(opt.mean, opt.std, opt.no_mean_norm,
                                      opt.no_std_norm)
