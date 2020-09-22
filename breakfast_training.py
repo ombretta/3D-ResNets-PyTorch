@@ -12,11 +12,11 @@ submit_on_cluster = True
  
 root_path = None
 video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/\
-            instructional_videos/i3d_breakfast/data/processed/\
-            uniform_64_segments_raw.hdf5" # used as dataset_path
+    instructional_videos/i3d_breakfast/data/processed/\
+        uniform_64_segments_raw.hdf5" # used as dataset_path
 annotation_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/\
-            instructional_videos/i3d_breakfast/\
-            data/processed/video_sets_split" # used as video_sets_split
+    instructional_videos/i3d_breakfast/\
+        data/processed/video_sets_split" # used as video_sets_split
 result_path = "./breakfast_results/"
 dataset = "breakfast"
 n_classes = 10
