@@ -9,7 +9,7 @@ Created on Tue Sep 22 11:58:04 2020
 import torch
 import h5py
 import os
-import pkl
+import pickle as pkl
 
 def check_video_availability(video_list, dataset_path):
     new_list = []

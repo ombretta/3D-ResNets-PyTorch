@@ -8,15 +8,11 @@ Created on Tue Sep 22 12:27:51 2020
 
 import os 
 
-submit_on_cluster = True
+submit_on_cluster = False
  
 root_path = None
-video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/\
-    instructional_videos/i3d_breakfast/data/processed/\
-        uniform_64_segments_raw.hdf5" # used as dataset_path
-annotation_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/\
-    instructional_videos/i3d_breakfast/\
-        data/processed/video_sets_split" # used as video_sets_split
+video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/uniform_64_segments_raw.hdf5" # used as dataset_path
+annotation_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/video_sets_split" # used as video_sets_split
 result_path = "./breakfast_results/"
 dataset = "breakfast"
 n_classes = 10
