@@ -8,7 +8,7 @@ Created on Tue Sep 22 12:27:51 2020
 
 import os 
 
-submit_on_cluster = False
+submit_on_cluster = True
  
 root_path = None
 video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/uniform_64_segments_raw.hdf5" # used as dataset_path
@@ -18,12 +18,12 @@ dataset = "breakfast"
 n_classes = 10
 sample_size = 224
 sample_duration = 512
-sample_t_stride = 2
+sample_t_stride = 4
 no_hflip = True
 no_mean_norm = True
 no_std_norm = True
-batch_size = 1
-inference_batch_size = 1
+batch_size = 4
+inference_batch_size = 4
 n_val_samples = 1
 n_epochs = 200
 inference_no_average = True
@@ -50,13 +50,13 @@ text = ''
 if submit_on_cluster:
     text += "#!/bin/sh\n\
     #SBATCH --partition=general\n\
-    #SBATCH --qos=short\n\
-    #SBATCH --time=4:00:00\n\
+    #SBATCH --qos=long\n\
+    #SBATCH --time=48:00:00\n\
     #SBATCH --ntasks=1\n\
     #SBATCH --mail-type=END\n\
     #SBATCH --cpus-per-task=2\n\
     #SBATCH --mem=16000\n\
-    #SBATCH --gres=gpu:2\n\
+    #SBATCH --gres=gpu:1\n\
     module use /opt/insy/modulefiles\n\
     module load cuda/10.0 cudnn/10.0-7.6.0.64\n\
     srun "
@@ -99,4 +99,9 @@ if distributed: text += " --distributed"
 
 print(text)
 
-os.system(text)
+if submit_on_cluster:
+    with open("breakfast_train.sbatch", "w") as file:
+        file.write(text)
+    os.system("sbatch breakfast_train.sbatch")    
+else:
+    os.system(text)

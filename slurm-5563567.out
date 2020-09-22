@@ -1,0 +1,23 @@
+THCudaCheck FAIL file=/opt/conda/conda-bld/pytorch_1587428207430/work/aten/src/THC/THCGeneral.cpp line=47 error=100 : no CUDA-capable device is detected
+Namespace(accimage=False, annotation_path=PosixPath('/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/video_sets_split'), arch='resnet-18', batch_size=4, batchnorm_sync=False, begin_epoch=1, checkpoint=1, colorjitter=False, conv1_t_size=7, conv1_t_stride=1, dampening=0.0, dataset='breakfast', dist_url='tcp://127.0.0.1:23456', distributed=False, file_type='jpg', ft_begin_module='', inference=False, inference_batch_size=4, inference_crop=None, inference_no_average=True, inference_stride=16, inference_subset='val', input_type='rgb', learning_rate=0.1, lr_scheduler='multistep', manual_seed=42, mean=[0.4345, 0.4051, 0.3775], mean_dataset='kinetics', model='resnet', model_depth=18, momentum=0.9, multistep_milestones=[50, 100, 150], n_classes=10, n_epochs=200, n_input_channels=3, n_pretrain_classes=0, n_threads=1, n_val_samples=1, nesterov=False, no_cuda=False, no_hflip=True, no_max_pool=False, no_mean_norm=True, no_std_norm=True, no_train=False, no_val=False, optimizer='sgd', output_topk=5, overwrite_milestones=False, plateau_patience=10, pretrain_path=None, resnet_shortcut='B', resnet_widen_factor=1.0, resnext_cardinality=32, result_path=PosixPath('breakfast_results'), resume_path=None, root_path=None, sample_duration=512, sample_size=224, sample_t_stride=4, std=[0.2768, 0.2713, 0.2737], tensorboard=True, train_crop=None, train_crop_min_ratio=0.75, train_crop_min_scale=0.25, train_t_crop=None, value_scale=1, video_path=PosixPath('/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/uniform_64_segments_raw.hdf5'), weight_decay=0.001, wide_resnet_k=2, world_size=-1)
+Traceback (most recent call last):
+  File "main.py", line 431, in <module>
+    main_worker(-1, opt)
+  File "main.py", line 348, in main_worker
+    model = make_data_parallel(model, opt.distributed, opt.device)
+  File "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/3D-ResNets-PyTorch/model.py", line 126, in make_data_parallel
+    model = nn.DataParallel(model, device_ids=None).cuda()
+  File "/home/nfs/ombrettastraff/envs/h5/lib/python3.8/site-packages/torch/nn/modules/module.py", line 307, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/nfs/ombrettastraff/envs/h5/lib/python3.8/site-packages/torch/nn/modules/module.py", line 203, in _apply
+    module._apply(fn)
+  File "/home/nfs/ombrettastraff/envs/h5/lib/python3.8/site-packages/torch/nn/modules/module.py", line 203, in _apply
+    module._apply(fn)
+  File "/home/nfs/ombrettastraff/envs/h5/lib/python3.8/site-packages/torch/nn/modules/module.py", line 225, in _apply
+    param_applied = fn(param)
+  File "/home/nfs/ombrettastraff/envs/h5/lib/python3.8/site-packages/torch/nn/modules/module.py", line 307, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/nfs/ombrettastraff/envs/h5/lib/python3.8/site-packages/torch/cuda/__init__.py", line 153, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: cuda runtime error (100) : no CUDA-capable device is detected at /opt/conda/conda-bld/pytorch_1587428207430/work/aten/src/THC/THCGeneral.cpp:47
+srun: error: insy6: task 0: Exited with exit code 1
