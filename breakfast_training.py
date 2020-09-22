@@ -63,7 +63,7 @@ if submit_on_cluster:
     srun "
     
 text += "python main.py "
-text += " root_path=" + root_path
+text += " root_path=" + str(root_path)
 text += " video_path=" + video_path
 text += " annotation_path=" + annotation_path
 text += " result_path=" + result_path
@@ -91,7 +91,7 @@ text += " resnext_cardinality=" + str(resnext_cardinality)
 text += " input_type=" + input_type
 text += " manual_seed=" + str(manual_seed)
 text += " output_topk=" + str(output_topk)
-text += " file_type=" + file_type
+text += " file_type=" + str(file_type)
 if tensorboard: text += " --tensorboard"
 if distributed: text += " --distributed"
 
