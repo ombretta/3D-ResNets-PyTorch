@@ -25,6 +25,7 @@ batch_size = 4
 inference_batch_size = 0 # Same as batch_size
 n_epochs = 200
 inference_no_average = True
+n_threads = 1 # Number of threads for multi-thread loading (n_workers)
 checkpoint = 1 # Trained model is saved at every this epochs
 model = "resnet"
 model_depth = 18 # Depth of resnet (10 | 18 | 34 | 50 | 101)
@@ -74,6 +75,7 @@ text += " --batch_size=" + str(batch_size)
 text += " --inference_batch_size=" + str(inference_batch_size)
 text += " --n_epochs=" + str(n_epochs)
 if inference_no_average: text += " --inference_no_average"
+text += " --n_threads=" + str(n_threads)
 text += " --checkpoint=" + str(checkpoint)
 text += " --model=" + model
 text += " --model_depth=" + str(model_depth)
