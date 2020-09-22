@@ -46,9 +46,9 @@ def load_videos_sets(data_path, dataset_path):
     return [], [], []
 
 
-def get_breakfast_dataset(videos, dataset_path): 
+def get_breakfast_dataset(videos, dataset_path, sample_t_stride): 
     classes_labels = load_data("/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/classes_labels.dat")
-    dataset = DatasetBreakfast(videos, classes_labels, dataset_path)
+    dataset = DatasetBreakfast(videos, classes_labels, dataset_path, sample_t_stride)
     return dataset
 
 
@@ -71,11 +71,12 @@ def get_label_from_id(video_id, classes_labels):
 class DatasetBreakfast(torch.utils.data.Dataset):
     
     'Characterizes a dataset for PyTorch'
-    def __init__(self, videos_ids, classes_labels, dataset_path):
+    def __init__(self, videos_ids, classes_labels, dataset_path, sample_t_stride):
         self.classes_labels = classes_labels
         self.dataset_path = dataset_path
         self.videos_ids = videos_ids
         self.file = h5py.File(self.dataset_path, 'r')
+        self.sample_t_stride = sample_t_stride
         
     def __len__(self):
         'Denotes the total number of samples'
@@ -90,7 +91,8 @@ class DatasetBreakfast(torch.utils.data.Dataset):
         
         X = torch.from_numpy(tmp).to(torch.float) 
         X = check_data_shape(X, self.dataset_path)
-        
+        X = X[:,::self.sample_t_stride,:,:,:]
+                
         # Extract label from the video id
         y = get_label_from_id(video_id, self.classes_labels)
         
