@@ -18,6 +18,7 @@ dataset = "breakfast"
 n_classes = 10
 sample_size = 224
 sample_duration = 512
+sample_t_stride = 2
 no_hflip = True
 no_mean_norm = True
 no_std_norm = True
@@ -69,6 +70,7 @@ text += " --dataset=" + dataset
 text += " --n_classes=" + str(n_classes)
 text += " --sample_size=" + str(sample_size)
 text += " --sample_duration=" + str(sample_duration)
+text += " --sample_t_stride=" + str(sample_t_stride)
 if no_hflip: text += " --no_hflip"
 if no_mean_norm: text += " --no_mean_norm"
 if no_std_norm: text += " --no_std_norm"

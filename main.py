@@ -164,7 +164,8 @@ def get_train_utils(opt, model_parameters):
 
     train_data = get_training_data(opt.video_path, opt.annotation_path,
                                    opt.dataset, opt.input_type, opt.file_type,
-                                   spatial_transform, temporal_transform)
+                                   spatial_transform, temporal_transform, 
+                                   sample_t_stride=opt.sample_t_stride)
     if opt.distributed:
         train_sampler = torch.utils.data.distributed.DistributedSampler(
             train_data)
@@ -236,7 +237,8 @@ def get_val_utils(opt):
                                                opt.annotation_path, opt.dataset,
                                                opt.input_type, opt.file_type,
                                                spatial_transform,
-                                               temporal_transform)
+                                               temporal_transform, 
+                                               sample_t_stride=opt.sample_t_stride)
     if opt.distributed:
         val_sampler = torch.utils.data.distributed.DistributedSampler(
             val_data, shuffle=False)
@@ -286,7 +288,7 @@ def get_inference_utils(opt):
     inference_data, collate_fn = get_inference_data(
         opt.video_path, opt.annotation_path, opt.dataset, opt.input_type,
         opt.file_type, opt.inference_subset, spatial_transform,
-        temporal_transform)
+        temporal_transform, sample_t_stride=opt.sample_t_stride)
 
     inference_loader = torch.utils.data.DataLoader(
         inference_data,
