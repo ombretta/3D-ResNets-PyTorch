@@ -251,8 +251,8 @@ def get_val_utils(opt):
                                              num_workers=opt.n_threads,
                                              pin_memory=True,
                                              sampler=val_sampler,
-                                             worker_init_fn=worker_init_fn,
-                                             collate_fn=collate_fn)
+                                             worker_init_fn=worker_init_fn)
+                                             #collate_fn=collate_fn)
 
     if opt.is_master_node:
         val_logger = Logger(opt.result_path / 'val.log',
@@ -296,8 +296,8 @@ def get_inference_utils(opt):
         shuffle=False,
         num_workers=opt.n_threads,
         pin_memory=True,
-        worker_init_fn=worker_init_fn,
-        collate_fn=collate_fn)
+        worker_init_fn=worker_init_fn)
+        # collate_fn=collate_fn)
 
     return inference_loader, inference_data.class_names
 
