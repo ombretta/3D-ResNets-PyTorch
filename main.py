@@ -367,7 +367,8 @@ def main_worker(index, opt):
         val_loader, val_logger = get_val_utils(opt)
 
     if opt.tensorboard and opt.is_master_node:
-        from torch.utils.tensorboard import SummaryWriter
+        # from torch.utils.tensorboard import SummaryWriter
+        from tensorboardX import SummaryWriter
         if opt.begin_epoch == 1:
             tb_writer = SummaryWriter(log_dir=opt.result_path)
         else:

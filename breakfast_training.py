@@ -13,7 +13,7 @@ submit_on_cluster = False
 root_path = None
 video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/uniform_64_segments_raw.hdf5" # used as dataset_path
 annotation_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/video_sets_split" # used as video_sets_split
-result_path = "./breakfast_results/"
+result_path = "./"
 dataset = "breakfast"
 n_classes = 10
 sample_size = 224
@@ -59,7 +59,7 @@ if submit_on_cluster:
     srun "
     
 text += "python main.py "
-text += " --root_path=" + root_path
+if root_path: text += " --root_path=" + root_path
 text += " --video_path=" + video_path
 text += " --annotation_path=" + annotation_path
 text += " --result_path=" + result_path
@@ -87,7 +87,7 @@ text += " --resnext_cardinality=" + str(resnext_cardinality)
 text += " --input_type=" + input_type
 text += " --manual_seed=" + str(manual_seed)
 text += " --output_topk=" + str(output_topk)
-text += " --file_type=" + file_type
+if file_type: text += " --file_type=" + file_type
 if tensorboard: text += " --tensorboard"
 if distributed: text += " --distributed"
 

@@ -13,13 +13,11 @@ import pickle as pkl
 
 def check_video_availability(video_list, dataset_path):
     new_list = []
-    with h5py.File(dataset_path, 'r') as f:
+    with h5py.File(str(dataset_path), 'r') as f:
         if "video_ids" in list(f.keys()):
             available_videos = [v.decode('UTF-8') for v in f["video_ids"]]
         else:    
             available_videos = list(f.keys())
-        if "for_ss" in dataset_path: 
-            available_videos = ["_".join(v.split("_")[:-1]) for v in available_videos]
     for video in video_list:
         if video in available_videos: new_list.append(video)
     return new_list
@@ -34,6 +32,7 @@ def load_data(filename, with_torch = False):
     
     
 def load_videos_sets(data_path, dataset_path):
+    data_path = str(data_path)
     if os.path.exists(data_path+"/train_videos.dat"):
         valid_videos = load_data(data_path+"/valid_videos.dat")
         test_videos = load_data(data_path+"/test_videos.dat")
@@ -48,15 +47,13 @@ def load_videos_sets(data_path, dataset_path):
 
 
 def get_breakfast_dataset(videos, dataset_path): 
-    classes_labels = load_data("/tudelft.net/staff-bulk/ewi/insy/VisionLab/\
-                               ombrettastraff/instructional_videos/\
-                            i3d_breakfast/data/processed/classes_labels.dat")
+    classes_labels = load_data("/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/classes_labels.dat")
     dataset = DatasetBreakfast(videos, classes_labels, dataset_path)
     return dataset
 
 
 def check_data_shape(X, dataset_path):
-    if "raw" in dataset_path or "for_ss" in dataset_path: 
+    if "raw" in str(dataset_path): 
         X = X.permute(3, 0, 1, 2)
     if len(X.shape) > 4: X = X.squeeze(0)
     return X
