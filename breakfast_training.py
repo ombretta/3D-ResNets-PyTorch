@@ -22,8 +22,8 @@ sample_t_stride = 4
 no_hflip = True
 no_mean_norm = True
 no_std_norm = True
-batch_size = 4
-inference_batch_size = 4
+batch_size = 8
+inference_batch_size = 8
 n_val_samples = 1
 n_epochs = 200
 inference_no_average = True
@@ -56,7 +56,7 @@ if submit_on_cluster:
     #SBATCH --mail-type=END\n\
     #SBATCH --cpus-per-task=2\n\
     #SBATCH --mem=16000\n\
-    #SBATCH --gres=gpu:1\n\
+    #SBATCH --gres=gpu:2\n\
     module use /opt/insy/modulefiles\n\
     module load cuda/10.0 cudnn/10.0-7.6.0.64\n\
     srun "
