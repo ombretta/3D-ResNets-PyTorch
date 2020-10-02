@@ -337,6 +337,13 @@ def main_worker(index, opt):
     opt.is_master_node = not opt.distributed or opt.dist_rank == 0
 
     model = generate_model(opt)
+    
+    print("n GPUs", torch.cuda.device_count())
+    if torch.cuda.device_count() > 1:
+        print("Let's use", torch.cuda.device_count(), "GPUs!")
+        model = torch.nn.DataParallel(model)
+  
+  
     if opt.batchnorm_sync:
         assert opt.distributed, 'SyncBatchNorm only supports DistributedDataParallel.'
         model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
@@ -345,7 +352,7 @@ def main_worker(index, opt):
                                       opt.n_finetune_classes)
     if opt.resume_path is not None:
         model = resume_model(opt.resume_path, opt.arch, model)
-    model = make_data_parallel(model, opt.distributed, opt.device)
+    # model = make_data_parallel(model, opt.distributed, opt.device)
 
     if opt.pretrain_path:
         parameters = get_fine_tuning_parameters(model, opt.ft_begin_module)
