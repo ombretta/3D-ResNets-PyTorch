@@ -48,18 +48,18 @@ distributed = False # Use multi-processing distributed training to launch # Chec
 text = ''
 
 if submit_on_cluster:
-    text += "#!/bin/sh\n\
-    #SBATCH --partition=general\n\
-    #SBATCH --qos=long\n\
-    #SBATCH --time=48:00:00\n\
-    #SBATCH --ntasks=1\n\
-    #SBATCH --mail-type=END\n\
-    #SBATCH --cpus-per-task=2\n\
-    #SBATCH --mem=16000\n\
-    #SBATCH --gres=gpu:2\n\
-    module use /opt/insy/modulefiles\n\
-    module load cuda/10.0 cudnn/10.0-7.6.0.64\n\
-    srun "
+    text += "#!/bin/sh\n" + \
+    "#SBATCH --partition=general\n" + \
+    "#SBATCH --qos=long\n" + \
+    "#SBATCH --time=48:00:00\n" + \
+    "#SBATCH --ntasks=1\n" + \
+    "#SBATCH --mail-type=END\n" + \
+    "#SBATCH --cpus-per-task=2\n" + \
+    "#SBATCH --mem=16000\n" + \
+    "#SBATCH --gres=gpu:1\n" + \
+    "module use /opt/insy/modulefiles\n" + \
+    "module load cuda/10.0 cudnn/10.0-7.6.0.64\n" + \
+    "srun "
     
 text += "python main.py "
 if root_path: text += " --root_path=" + root_path
