@@ -12,9 +12,9 @@ submit_on_cluster = True
 pretrained = True
 
 root_path = None
-video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/uniform_512_frames_shuffled_raw.hdf5" # used as dataset_path
+video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/uniform_64_segments_raw.hdf5" # used as dataset_path
 annotation_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/video_sets_split" # used as video_sets_split
-result_path = "./breakfast_shuffled_frames_results/"
+result_path = "./kinetics_pretrained_breakfast_results/"
 dataset = "breakfast"
 n_classes = 10
 sample_size = 224
