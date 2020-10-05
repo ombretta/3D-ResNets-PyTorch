@@ -111,4 +111,7 @@ ENV/
 breakfast_results/
 breakfast_shuffled_segments_results/
 breakfast_shuffled_frames_results/
+kinetics_pretrained_breakfast_results/
+kinetics_pretrained_breakfast_shuffled_segments_results/
+kinetics_pretrained_breakfast_shuffled_frames_results/
 pretrained_models/
