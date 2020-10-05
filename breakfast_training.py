@@ -28,6 +28,7 @@ inference_batch_size = 4
 n_val_samples = 1
 n_epochs = 50
 learning_rate = 0.001
+multistep_milestones = 25
 inference_no_average = True
 n_threads = 1 # Number of threads for multi-thread loading (n_workers)
 checkpoint = 1 # Trained model is saved at every this epochs
@@ -81,6 +82,7 @@ text += " --inference_batch_size=" + str(inference_batch_size)
 text += " --n_val_samples=" + str(n_val_samples)
 text += " --n_epochs=" + str(n_epochs)
 text += " --learning_rate=" + str(learning_rate)
+text += " --multistep_milestones=[" + str(multistep_milestones) + "]"
 if inference_no_average: text += " --inference_no_average"
 text += " --n_threads=" + str(n_threads)
 text += " --checkpoint=" + str(checkpoint)
