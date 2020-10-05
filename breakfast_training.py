@@ -26,7 +26,8 @@ no_std_norm = True
 batch_size = 4
 inference_batch_size = 4
 n_val_samples = 1
-n_epochs = 200
+n_epochs = 50
+learning_rate = 0.001
 inference_no_average = True
 n_threads = 1 # Number of threads for multi-thread loading (n_workers)
 checkpoint = 1 # Trained model is saved at every this epochs
@@ -52,7 +53,7 @@ if submit_on_cluster:
     text += "#!/bin/sh\n" + \
     "#SBATCH --partition=general\n" + \
     "#SBATCH --qos=long\n" + \
-    "#SBATCH --time=48:00:00\n" + \
+    "#SBATCH --time=50:00:00\n" + \
     "#SBATCH --ntasks=1\n" + \
     "#SBATCH --mail-type=END\n" + \
     "#SBATCH --cpus-per-task=2\n" + \
@@ -79,6 +80,7 @@ text += " --batch_size=" + str(batch_size)
 text += " --inference_batch_size=" + str(inference_batch_size)
 text += " --n_val_samples=" + str(n_val_samples)
 text += " --n_epochs=" + str(n_epochs)
+text += " --learning_rate=" + str(learning_rate)
 if inference_no_average: text += " --inference_no_average"
 text += " --n_threads=" + str(n_threads)
 text += " --checkpoint=" + str(checkpoint)
