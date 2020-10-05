@@ -12,21 +12,21 @@ submit_on_cluster = True
 pretrained = True
 
 root_path = None
-video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/uniform_64_segments_raw.hdf5" # used as dataset_path
+video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/uniform_512_frames_shuffled_raw.hdf5" # used as dataset_path
 annotation_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/video_sets_split" # used as video_sets_split
 result_path = "./kinetics_pretrained_breakfast_results/"
 dataset = "breakfast"
 n_classes = 10
 sample_size = 224
 sample_duration = 512
-sample_t_stride = 4
+sample_t_stride = 1
 no_hflip = True
 no_mean_norm = True
 no_std_norm = True
 batch_size = 4
 inference_batch_size = 4
 n_val_samples = 1
-n_epochs = 200
+n_epochs = 50
 learning_rate = 0.001
 inference_no_average = True
 n_threads = 1 # Number of threads for multi-thread loading (n_workers)
@@ -53,12 +53,12 @@ if submit_on_cluster:
     text += "#!/bin/sh\n" + \
     "#SBATCH --partition=general\n" + \
     "#SBATCH --qos=long\n" + \
-    "#SBATCH --time=48:00:00\n" + \
+    "#SBATCH --time=50:00:00\n" + \
     "#SBATCH --ntasks=1\n" + \
     "#SBATCH --mail-type=END\n" + \
     "#SBATCH --cpus-per-task=2\n" + \
     "#SBATCH --mem=16000\n" + \
-    "#SBATCH --gres=gpu:1\n" + \
+    "#SBATCH --gres=gpu:4\n" + \
     "module use /opt/insy/modulefiles\n" + \
     "module load cuda/10.0 cudnn/10.0-7.6.0.64\n" + \
     "srun "
