@@ -56,6 +56,8 @@ class VideoDataset(data.Dataset):
         self.temporal_transform = temporal_transform
         self.target_transform = target_transform
 
+        print("VideoDataset temporal_transform", self.temporal_transform)
+        
         if video_loader is None:
             self.loader = VideoLoader(image_name_formatter)
         else:
