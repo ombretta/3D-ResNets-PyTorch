@@ -84,7 +84,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    for split_index in range(1, 4):
+#    for split_index in range(1, 4):
+    for split_index in range(1, 2):
         label_csv_path = args.dir_path / 'classInd.txt'
         train_csv_path = args.dir_path / 'trainlist0{}.txt'.format(split_index)
         val_csv_path = args.dir_path / 'testlist0{}.txt'.format(split_index)
