@@ -13,17 +13,17 @@ import os
 submit_on_cluster = True
 pretrained = True
 
-text = '#!/bin/sh'+\
-'#SBATCH --partition=general'+\
-'#SBATCH --qos=short'+\
-'#SBATCH --time=4:00:00'+\
-'#SBATCH --ntasks=1'+\
-'#SBATCH --mail-type=END'+\
-'#SBATCH --cpus-per-task=2'+\
-'#SBATCH --mem=16000'+\
-'#SBATCH --gres=gpu:4'+\
-'module use /opt/insy/modulefiles'+\
-'module load cuda/10.0 cudnn/10.0-7.6.0.64'+\
+text = '#!/bin/sh\n'+\
+'#SBATCH --partition=general\n'+\
+'#SBATCH --qos=short\n'+\
+'#SBATCH --time=4:00:00\n'+\
+'#SBATCH --ntasks=1\n'+\
+'#SBATCH --mail-type=END\n'+\
+'#SBATCH --cpus-per-task=2\n'+\
+'#SBATCH --mem=16000\n'+\
+'#SBATCH --gres=gpu:4\n'+\
+'module use /opt/insy/modulefiles\n'+\
+'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
 'srun python main.py '
     
 '''List of arguments from the repository:'''
