@@ -62,6 +62,10 @@ def get_training_data(video_path,
         training_data = get_breakfast_dataset(train_videos, video_path, sample_t_stride)
     
     else:
+        print("Building VideoDataset for UCF-101.")
+        print(spatial_transform)
+        print(temporal_transform)
+        print(loader)
         training_data = VideoDataset(video_path,
                                      annotation_path,
                                      'training',
