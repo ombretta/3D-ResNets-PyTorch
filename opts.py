@@ -49,11 +49,11 @@ def parse_opts():
               '(conv1, layer1, fc, denseblock1, classifier, ...).'
               'The default means all layers are fine-tuned.'))
     parser.add_argument('--sample_size',
-                        default=112,
+                        default=64,
                         type=int,
                         help='Height and width of inputs')
     parser.add_argument('--sample_duration',
-                        default=16,
+                        default=48,
                         type=int,
                         help='Temporal duration of inputs')
     parser.add_argument(
@@ -63,7 +63,7 @@ def parse_opts():
         help='If larger than 1, input frames are subsampled with the stride.')
     parser.add_argument(
         '--train_crop',
-        default=None,
+        default='random',
         type=str,
         help=('Spatial cropping method in training. '
               'random is uniform. '
@@ -84,7 +84,7 @@ def parse_opts():
                         action='store_true',
                         help='If true colorjitter is performed.')
     parser.add_argument('--train_t_crop',
-                        default=None,
+                        default='random',
                         type=str,
                         help=('Temporal cropping method in training. '
                               'random is uniform. '
@@ -194,7 +194,7 @@ def parse_opts():
                         help='Stride of sliding window in inference.')
     parser.add_argument(
         '--inference_crop',
-        default=None,
+        default='center',
         type=str,
         help=('Cropping method in inference. (center | nocrop)'
               'When nocrop, fully convolutional inference is performed,'
@@ -219,11 +219,15 @@ def parse_opts():
         default='resnet',
         type=str,
         help=
-        '(resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | ')
+        '(resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |')
     parser.add_argument('--model_depth',
                         default=18,
                         type=int,
                         help='Depth of resnet (10 | 18 | 34 | 50 | 101)')
+    parser.add_argument('--receptive_size',
+                        default=9,
+                        type=int,
+                        help='Depth of resnet (9 | 17 | 33)')
     parser.add_argument('--conv1_t_size',
                         default=7,
                         type=int,
