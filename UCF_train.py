@@ -10,8 +10,8 @@ Created on Mon Dec 21 10:23:32 2020
 
 import os 
 
-submit_on_cluster = True
-pretrained = True
+submit_on_cluster = False
+pretrained = False
 
 text = '#!/bin/sh'+\
 '#SBATCH --partition=general'+\
