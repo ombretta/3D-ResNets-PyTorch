@@ -14,7 +14,7 @@ pretrained = True
 root_path = None
 video_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/uniform_64_segments_raw.hdf5" # used as dataset_path
 annotation_path = "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/instructional_videos/i3d_breakfast/data/processed/video_sets_split" # used as video_sets_split
-result_path = "./kinetics_pretrained_breakfast_results/"
+result_path = "./resnet34_ftbegin_layer4_kinetics_pretrained_breakfast_results/"
 dataset = "breakfast"
 n_classes = 10
 sample_size = 224
@@ -33,7 +33,7 @@ inference_no_average = True
 n_threads = 1 # Number of threads for multi-thread loading (n_workers)
 checkpoint = 1 # Trained model is saved at every this epochs
 model = "resnet"
-model_depth = 18 # Depth of resnet (10 | 18 | 34 | 50 | 101)
+model_depth = 34 # Depth of resnet (10 | 18 | 34 | 50 | 101)
 conv1_t_size = 7 # Kernel size in t dim of conv1
 conv1_t_stride = 1 # Stride in t dim of conv1
 no_max_pool = False # If true, the max pooling after conv1 is removed
@@ -47,6 +47,7 @@ output_topk = 5 # Top-k scores are saved in json file
 file_type = None # Normally 'jpg' or 'hdf5'
 tensorboard = True
 distributed = False # Use multi-processing distributed training to launch # Check !
+ft_begin_module = "layer4" # Module name of beginning of fine-tuning. If empty, all layers finetuned.
 
 text = ''
 
@@ -82,7 +83,7 @@ text += " --inference_batch_size=" + str(inference_batch_size)
 text += " --n_val_samples=" + str(n_val_samples)
 text += " --n_epochs=" + str(n_epochs)
 text += " --learning_rate=" + str(learning_rate)
-text += " --multistep_milestones=[" + str(multistep_milestones) + "]"
+text += " --multistep_milestones=" + str(multistep_milestones)
 if inference_no_average: text += " --inference_no_average"
 text += " --n_threads=" + str(n_threads)
 text += " --checkpoint=" + str(checkpoint)
@@ -101,6 +102,7 @@ text += " --output_topk=" + str(output_topk)
 if file_type: text += " --file_type=" + file_type
 if tensorboard: text += " --tensorboard"
 if distributed: text += " --distributed"
+text += " --ft_begin_module="+ft_begin_module
 
 if pretrained:
     text += " --pretrain_path=./pretrained_models/r3d18_K_200ep.pth"

@@ -27,6 +27,24 @@ def conv1x1x1(in_planes, out_planes, stride=1):
                      bias=False)
 
 
+# Restrict rf in time
+def conv3x3x1(in_planes, out_planes, stride=1):
+    return nn.Conv3d(in_planes,
+                     out_planes,
+                     kernel_size=(3,3,1),
+                     stride=stride,
+                     bias=False)
+
+
+# Restrict rf in space
+def conv1x1x3(in_planes, out_planes, stride=1):
+    return nn.Conv3d(in_planes,
+                     out_planes,
+                     kernel_size=(1,1,3),
+                     stride=stride,
+                     bias=False)
+
+
 class BasicBlock(nn.Module):
     expansion = 1
 
