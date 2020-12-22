@@ -30,7 +30,7 @@ def get_database(data, subset, root_path, video_path_formatter):
                 video_paths.append(Path(value['video_path']))
             else:
                 label = value['annotations']['label']
-                video_paths.append(video_path_formatter(root_path, label, key))
+                video_paths.append(video_path_formatter(root_path, key))
 
     return video_ids, video_paths, annotations
 
@@ -108,10 +108,14 @@ class VideoDataset(data.Dataset):
         return dataset, idx_to_class
 
     def __loading(self, path, frame_indices):
+        # print('training clip path:', path)
         clip = self.loader(path, frame_indices)
         if self.spatial_transform is not None:
             self.spatial_transform.randomize_parameters()
             clip = [self.spatial_transform(img) for img in clip]
+        # print('training clip length:', len(clip))
+        if len(clip) < len(frame_indices):
+            clip.append(clip[-1])
         clip = torch.stack(clip, 0).permute(1, 0, 2, 3)
 
         return clip

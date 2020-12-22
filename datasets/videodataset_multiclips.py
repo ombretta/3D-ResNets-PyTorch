@@ -33,6 +33,8 @@ class VideoDatasetMultiClips(VideoDataset):
             if self.spatial_transform is not None:
                 self.spatial_transform.randomize_parameters()
                 clip = [self.spatial_transform(img) for img in clip]
+            if len(clip) < len(clip_frame_indices):
+                clip.append(clip[-1])
             clips.append(torch.stack(clip, 0).permute(1, 0, 2, 3))
             segments.append(
                 [min(clip_frame_indices),

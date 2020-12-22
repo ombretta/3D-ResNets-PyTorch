@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-from models import resnet, resnet2p1d, pre_act_resnet, wide_resnet, resnext, densenet
+from models import resnet, resnet2p1d, pre_act_resnet, wide_resnet, resnext, densenet, vid_bagnet, vid_bagnet_tem
 
 
 def get_module_name(name):
@@ -34,7 +34,7 @@ def get_fine_tuning_parameters(model, ft_begin_module):
 
 def generate_model(opt):
     assert opt.model in [
-        'resnet', 'resnet2p1d', 'preresnet', 'wideresnet', 'resnext', 'densenet'
+        'resnet', 'resnet2p1d', 'preresnet', 'wideresnet', 'resnext', 'densenet', 'vidbagnet', 'vidbagnettem'
     ]
 
     if opt.model == 'resnet':
@@ -46,6 +46,24 @@ def generate_model(opt):
                                       conv1_t_stride=opt.conv1_t_stride,
                                       no_max_pool=opt.no_max_pool,
                                       widen_factor=opt.resnet_widen_factor)
+
+    elif opt.model == 'vidbagnet':
+        model = vid_bagnet.generate_model(model_depth=opt.model_depth,
+                                          receptive_size=opt.receptive_size,
+                                          n_classes=opt.n_classes,
+                                          n_input_channels=opt.n_input_channels,
+                                          shortcut_type=opt.resnet_shortcut,
+                                          no_max_pool=opt.no_max_pool,
+                                          widen_factor=opt.resnet_widen_factor)
+    elif opt.model == 'vidbagnettem':
+        model = vid_bagnet_tem.generate_model(model_depth=opt.model_depth,
+                                              receptive_size=opt.receptive_size,
+                                              n_classes=opt.n_classes,
+                                              n_input_channels=opt.n_input_channels,
+                                              shortcut_type=opt.resnet_shortcut,
+                                              no_max_pool=opt.no_max_pool,
+                                              widen_factor=opt.resnet_widen_factor)
+
     elif opt.model == 'resnet2p1d':
         model = resnet2p1d.generate_model(model_depth=opt.model_depth,
                                           n_classes=opt.n_classes,

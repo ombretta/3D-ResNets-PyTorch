@@ -122,6 +122,14 @@ def get_normalize_method(mean, std, no_mean_norm, no_std_norm):
             return Normalize(mean, std)
 
 
+# def custom_collate(batch):
+#     filtered_batch = []
+#     for video, label in batch:
+#         print(len(video), label)
+#         filtered_batch.append((video, label))
+#     return torch.utils.data.dataloader.default_collate(filtered_batch)
+
+
 def get_train_utils(opt, model_parameters):
     assert opt.train_crop in ['random', 'corner', 'center']
     spatial_transform = []
@@ -170,13 +178,15 @@ def get_train_utils(opt, model_parameters):
             train_data)
     else:
         train_sampler = None
+
     train_loader = torch.utils.data.DataLoader(train_data,
                                                batch_size=opt.batch_size,
                                                shuffle=(train_sampler is None),
                                                num_workers=opt.n_threads,
                                                pin_memory=True,
                                                sampler=train_sampler,
-                                               worker_init_fn=worker_init_fn)
+                                               worker_init_fn=worker_init_fn,
+                                               drop_last=True)
 
     if opt.is_master_node:
         train_logger = Logger(opt.result_path / 'train.log',
@@ -358,6 +368,7 @@ def main_worker(index, opt):
     if not opt.no_train:
         (train_loader, train_sampler, train_logger, train_batch_logger,
          optimizer, scheduler) = get_train_utils(opt, parameters)
+
         if opt.resume_path is not None:
             opt.begin_epoch, optimizer, scheduler = resume_train_utils(
                 opt.resume_path, opt.begin_epoch, optimizer, scheduler)

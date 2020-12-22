@@ -91,6 +91,8 @@ class TemporalRandomCrop(object):
 
         if len(out) < self.size:
             out = self.loop(out)
+        # while len(out) < self.size:
+        #     out.append(out[-1])
 
         return out
 

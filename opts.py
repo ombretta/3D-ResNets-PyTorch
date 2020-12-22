@@ -49,11 +49,11 @@ def parse_opts():
               '(conv1, layer1, fc, denseblock1, classifier, ...).'
               'The default means all layers are fine-tuned.'))
     parser.add_argument('--sample_size',
-                        default=112,
+                        default=96,
                         type=int,
                         help='Height and width of inputs')
     parser.add_argument('--sample_duration',
-                        default=16,
+                        default=48,
                         type=int,
                         help='Temporal duration of inputs')
     parser.add_argument(
@@ -219,11 +219,15 @@ def parse_opts():
         default='resnet',
         type=str,
         help=
-        '(resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | ')
+        '(resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |')
     parser.add_argument('--model_depth',
                         default=18,
                         type=int,
                         help='Depth of resnet (10 | 18 | 34 | 50 | 101)')
+    parser.add_argument('--receptive_size',
+                        default=9,
+                        type=int,
+                        help='Depth of resnet (9 | 17 | 33)')
     parser.add_argument('--conv1_t_size',
                         default=7,
                         type=int,
