@@ -103,3 +103,16 @@ ENV/
 .DS_Store
 
 .vscode
+
+# Cluster files
+*.sbatch
+*.out 
+.nfs0000000005ff768800000055
+breakfast_results/
+breakfast_shuffled_segments_results/
+breakfast_shuffled_frames_results/
+kinetics_pretrained_breakfast_results/
+kinetics_pretrained_breakfast_shuffled_segments_results/
+kinetics_pretrained_breakfast_shuffled_frames_results/
+pretrained_models/
+ftbegin_layer4_kinetics_pretrained_breakfast_results/

@@ -4,6 +4,7 @@ from datasets.videodataset import VideoDataset
 from datasets.videodataset_multiclips import (VideoDatasetMultiClips,
                                               collate_fn)
 from datasets.activitynet import ActivityNet
+from datasets.breakfast import get_breakfast_dataset, load_videos_sets
 from datasets.loader import VideoLoader, VideoLoaderHDF5, VideoLoaderFlowHDF5
 
 
@@ -18,12 +19,13 @@ def get_training_data(video_path,
                       file_type,
                       spatial_transform=None,
                       temporal_transform=None,
-                      target_transform=None):
+                      target_transform=None, 
+                      sample_t_stride=1):
     assert dataset_name in [
-        'kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit'
+        'kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast'
     ]
     assert input_type in ['rgb', 'flow']
-    assert file_type in ['jpg', 'hdf5']
+    assert file_type in ['jpg', 'hdf5', None]
 
     if file_type == 'jpg':
         assert input_type == 'rgb', 'flow input is supported only when input type is hdf5.'
@@ -53,7 +55,17 @@ def get_training_data(video_path,
                                     target_transform=target_transform,
                                     video_loader=loader,
                                     video_path_formatter=video_path_formatter)
+    
+    if dataset_name == 'breakfast':
+        # annotation_path = data_path, video_path = dataset_path
+        train_videos, _, _ = load_videos_sets(annotation_path, video_path)
+        training_data = get_breakfast_dataset(train_videos, video_path, sample_t_stride)
+    
     else:
+        print("Building VideoDataset for UCF-101.")
+        print(spatial_transform)
+        print(temporal_transform)
+        print(loader)
         training_data = VideoDataset(video_path,
                                      annotation_path,
                                      'training',
@@ -73,12 +85,13 @@ def get_validation_data(video_path,
                         file_type,
                         spatial_transform=None,
                         temporal_transform=None,
-                        target_transform=None):
+                        target_transform=None, 
+                        sample_t_stride=1):
     assert dataset_name in [
-        'kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit'
+        'kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast'
     ]
     assert input_type in ['rgb', 'flow']
-    assert file_type in ['jpg', 'hdf5']
+    assert file_type in ['jpg', 'hdf5', None]
 
     if file_type == 'jpg':
         assert input_type == 'rgb', 'flow input is supported only when input type is hdf5.'
@@ -108,6 +121,12 @@ def get_validation_data(video_path,
                                       target_transform=target_transform,
                                       video_loader=loader,
                                       video_path_formatter=video_path_formatter)
+    
+    if dataset_name == 'breakfast':
+        # annotation_path = data_path, video_path = dataset_path
+        _, _, valid_videos = load_videos_sets(annotation_path, video_path)
+        validation_data = get_breakfast_dataset(valid_videos, video_path, sample_t_stride)
+        
     else:
         validation_data = VideoDatasetMultiClips(
             video_path,
@@ -130,12 +149,13 @@ def get_inference_data(video_path,
                        inference_subset,
                        spatial_transform=None,
                        temporal_transform=None,
-                       target_transform=None):
+                       target_transform=None, 
+                        sample_t_stride=1):
     assert dataset_name in [
-        'kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit'
+        'kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast'
     ]
     assert input_type in ['rgb', 'flow']
-    assert file_type in ['jpg', 'hdf5']
+    assert file_type in ['jpg', 'hdf5', None]
     assert inference_subset in ['train', 'val', 'test']
 
     if file_type == 'jpg':
@@ -173,6 +193,12 @@ def get_inference_data(video_path,
                                      video_loader=loader,
                                      video_path_formatter=video_path_formatter,
                                      is_untrimmed_setting=True)
+    
+    if dataset_name == 'breakfast':
+        # annotation_path = data_path, video_path = dataset_path
+        _, test_videos, _ = load_videos_sets(annotation_path, video_path)
+        inference_data = get_breakfast_dataset(test_videos, video_path, sample_t_stride)
+        
     else:
         inference_data = VideoDatasetMultiClips(
             video_path,

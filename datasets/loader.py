@@ -3,6 +3,8 @@ import io
 import h5py
 from PIL import Image
 
+import torch
+
 
 class ImageLoaderPIL(object):
 
@@ -78,3 +80,5 @@ class VideoLoaderFlowHDF5(object):
                     video.append(Image.merge('RGB', frame))
 
         return video
+    
+    

@@ -131,7 +131,8 @@ def get_normalize_method(mean, std, no_mean_norm, no_std_norm):
 
 
 def get_train_utils(opt, model_parameters):
-    assert opt.train_crop in ['random', 'corner', 'center']
+    assert opt.train_crop in ['random', 'corner', 'center', None]
+    print(opt.train_crop)
     spatial_transform = []
     if opt.train_crop == 'random':
         spatial_transform.append(
@@ -160,7 +161,8 @@ def get_train_utils(opt, model_parameters):
     spatial_transform.append(normalize)
     spatial_transform = Compose(spatial_transform)
 
-    assert opt.train_t_crop in ['random', 'center']
+    assert opt.train_t_crop in ['random', 'center', None]
+    print(opt.train_t_crop)
     temporal_transform = []
     if opt.sample_t_stride > 1:
         temporal_transform.append(TemporalSubsampling(opt.sample_t_stride))
@@ -172,7 +174,8 @@ def get_train_utils(opt, model_parameters):
 
     train_data = get_training_data(opt.video_path, opt.annotation_path,
                                    opt.dataset, opt.input_type, opt.file_type,
-                                   spatial_transform, temporal_transform)
+                                   spatial_transform, temporal_transform, 
+                                   sample_t_stride=opt.sample_t_stride)
     if opt.distributed:
         train_sampler = torch.utils.data.distributed.DistributedSampler(
             train_data)
@@ -246,7 +249,8 @@ def get_val_utils(opt):
                                                opt.annotation_path, opt.dataset,
                                                opt.input_type, opt.file_type,
                                                spatial_transform,
-                                               temporal_transform)
+                                               temporal_transform, 
+                                               sample_t_stride=opt.sample_t_stride)
     if opt.distributed:
         val_sampler = torch.utils.data.distributed.DistributedSampler(
             val_data, shuffle=False)
@@ -259,8 +263,8 @@ def get_val_utils(opt):
                                              num_workers=opt.n_threads,
                                              pin_memory=True,
                                              sampler=val_sampler,
-                                             worker_init_fn=worker_init_fn,
-                                             collate_fn=collate_fn)
+                                             worker_init_fn=worker_init_fn)
+                                             #collate_fn=collate_fn)
 
     if opt.is_master_node:
         val_logger = Logger(opt.result_path / 'val.log',
@@ -272,7 +276,7 @@ def get_val_utils(opt):
 
 
 def get_inference_utils(opt):
-    assert opt.inference_crop in ['center', 'nocrop']
+    assert opt.inference_crop in ['center', 'nocrop', None]
 
     normalize = get_normalize_method(opt.mean, opt.std, opt.no_mean_norm,
                                      opt.no_std_norm)
@@ -296,7 +300,7 @@ def get_inference_utils(opt):
     inference_data, collate_fn = get_inference_data(
         opt.video_path, opt.annotation_path, opt.dataset, opt.input_type,
         opt.file_type, opt.inference_subset, spatial_transform,
-        temporal_transform)
+        temporal_transform, sample_t_stride=opt.sample_t_stride)
 
     inference_loader = torch.utils.data.DataLoader(
         inference_data,
@@ -304,8 +308,8 @@ def get_inference_utils(opt):
         shuffle=False,
         num_workers=opt.n_threads,
         pin_memory=True,
-        worker_init_fn=worker_init_fn,
-        collate_fn=collate_fn)
+        worker_init_fn=worker_init_fn)
+        # collate_fn=collate_fn)
 
     return inference_loader, inference_data.class_names
 
@@ -378,7 +382,8 @@ def main_worker(index, opt):
         val_loader, val_logger = get_val_utils(opt)
 
     if opt.tensorboard and opt.is_master_node:
-        from torch.utils.tensorboard import SummaryWriter
+        # from torch.utils.tensorboard import SummaryWriter
+        from tensorboardX import SummaryWriter
         if opt.begin_epoch == 1:
             tb_writer = SummaryWriter(log_dir=opt.result_path)
         else:
