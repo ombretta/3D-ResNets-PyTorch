@@ -30,7 +30,8 @@ def val_epoch(epoch,
     with torch.no_grad():
         for i, (inputs, targets) in enumerate(data_loader):
             data_time.update(time.time() - end_time)
-
+            
+            # print(targets)
             targets = targets.to(device, non_blocking=True)
             outputs = model(inputs)
             loss = criterion(outputs, targets)

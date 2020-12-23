@@ -41,6 +41,9 @@ class VideoDatasetMultiClips(VideoDataset):
         return clips, segments
 
     def __getitem__(self, index):
+        
+        # print("self.target_type", self.target_type)
+
         path = self.data[index]['video']
 
         video_frame_indices = self.data[index]['frame_indices']
@@ -48,6 +51,9 @@ class VideoDatasetMultiClips(VideoDataset):
             video_frame_indices = self.temporal_transform(video_frame_indices)
 
         clips, segments = self.__loading(path, video_frame_indices)
+        
+        # print("segments", segments)
+
 
         if isinstance(self.target_type, list):
             target = [self.data[index][t] for t in self.target_type]
@@ -65,5 +71,9 @@ class VideoDatasetMultiClips(VideoDataset):
                 targets = segments
         else:
             targets = [target for _ in range(len(segments))]
+        
+        # print("self.data[index]", self.data[index])
+        # print("target", target)
+        # print("targets", targets)
 
         return clips, targets
