@@ -107,6 +107,7 @@ ENV/
 # Cluster files
 *.sbatch
 *.out 
+*.pth
 .nfs0000000005ff768800000055
 breakfast_results/
 breakfast_shuffled_segments_results/

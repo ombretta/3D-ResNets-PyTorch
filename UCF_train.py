@@ -18,8 +18,8 @@ text = ''
 if submit_on_cluster:
     text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=short\n'+\
-    '#SBATCH --time=4:00:00\n'+\
+    '#SBATCH --qos=long\n'+\
+    '#SBATCH --time=48:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
@@ -43,9 +43,9 @@ dataset = 'ucf101'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
 n_classes = 101
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
-n_pretrain_classes = 0
+n_pretrain_classes = 700
 # Pretrained model path (.pth).
-pretrain_path = None
+pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
@@ -123,7 +123,7 @@ inference_no_average = False
 # If true, cuda is not used.
 no_cuda = False
 # Number of threads for multi-thread loading
-n_threads = 2
+n_threads = 4
 # Trained model is saved at every this epochs.
 checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
@@ -236,7 +236,7 @@ text += " --ft_begin_module="+ft_begin_module
 
 if pretrained:
     text += " --pretrain_path=" + pretrain_path
-    text += " --n_pretrain_classes=" + n_pretrain_classes
+    text += " --n_pretrain_classes=" + str(n_pretrain_classes)
 
 print(text)
 
