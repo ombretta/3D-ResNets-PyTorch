@@ -170,7 +170,6 @@ text += "python main.py "
 if root_path: text += " --root_path=" + root_path
 text += " --video_path=" + video_path
 text += " --annotation_path=" + annotation_path
-text += " --result_path=" + result_path
 text += " --dataset=" + dataset
 text += " --n_classes=" + str(n_classes)
 text += " --sample_size=" + str(sample_size)
@@ -233,8 +232,11 @@ if file_type: text += " --file_type=" + file_type
 if tensorboard: text += " --tensorboard"
 if distributed: text += " --distributed"
 text += " --ft_begin_module="+ft_begin_module
+#last
+text += " --result_path=" + result_path
 
 if pretrained:
+    text += "_kinetics_pretrained"
     text += " --pretrain_path=" + pretrain_path
     text += " --n_pretrain_classes=" + str(n_pretrain_classes)
 
