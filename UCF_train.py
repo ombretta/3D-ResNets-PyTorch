@@ -170,7 +170,6 @@ text += "python main.py "
 if root_path: text += " --root_path=" + root_path
 text += " --video_path=" + video_path
 text += " --annotation_path=" + annotation_path
-text += " --result_path=" + result_path
 text += " --dataset=" + dataset
 text += " --n_classes=" + str(n_classes)
 text += " --sample_size=" + str(sample_size)
