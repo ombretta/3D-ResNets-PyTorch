@@ -10,9 +10,6 @@ def get_inplanes():
     return [64, 128, 256, 512]
 
 
-'''nn.Conv3d arguments: in_channels, out_channels, kernel_size, 
-stride, padding, dilation, groups, bias, padding_mode)'''
-    
 def conv3x3x3(in_planes, out_planes, stride=1):
     return nn.Conv3d(in_planes,
                      out_planes,
@@ -120,19 +117,7 @@ class Bottleneck(nn.Module):
         return out
 
 
-class ResNet(nn.Module):
-    
-    '''Main ResNet class. Arguments:
-        - block (type: BasicBlock/Bottleneck)
-        - layers (list with number of blocks per layer)
-        - block_inplanes (example [64, 128, 256, 512])
-        - n_input_channels (default 3)
-        - conv1_t_size, conv1_t_stride (first convolution kernel size+stride 
-        in the time dimension)
-        - no_max_pool (default false: apply maxpool after conv1)
-        - shortcut_type (connection for the skip layers, default 'B')
-        - widen_factor
-        Example: model = ResNet(Bottleneck, [3, 4, 6, 3], get_inplanes(), **kwargs)'''
+class BagNet(nn.Module):
 
     def __init__(self,
                  block,
@@ -244,24 +229,14 @@ class ResNet(nn.Module):
         x = self.fc(x)
 
         return x
+    
+
 
 
 def generate_model(model_depth, **kwargs):
     assert model_depth in [10, 18, 34, 50, 101, 152, 200]
 
-    if model_depth == 10:
-        model = ResNet(BasicBlock, [1, 1, 1, 1], get_inplanes(), **kwargs)
-    elif model_depth == 18:
-        model = ResNet(BasicBlock, [2, 2, 2, 2], get_inplanes(), **kwargs)
-    elif model_depth == 34:
-        model = ResNet(BasicBlock, [3, 4, 6, 3], get_inplanes(), **kwargs)
-    elif model_depth == 50:
-        model = ResNet(Bottleneck, [3, 4, 6, 3], get_inplanes(), **kwargs)
-    elif model_depth == 101:
-        model = ResNet(Bottleneck, [3, 4, 23, 3], get_inplanes(), **kwargs)
-    elif model_depth == 152:
-        model = ResNet(Bottleneck, [3, 8, 36, 3], get_inplanes(), **kwargs)
-    elif model_depth == 200:
-        model = ResNet(Bottleneck, [3, 24, 36, 3], get_inplanes(), **kwargs)
+    if model_depth == 50:
+        model = BagNet(Bottleneck, [3, 4, 6, 3], get_inplanes(), **kwargs)
 
     return model

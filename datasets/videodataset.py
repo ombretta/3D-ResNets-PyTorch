@@ -56,7 +56,7 @@ class VideoDataset(data.Dataset):
         self.temporal_transform = temporal_transform
         self.target_transform = target_transform
 
-        print("VideoDataset temporal_transform", self.temporal_transform)
+        # print("VideoDataset temporal_transform", self.temporal_transform)
         
         if video_loader is None:
             self.loader = VideoLoader(image_name_formatter)
@@ -133,7 +133,7 @@ class VideoDataset(data.Dataset):
 
         if self.target_transform is not None:
             target = self.target_transform(target)
-
+        
         return clip, target
 
     def __len__(self):

@@ -82,8 +82,6 @@ class TemporalRandomCrop(object):
         self.loop = LoopPadding(size)
 
     def __call__(self, frame_indices):
-        
-        print("t crop")
 
         rand_end = max(0, len(frame_indices) - self.size - 1)
         begin_index = random.randint(0, rand_end)
