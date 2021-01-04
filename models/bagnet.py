@@ -204,11 +204,13 @@ class VidBegNet(nn.Module):
                                      stride=stride)
             else:
                 downsample = nn.Sequential(
-                    conv1x1x1(self.in_planes, planes * block.expansion, stride),
+                    conv_axbxc(self.in_planes, planes * block.expansion,
+                               stride, kernel_size=(1,1,1), padding=(1,0,0)),
+                    # conv1x1x1(self.in_planes, planes * block.expansion, stride),
                     nn.BatchNorm3d(planes * block.expansion))
 
         layers = []
-        kernel = (1,1,3) if kernel3 == 0 else (3,3,3)
+        kernel = (3,1,1) if kernel3 == 0 else (3,3,3)
         '''Downsampling only in first block'''
         layers.append(
             block(in_planes=self.in_planes,
@@ -219,7 +221,7 @@ class VidBegNet(nn.Module):
         self.in_planes = planes * block.expansion
         for i in range(1, blocks):
             '''Shrink rf in the space dimension in some layers'''
-            kernel = (1,1,3) if kernel3 == 0 else (3,3,3)
+            kernel = (3,1,1) if kernel3 == 0 else (3,3,3)
             layers.append(block(self.in_planes, planes, kernel_size=kernel))
 
         return nn.Sequential(*layers)
@@ -246,7 +248,7 @@ class VidBegNet(nn.Module):
         return x
 
 
-def generate_model(model_depth, receptive_size, strides=[2, 2, 2, 1], **kwargs):
+def generate_model(model_depth, receptive_size, strides=[1, 2, 2, 2], **kwargs):
     assert model_depth in [10, 18, 34, 50, 101, 152, 200]
     assert receptive_size in [9, 17, 33]
     kernel3_map = {9: [1, 1, 0, 0],
