@@ -98,21 +98,27 @@ class Bottleneck(nn.Module):
         self.stride = stride
 
     def forward(self, x):
+ 
+        print("input x", x.shape)
         residual = x
 
         out = self.conv1(x)
         out = self.bn1(out)
         out = self.relu(out)
+        print("out conv1", out.shape)
 
         out = self.conv2(out)
         out = self.bn2(out)
         out = self.relu(out)
+       	print("out conv2", out.shape)
 
         out = self.conv3(out)
         out = self.bn3(out)
+       	print("out conv3", out.shape)
 
         if self.downsample is not None:
             residual = self.downsample(x)
+       	print("(downsampled) residual", residual.shape)
 
         out += residual
         out = self.relu(out)
@@ -227,21 +233,31 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
+
+        print("CONV 1")
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
+        print("out CONV1", x.shape)
         if not self.no_max_pool:
             x = self.maxpool(x)
+       	print("(maxpooled) out CONV1", x.shape)
 
+       	print("LAYER1")
         x = self.layer1(x)
+        print("LAYER2")
         x = self.layer2(x)
+        print("LAYER3")
         x = self.layer3(x)
+        print("LAYER4")
         x = self.layer4(x)
 
         x = self.avgpool(x)
+        print("out avg pool", x.shape)
 
         x = x.view(x.size(0), -1)
         x = self.fc(x)
+        print("out", x.shape)
 
         return x
 

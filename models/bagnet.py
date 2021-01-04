@@ -76,7 +76,7 @@ class Bottleneck(nn.Module):
 
         self.conv1 = conv1x1x1(in_planes, planes)
         self.bn1 = nn.BatchNorm3d(planes)
-        self.conv2 = conv_axbxc(planes, planes, stride, kernel_size, padding=0)
+        self.conv2 = conv_axbxc(planes, planes, stride, kernel_size, padding=(1,0,0))
         self.bn2 = nn.BatchNorm3d(planes)
         self.conv3 = conv1x1x1(planes, planes * self.expansion)
         self.bn3 = nn.BatchNorm3d(planes * self.expansion)
@@ -85,29 +85,38 @@ class Bottleneck(nn.Module):
         self.stride = stride
 
     def forward(self, x):
+
+        print("input x", x.shape)
+
         residual = x
 
         out = self.conv1(x)
         out = self.bn1(out)
-        out = self.relu(out)
+        out = self.relu(out)  
+        print("out conv1", out.shape)
 
         out = self.conv2(out)
         out = self.bn2(out)
         out = self.relu(out)
+        print("out conv2", out.shape)
 
         out = self.conv3(out)
         out = self.bn3(out)
+        print("out conv3", out.shape)
 
         if self.downsample is not None:
             residual = self.downsample(x)
+        print("(downsampled) residual", residual.shape)
 
-        if residual.size(-1) != out.size(-1):
-            diff = residual.size(-1) - out.size(-1)
-            diff_t = residual.size(2) - out.size(2)
-            residual = residual[:, :, :-diff_t, :-diff, :-diff]
+        # if residual.size(-1) != out.size(-1):
+        #     diff = residual.size(-1) - out.size(-1)
+        #     diff_t = residual.size(2) - out.size(2)
+        #     residual = residual[:, :, :-diff_t, :-diff, :-diff]
+        # print("(downsampled) residual", residual.shape)        
 
         out += residual
         out = self.relu(out)
+        print("out", out.shape)
 
         return out
 
@@ -204,11 +213,13 @@ class VidBegNet(nn.Module):
                                      stride=stride)
             else:
                 downsample = nn.Sequential(
-                    conv1x1x1(self.in_planes, planes * block.expansion, stride),
+                    conv_axbxc(self.in_planes, planes * block.expansion,
+                               stride, kernel_size=(1,1,1), padding=(1,0,0)),
+                    # conv1x1x1(self.in_planes, planes * block.expansion, stride),
                     nn.BatchNorm3d(planes * block.expansion))
 
         layers = []
-        kernel = (1,1,3) if kernel3 == 0 else (3,3,3)
+        kernel = (3,1,1) if kernel3 == 0 else (3,3,3)
         '''Downsampling only in first block'''
         layers.append(
             block(in_planes=self.in_planes,
@@ -219,23 +230,39 @@ class VidBegNet(nn.Module):
         self.in_planes = planes * block.expansion
         for i in range(1, blocks):
             '''Shrink rf in the space dimension in some layers'''
-            kernel = (1,1,3) if kernel3 == 0 else (3,3,3)
+            kernel = (3,1,1) if kernel3 == 0 else (3,3,3)
             layers.append(block(self.in_planes, planes, kernel_size=kernel))
 
         return nn.Sequential(*layers)
 
     def forward(self, x):
+        print("bagnet input x", x.shape)
+
+        print("CONV 1")
         x = self.conv1(x)
+       	print("bagnet out conv 1", x.shape)
+
+        print("CONV 2")
         x = self.conv2(x)
         x = self.bn1(x)
         x = self.relu(x)
+        print("bagnet out conv 2", x.shape)
+
         # if not self.no_max_pool:
         #     x = self.maxpool(x)
 
+        print("LAYER 1")
         x = self.layer1(x)
-        x = self.layer2(x)
+        print("out layer 1", x.shape)
+        print("LAYER 2")
+        x = self.layer2(x)        
+        print("out layer 2", x.shape)
+        print("LAYER 3")
         x = self.layer3(x)
+        print("out layer 3", x.shape)
+        print("LAYER 4")
         x = self.layer4(x)
+        print("out layer 4", x.shape)
         print('output size', x.size())
 
         x = self.avgpool(x)
@@ -246,7 +273,7 @@ class VidBegNet(nn.Module):
         return x
 
 
-def generate_model(model_depth, receptive_size, strides=[2, 2, 2, 1], **kwargs):
+def generate_model(model_depth, receptive_size, strides=[1, 2, 2, 2], **kwargs):
     assert model_depth in [10, 18, 34, 50, 101, 152, 200]
     assert receptive_size in [9, 17, 33]
     kernel3_map = {9: [1, 1, 0, 0],
