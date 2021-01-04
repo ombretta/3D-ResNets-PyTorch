@@ -131,13 +131,13 @@ class ResNet(nn.Module):
     '''Main ResNet class. Arguments:
         - block (type: BasicBlock/Bottleneck)
         - layers (list with number of blocks per layer)
-        - block_inplanes (example [64, 128, 256, 512])
+        - block_inplanes (example [64, 128, 256, 512], in/out channels per layer)
         - n_input_channels (default 3)
         - conv1_t_size, conv1_t_stride (first convolution kernel size+stride 
         in the time dimension)
         - no_max_pool (default false: apply maxpool after conv1)
         - shortcut_type (connection for the skip layers, default 'B')
-        - widen_factor
+        - widen_factor (coefficient that multiplies the values of block_inplanes)
         Example: model = ResNet(Bottleneck, [3, 4, 6, 3], get_inplanes(), **kwargs)'''
 
     def __init__(self,
@@ -209,6 +209,7 @@ class ResNet(nn.Module):
         return out
 
     def _make_layer(self, block, planes, blocks, shortcut_type, stride=1):
+        '''Downsample: how to downsample input to allow for the skip connection'''
         downsample = None
         if stride != 1 or self.in_planes != planes * block.expansion:
             if shortcut_type == 'A':
