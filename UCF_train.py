@@ -10,8 +10,8 @@ Created on Mon Dec 21 10:23:32 2020
 
 import os 
 
-submit_on_cluster = False
-pretrained = False
+submit_on_cluster = True
+pretrained = True
 
 text = ''
 
@@ -19,7 +19,7 @@ if submit_on_cluster:
     text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
     '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=48:00:00\n'+\
+    '#SBATCH --time=60:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
@@ -89,7 +89,7 @@ optimizer = 'sgd'
 # Type of LR scheduler (multistep | plateau)
 lr_scheduler = 'multistep'
 # Milestones of LR scheduler. See documentation of MultistepLR.
-multistep_milestones = 40
+multistep_milestones = 30
 # If true, overwriting multistep_milestones when resuming training.
 overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
