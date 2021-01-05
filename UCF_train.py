@@ -11,7 +11,7 @@ Created on Mon Dec 21 10:23:32 2020
 import os 
 
 submit_on_cluster = True
-pretrained = True
+pretrained = False
 
 text = ''
 
@@ -127,9 +127,9 @@ checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
 model = 'resnet' #'vidbagnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 50
+model_depth = 18
 # Depth of resnet (9 | 17 | 33)
-receptive_size = 9
+receptive_size = 33
 # Kernel size in t dim of conv1.
 conv1_t_size = 7
 # Stride in t dim of conv1.
@@ -236,9 +236,9 @@ text += " --ft_begin_module="+ft_begin_module
 results_root = '3D-ResNets-PyTorch/results/'
 result_path = dataset + "_" + model#'3D-ResNets-PyTorch/results/UCF101_spacebagnet'
 if model == 'resnet':
-    result_path += "_" + model_depth
+    result_path += "_" + str(model_depth)
 else:
-    result_path += "_" + receptive_size 
+    result_path += "_" + str(receptive_size)
 
 
 if pretrained:
