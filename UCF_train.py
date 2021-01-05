@@ -36,8 +36,6 @@ root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 video_path = 'UCF-101/jpg'
 # Annotation file path
 annotation_path = 'UCF-101/json_annotations/ucf101_01.json'
-# Result directory path
-result_path = '3D-ResNets-PyTorch/results/UCF101_spacebagnet' #'3D-ResNets-PyTorch/results/UCF101'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51)
 dataset = 'ucf101'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
@@ -127,11 +125,11 @@ n_threads = 4
 # Trained model is saved at every this epochs.
 checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
-model = 'vidbagnet'
+model = 'resnet' #'vidbagnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 50
+model_depth = 18
 # Depth of resnet (9 | 17 | 33)
-receptive_size = 9
+receptive_size = 33
 # Kernel size in t dim of conv1.
 conv1_t_size = 7
 # Stride in t dim of conv1.
@@ -232,20 +230,33 @@ if file_type: text += " --file_type=" + file_type
 if tensorboard: text += " --tensorboard"
 if distributed: text += " --distributed"
 text += " --ft_begin_module="+ft_begin_module
+
 #last
-text += " --result_path=" + result_path
+# Result directory path
+results_root = '3D-ResNets-PyTorch/results/'
+result_path = dataset + "_" + model#'3D-ResNets-PyTorch/results/UCF101_spacebagnet'
+if model == 'resnet':
+    result_path += "_" + str(model_depth)
+else:
+    result_path += "_" + str(receptive_size)
+
 
 if pretrained:
-    text += "_kinetics_pretrained"
+    result_path += "_kinetics_pretrained"
     text += " --pretrain_path=" + pretrain_path
     text += " --n_pretrain_classes=" + str(n_pretrain_classes)
+    
+index = str(len([f for f in os.listdir(root_path+results_root) if result_path in f]))
+result_path += "_" + index
+
+text += " --result_path=" + results_root + result_path
 
 print(text)
 
 if submit_on_cluster:
-    with open("UCF_train.sbatch", "w") as file:
+    with open(result_path+".sbatch", "w") as file:
         file.write(text)
-    os.system("sbatch UCF_train.sbatch")    
+    os.system("sbatch "+result_path+".sbatch")    
 else:
     os.system(text)
 
