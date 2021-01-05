@@ -95,8 +95,10 @@ class Bottleneck(nn.Module):
 
         if residual.size(-1) != out.size(-1):
             diff = residual.size(-1) - out.size(-1)
+            residual = residual[:, :, :, :-diff, :-diff]
+        if residual.size(2) != out.size(2):
             diff_t = residual.size(2) - out.size(2)
-            residual = residual[:, :, :-diff_t, :-diff, :-diff]
+            residual = residual[:, :, :-diff_t, :, :]
 
         out += residual
         out = self.relu(out)

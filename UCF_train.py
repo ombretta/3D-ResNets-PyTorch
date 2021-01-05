@@ -36,8 +36,6 @@ root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 video_path = 'UCF-101/jpg'
 # Annotation file path
 annotation_path = 'UCF-101/json_annotations/ucf101_01.json'
-# Result directory path
-result_path = '3D-ResNets-PyTorch/results/UCF101' #'3D-ResNets-PyTorch/results/UCF101_spacebagnet'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51)
 dataset = 'ucf101'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
@@ -232,13 +230,26 @@ if file_type: text += " --file_type=" + file_type
 if tensorboard: text += " --tensorboard"
 if distributed: text += " --distributed"
 text += " --ft_begin_module="+ft_begin_module
+
 #last
-text += " --result_path=" + result_path
+# Result directory path
+results_root = '3D-ResNets-PyTorch/results/'
+result_path = dataset + "_" + model#'3D-ResNets-PyTorch/results/UCF101_spacebagnet'
+if model == 'resnet':
+    result_path += "_" + model_depth
+else:
+    result_path += "_" + receptive_size 
+
 
 if pretrained:
-    text += "_kinetics_pretrained"
+    result_path += "_kinetics_pretrained"
     text += " --pretrain_path=" + pretrain_path
     text += " --n_pretrain_classes=" + str(n_pretrain_classes)
+    
+index = str(len([f for f in os.listdir(results_root) if result_path in f]))
+result_path += "_" + index
+
+text += " --result_path=" + results_root + result_path
 
 print(text)
 
