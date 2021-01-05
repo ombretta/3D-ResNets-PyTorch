@@ -246,7 +246,7 @@ if pretrained:
     text += " --pretrain_path=" + pretrain_path
     text += " --n_pretrain_classes=" + str(n_pretrain_classes)
     
-index = str(len([f for f in os.listdir(results_root) if result_path in f]))
+index = str(len([f for f in os.listdir(root_path+results_root) if result_path in f]))
 result_path += "_" + index
 
 text += " --result_path=" + results_root + result_path
@@ -254,9 +254,9 @@ text += " --result_path=" + results_root + result_path
 print(text)
 
 if submit_on_cluster:
-    with open("UCF_train.sbatch", "w") as file:
+    with open(result_path+".sbatch", "w") as file:
         file.write(text)
-    os.system("sbatch UCF_train.sbatch")    
+    os.system("sbatch "+result_path+".sbatch")    
 else:
     os.system(text)
 
