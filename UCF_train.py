@@ -11,7 +11,7 @@ Created on Mon Dec 21 10:23:32 2020
 import os 
 
 submit_on_cluster = True
-pretrained = True
+pretrained = False
 
 text = ''
 
@@ -37,7 +37,7 @@ video_path = 'UCF-101/jpg'
 # Annotation file path
 annotation_path = 'UCF-101/json_annotations/ucf101_01.json'
 # Result directory path
-result_path = '3D-ResNets-PyTorch/results/UCF101' #'3D-ResNets-PyTorch/results/UCF101_spacebagnet'
+result_path = '3D-ResNets-PyTorch/results/UCF101_spacebagnet' #'3D-ResNets-PyTorch/results/UCF101'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51)
 dataset = 'ucf101'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
@@ -127,7 +127,7 @@ n_threads = 4
 # Trained model is saved at every this epochs.
 checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
-model = 'resnet' #'vidbagnet'
+model = 'vidbagnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
 model_depth = 50
 # Depth of resnet (9 | 17 | 33)

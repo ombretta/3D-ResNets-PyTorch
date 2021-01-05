@@ -131,6 +131,7 @@ def make_data_parallel(model, is_distributed, device):
             model.to(device)
             model = nn.parallel.DistributedDataParallel(model)
     elif device.type == 'cuda':
+        print("Using multiple GPUs")
         model = nn.DataParallel(model, device_ids=None).cuda()
 
     return model
