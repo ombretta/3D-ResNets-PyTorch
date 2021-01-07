@@ -125,11 +125,11 @@ n_threads = 4
 # Trained model is saved at every this epochs.
 checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
-model = 'resnet' #'vidbagnet'
+model = 'vidbagnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 18
+model_depth = 50
 # Depth of resnet (9 | 17 | 33)
-receptive_size = 33
+receptive_size = 9
 # Kernel size in t dim of conv1.
 conv1_t_size = 7
 # Stride in t dim of conv1.
