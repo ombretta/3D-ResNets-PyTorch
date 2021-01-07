@@ -248,6 +248,8 @@ if pretrained:
     
 index = str(len([f for f in os.listdir(root_path+results_root) if result_path in f]))
 result_path += "_" + index
+if not os.path.exists(root_path+results_root+result_path):
+    os.mkdir(root_path+results_root+result_path)
 
 text += " --result_path=" + results_root + result_path
 
