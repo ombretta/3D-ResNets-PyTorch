@@ -125,11 +125,11 @@ n_threads = 4
 # Trained model is saved at every this epochs.
 checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
-model = 'resnet' #'vidbagnet'
+model = 'vidbagnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 18
+model_depth = 50
 # Depth of resnet (9 | 17 | 33)
-receptive_size = 33
+receptive_size = 9
 # Kernel size in t dim of conv1.
 conv1_t_size = 7
 # Stride in t dim of conv1.
@@ -248,6 +248,8 @@ if pretrained:
     
 index = str(len([f for f in os.listdir(root_path+results_root) if result_path in f]))
 result_path += "_" + index
+if not os.path.exists(root_path+results_root+result_path):
+    os.mkdir(root_path+results_root+result_path)
 
 text += " --result_path=" + results_root + result_path
 
