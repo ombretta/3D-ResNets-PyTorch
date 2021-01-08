@@ -44,7 +44,8 @@ def get_training_data(video_path,
         else:
             loader = VideoLoaderFlowHDF5()
         video_path_formatter = (lambda root_path, label, video_id: root_path /
-                                label / f'{video_id}.hdf5')
+                                # label / f'{video_id}.hdf5')/
+                                label / f'{video_id}.h5')
 
     if dataset_name == 'activitynet':
         training_data = ActivityNet(video_path,
