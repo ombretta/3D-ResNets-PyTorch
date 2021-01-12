@@ -20,11 +20,11 @@ if submit_on_cluster:
     text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
     '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=72:00:00\n'+\
+    '#SBATCH --time=60:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
-    '#SBATCH --mem=5000\n'+\
+    '#SBATCH --mem=16000\n'+\
     '#SBATCH --gres=gpu:4\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
@@ -66,7 +66,7 @@ colorjitter = False
 # Temporal cropping method in training. random is uniform. (random | center)
 train_t_crop = 'random'
 # Initial learning rate (divided by 10 while training by lr scheduler)
-learning_rate = 0.001
+learning_rate = 0.01
 # Momentum
 momentum = 0.9
 # dampening of SGD
@@ -247,28 +247,23 @@ if pretrained:
     text += " --pretrain_path=" + pretrain_path
     text += " --n_pretrain_classes=" + str(n_pretrain_classes)
     
-index = len([f for f in os.listdir(root_path+results_root) if result_path in f])
-if not os.path.exists(root_path+results_root+result_path+"_"+str(index)):
-    os.mkdir(root_path+results_root+result_path+"_"+str(index))
+if continue_training = False:
+    index = str(len([f for f in os.listdir(root_path+results_root) if result_path in f]))
+else: index = '0'
+result_path += "_" + index
+if not os.path.exists(root_path+results_root+result_path):
+    os.mkdir(root_path+results_root+result_path)
 
-text += " --result_path=" + results_root + result_path + "_" + str(index)
+if [file for file in os.listdir(root_path+results_root+result_path) if 
 
-if continue_training:
-    text += " --n_pretrain_classes=" + str(n_classes)
-    pretrain_path = root_path+results_root+result_path+"_"+str(max(0, index-1))
-    if os.path.exists(pretrain_path):
-        print(pretrain_path)
-        trained_models = [int(f.split("_")[1].split(".")[0]) for f in os.listdir(pretrain_path) if "save_" in f]
-        last_model_index = max(trained_models)
-        pretrain_path += "/save_"+str(last_model_index)+".pth" 
-    text += " --pretrain_path=" + pretrain_path
+text += " --result_path=" + results_root + result_path
 
 print(text)
 
 if submit_on_cluster:
-    with open(result_path+"_"+str(index)+".sbatch", "w") as file:
+    with open(result_path+".sbatch", "w") as file:
         file.write(text)
-    os.system("sbatch "+result_path+"_"+str(index)+".sbatch")    
+    os.system("sbatch "+result_path+".sbatch")    
 else:
     os.system(text)
 

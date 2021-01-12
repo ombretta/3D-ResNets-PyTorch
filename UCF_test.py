@@ -10,21 +10,20 @@ Created on Mon Dec 21 10:23:32 2020
 
 import os 
 
-submit_on_cluster = True
+submit_on_cluster = False
 pretrained = False
-continue_training = True
 
 text = ''
 
 if submit_on_cluster:
     text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=72:00:00\n'+\
+    '#SBATCH --qos=short\n'+\
+    '#SBATCH --time=4:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
-    '#SBATCH --mem=5000\n'+\
+    '#SBATCH --mem=16000\n'+\
     '#SBATCH --gres=gpu:4\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
@@ -42,9 +41,9 @@ dataset = 'ucf101'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
 n_classes = 101
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
-n_pretrain_classes = 700
+n_pretrain_classes = 101
 # Pretrained model path (.pth).
-pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
+pretrain_path = "3D-ResNets-PyTorch/results/UCF101/save_80.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
@@ -66,7 +65,7 @@ colorjitter = False
 # Temporal cropping method in training. random is uniform. (random | center)
 train_t_crop = 'random'
 # Initial learning rate (divided by 10 while training by lr scheduler)
-learning_rate = 0.001
+learning_rate = 0.01
 # Momentum
 momentum = 0.9
 # dampening of SGD
@@ -106,11 +105,11 @@ n_val_samples = 3
 # Save data (.pth) of previous training
 resume_path = None
 # If true, training is not performed.
-no_train = False
+no_train = True
 # If true, validation is not performed.
-no_val = False
+no_val = True
 # If true, inference is performed.
-inference = False
+inference = True
 # Used subset in inference (train | val | test)
 inference_subset = 'val'
 # Stride of sliding window in inference.
@@ -128,7 +127,7 @@ checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
 model = 'resnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 34
+model_depth = 50
 # Depth of resnet (9 | 17 | 33)
 receptive_size = 9
 # Kernel size in t dim of conv1.
@@ -231,6 +230,8 @@ if file_type: text += " --file_type=" + file_type
 if tensorboard: text += " --tensorboard"
 if distributed: text += " --distributed"
 text += " --ft_begin_module="+ft_begin_module
+text += " --pretrain_path=" + pretrain_path
+text += " --n_pretrain_classes=" + str(n_pretrain_classes)
 
 #last
 # Result directory path
@@ -244,31 +245,19 @@ else:
 
 if pretrained:
     result_path += "_kinetics_pretrained"
-    text += " --pretrain_path=" + pretrain_path
-    text += " --n_pretrain_classes=" + str(n_pretrain_classes)
     
-index = len([f for f in os.listdir(root_path+results_root) if result_path in f])
-if not os.path.exists(root_path+results_root+result_path+"_"+str(index)):
-    os.mkdir(root_path+results_root+result_path+"_"+str(index))
+index = str(len([f for f in os.listdir(root_path+results_root) if result_path in f]))
+result_path += "_" + index
+if not os.path.exists(root_path+results_root+result_path):
+    os.mkdir(root_path+results_root+result_path)
 
-text += " --result_path=" + results_root + result_path + "_" + str(index)
-
-if continue_training:
-    text += " --n_pretrain_classes=" + str(n_classes)
-    pretrain_path = root_path+results_root+result_path+"_"+str(max(0, index-1))
-    if os.path.exists(pretrain_path):
-        print(pretrain_path)
-        trained_models = [int(f.split("_")[1].split(".")[0]) for f in os.listdir(pretrain_path) if "save_" in f]
-        last_model_index = max(trained_models)
-        pretrain_path += "/save_"+str(last_model_index)+".pth" 
-    text += " --pretrain_path=" + pretrain_path
+text += " --result_path=" + results_root + result_path
 
 print(text)
 
 if submit_on_cluster:
-    with open(result_path+"_"+str(index)+".sbatch", "w") as file:
+    with open(result_path+".sbatch", "w") as file:
         file.write(text)
-    os.system("sbatch "+result_path+"_"+str(index)+".sbatch")    
+    os.system("sbatch "+result_path+".sbatch")    
 else:
     os.system(text)
-
