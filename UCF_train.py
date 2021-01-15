@@ -263,6 +263,15 @@ if continue_training:
         pretrain_path += "/save_"+str(last_model_index)+".pth" 
     text += " --pretrain_path=" + pretrain_path
 
+if continue_training:
+    text += " --n_pretrain_classes=" + str(n_classes)
+    pretrain_path = root_path+results_root+result_path+"_"+str(max(0, index-1))
+    if os.path.exists(pretrain_path):
+        trained_models = [int(f.split("_")[1].split(".")[0]) for f in os.listdir(pretrain_path) if "save_" in f]
+        last_model_index = max(trained_models)
+        pretrain_path += "/save_"+str(last_model_index)+".pth" 
+    text += " --pretrain_path=" + pretrain_path
+
 print(text)
 
 if submit_on_cluster:
