@@ -105,6 +105,7 @@ ENV/
 .vscode
 
 # Cluster files
+slurm-*
 slurm-5948292.out
 slurm-5948293.out
 *.sbatch
