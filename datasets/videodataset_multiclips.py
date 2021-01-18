@@ -66,10 +66,8 @@ class VideoDatasetMultiClips(VideoDataset):
         else:
             targets = [target for _ in range(len(segments))]
         
-        #print("self.data[index]", self.data[index])
-        #print("target", target)
-        #print("targets", targets)
-
-        print(len(clips))
+        # print("self.data[index]", self.data[index])
+        # print("target", target)
+        # print("targets", targets)
 
         return clips, targets
