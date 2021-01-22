@@ -1,6 +1,15 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jan 22 10:16:11 2021
+
+@author: ombretta
+"""
+
 import argparse
 import json
 from pathlib import Path
+import os
 
 import pandas as pd
 
@@ -40,38 +49,39 @@ def load_labels(train_csv_path):
 
 def convert_kinetics_csv_to_json(train_csv_path, val_csv_path, test_csv_path,
                                  video_dir_path, video_type, dst_json_path):
-    labels = load_labels(train_csv_path)
-    train_database = convert_csv_to_dict(train_csv_path, 'training')
-    val_database = convert_csv_to_dict(val_csv_path, 'validation')
-    if test_csv_path.exists():
-        test_database = convert_csv_to_dict(test_csv_path, 'testing')
-
+    train_videos_path = os.path.join(video_dir_path, "h5_train_frames")
+    val_videos_path = os.path.join(video_dir_path, "h5_valid_frames")
+    
+    labels = os.listdir(train_videos_path)
+    labels = [l for l in labels if os.path.isdir(os.path.join(train_videos_path, l))]
+    
     dst_data = {}
     dst_data['labels'] = labels
     dst_data['database'] = {}
-    dst_data['database'].update(train_database)
-    dst_data['database'].update(val_database)
-    if test_csv_path.exists():
-        dst_data['database'].update(test_database)
-
-    for k, v in dst_data['database'].items():
-        if 'label' in v['annotations']:
-            label = v['annotations']['label']
-        else:
-            label = 'test'
-
-        if video_type == 'jpg':
-            video_path = video_dir_path / label / k
-            if video_path.exists():
-                n_frames = get_n_frames(video_path)
-                v['annotations']['segment'] = (1, n_frames + 1)
-        else:
-            # video_path = video_dir_path / label / f'{k}.hdf5'
-            video_path = video_dir_path / label / f'{k}.h5'
-            print(video_path)
-            if video_path.exists():
+    
+    for label in labels:
+        
+        train_videos = os.listdir(os.path.join(train_videos_path, label))
+        valid_videos = os.listdir(os.path.join(val_videos_path, label))
+        
+        for video in train_videos:
+            dst_data['database'][video]["subset"] = "training"
+            dst_data['database'][video]['annotations']['label'] = label
+            
+            video_path = os.path.join(train_videos_path, label, video+".h5")
+            if os.path.exists(video_path):
                 n_frames = get_n_frames_hdf5(video_path)
-                v['annotations']['segment'] = (0, n_frames)
+                dst_data['database'][video]['annotations']['segment'] = (0, n_frames)
+        
+        for video in valid_videos:
+            dst_data['database'][video]["subset"] = "validation"
+            dst_data['database'][video]['annotations']['label'] = label
+            
+            video_path = os.path.join(val_videos_path, label, video+".h5")
+            if os.path.exists(video_path):
+                n_frames = get_n_frames_hdf5(video_path)
+                dst_data['database'][video]['annotations']['segment'] = (0, n_frames)
+                
 
     with dst_json_path.open('w') as dst_file:
         json.dump(dst_data, dst_file)

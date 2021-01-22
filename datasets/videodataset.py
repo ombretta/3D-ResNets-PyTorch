@@ -92,7 +92,7 @@ class VideoDataset(data.Dataset):
             video_path = video_paths[i]
             if not video_path.exists():
                 continue
-
+            
             if 'segment' in annotations[i]:
                 segment = annotations[i]['segment']
                 if segment[1] == 1:
