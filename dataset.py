@@ -8,6 +8,7 @@ from datasets.breakfast import get_breakfast_dataset, load_videos_sets
 from datasets.loader import VideoLoader, VideoLoaderHDF5, VideoLoaderFlowHDF5
 
 import os
+from pathlib import Path
 
 def image_name_formatter(x):
     return f'image_{x:05d}.jpg'
@@ -59,7 +60,7 @@ def get_training_data(video_path,
                                     video_path_formatter=video_path_formatter)
         
     elif dataset_name == 'kinetics':
-        training_data = VideoDataset(os.path.join(video_path,"h5_train_frames"),
+        training_data = VideoDataset(Path(os.path.join(video_path,"h5_train_frames")),
                                     annotation_path,
                                     'training',
                                     spatial_transform=spatial_transform,
@@ -137,7 +138,7 @@ def get_validation_data(video_path,
         
     elif dataset_name == 'kinetics':
         validation_data = VideoDatasetMultiClips(
-                            os.path.join(video_path,"h5_valid_frames"),
+                            Path(os.path.join(video_path,"h5_valid_frames")),
                             annotation_path,
                             'validation',
                             spatial_transform=spatial_transform,
