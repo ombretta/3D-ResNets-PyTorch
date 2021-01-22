@@ -7,6 +7,7 @@ from datasets.activitynet import ActivityNet
 from datasets.breakfast import get_breakfast_dataset, load_videos_sets
 from datasets.loader import VideoLoader, VideoLoaderHDF5, VideoLoaderFlowHDF5
 
+import os
 
 def image_name_formatter(x):
     return f'image_{x:05d}.jpg'
@@ -44,11 +45,21 @@ def get_training_data(video_path,
         else:
             loader = VideoLoaderFlowHDF5()
         video_path_formatter = (lambda root_path, label, video_id: root_path /
-                                label / f'{video_id}.hdf5')
-                                # label / f'{video_id}.h5')
+                                # label / f'{video_id}.hdf5')
+                                label / f'{video_id}.h5')
 
     if dataset_name == 'activitynet':
         training_data = ActivityNet(video_path,
+                                    annotation_path,
+                                    'training',
+                                    spatial_transform=spatial_transform,
+                                    temporal_transform=temporal_transform,
+                                    target_transform=target_transform,
+                                    video_loader=loader,
+                                    video_path_formatter=video_path_formatter)
+        
+    elif dataset_name == 'kinetics':
+        training_data = VideoDataset(os.path.join(video_path,"h5_train_frames"),
                                     annotation_path,
                                     'training',
                                     spatial_transform=spatial_transform,
@@ -111,7 +122,8 @@ def get_validation_data(video_path,
         else:
             loader = VideoLoaderFlowHDF5()
         video_path_formatter = (lambda root_path, label, video_id: root_path /
-                                label / f'{video_id}.hdf5')
+                                # label / f'{video_id}.hdf5')
+                                label / f'{video_id}.h5')
 
     if dataset_name == 'activitynet':
         validation_data = ActivityNet(video_path,
@@ -122,6 +134,17 @@ def get_validation_data(video_path,
                                       target_transform=target_transform,
                                       video_loader=loader,
                                       video_path_formatter=video_path_formatter)
+        
+    elif dataset_name == 'kinetics':
+        validation_data = VideoDatasetMultiClips(
+                            os.path.join(video_path,"h5_valid_frames"),
+                            annotation_path,
+                            'validation',
+                            spatial_transform=spatial_transform,
+                            temporal_transform=temporal_transform,
+                            target_transform=target_transform,
+                            video_loader=loader,
+                            video_path_formatter=video_path_formatter)
     
     # if dataset_name == 'breakfast':
     #     # annotation_path = data_path, video_path = dataset_path
