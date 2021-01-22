@@ -93,11 +93,15 @@ class VideoDataset(data.Dataset):
             if not video_path.exists():
                 continue
 
-            segment = annotations[i]['segment']
-            if segment[1] == 1:
-                continue
+            if 'segment' in annotations[i]:
+                segment = annotations[i]['segment']
+                if segment[1] == 1:
+                    continue
+                frame_indices = list(range(segment[0], segment[1]))
+            else:
+                segment = []
+                frame_indices = []
 
-            frame_indices = list(range(segment[0], segment[1]))
             sample = {
                 'video': video_path,
                 'segment': segment,
