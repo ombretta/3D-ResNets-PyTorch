@@ -238,7 +238,7 @@ class VidBagNet_Space(nn.Module):
         x = self.layer4(x)	
         print('output size', x.size())
 
-        x = self.avgpool(x)
+        x = self.avgpool(x) #max pool
 
         x = x.view(x.size(0), -1)
         x = self.fc(x)
