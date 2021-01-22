@@ -36,7 +36,7 @@ if submit_on_cluster:
 root_path = '/tudelft.net/staff-bulk/ewi/insy/'
 # Directory path of videos
 #video_path = 'CV-DataSets/kinetics400/jpg'
-video_path = 'CV-DataSets/kinetics400/h5_train_frames'
+video_path = 'CV-DataSets/kinetics400/'
 # Annotation file path
 annotation_path = 'CV-DataSets/kinetics400/kinetics400.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51)
@@ -110,7 +110,7 @@ resume_path = None
 # If true, training is not performed.
 no_train = False
 # If true, validation is not performed.
-no_val = True
+no_val = False
 # If true, inference is performed.
 inference = False
 # Used subset in inference (train | val | test)
