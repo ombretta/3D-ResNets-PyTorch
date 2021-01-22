@@ -103,7 +103,7 @@ class VideoDataset(data.Dataset):
                 frame_indices = list(range(segment[0], segment[1]))
             else:
                 # Added to deal with incomplete json files
-                segment = [0, 64]
+                segment = [0, 8]
                 frame_indices = list(range(segment[0], segment[1]))
 
             sample = {
