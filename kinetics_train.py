@@ -36,7 +36,7 @@ if submit_on_cluster:
 root_path = '/tudelft.net/staff-bulk/ewi/insy/'
 # Directory path of videos
 #video_path = 'CV-DataSets/kinetics400/jpg'
-video_path = 'CV-DataSets/kinetics400/h5_train_frames'
+video_path = 'CV-DataSets/kinetics400/'
 # Annotation file path
 annotation_path = 'CV-DataSets/kinetics400/kinetics400.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51)

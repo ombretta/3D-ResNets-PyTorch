@@ -47,6 +47,20 @@ def load_labels(train_csv_path):
     return data['label'].unique().tolist()
 
 
+def video_dictionary(video_path, subset, label):
+    video_dict = {}
+    video_dict["subset"] = subset
+    video_dict['annotations'] = {}
+    video_dict['annotations']['label'] = label
+    
+    if os.path.exists(video_path):
+        print(video_path)
+        n_frames = get_n_frames_hdf5(video_path)
+        print(n_frames)
+        video_dict['annotations']['segment'] = (0, n_frames)
+    return video_dict
+
+
 def convert_kinetics_csv_to_json(train_csv_path, val_csv_path, test_csv_path,
                                  video_dir_path, video_type, dst_json_path):
     train_videos_path = os.path.join(video_dir_path, "h5_train_frames")
@@ -65,30 +79,20 @@ def convert_kinetics_csv_to_json(train_csv_path, val_csv_path, test_csv_path,
         valid_videos = os.listdir(os.path.join(val_videos_path, label))
         
         for video in train_videos:
-            video = video.split(".h5")[0]
-            dst_data['database'][video] = {}
-            dst_data['database'][video]["subset"] = "training"
-            dst_data['database'][video]['annotations'] = {}
-            dst_data['database'][video]['annotations']['label'] = label
-            
-            video_path = os.path.join(train_videos_path, label, video+".h5")
-            if os.path.exists(video_path):
-                print(video_path)
-                n_frames = get_n_frames_hdf5(video_path)
-                dst_data['database'][video]['annotations']['segment'] = (0, n_frames)
+            video_path = os.path.join(train_videos_path, label, video)
+            try:
+                dst_data['database'][video] = video_dictionary(video_path, 
+                                                        "training", label)
+            except OSError:
+                pass
         
         for video in valid_videos:
-            video = video.split(".h5")[0]
-            dst_data['database'][video] = {}
-            dst_data['database'][video]["subset"] = "validation"
-            dst_data['database'][video]['annotations'] = {}
-            dst_data['database'][video]['annotations']['label'] = label
-            
-            video_path = os.path.join(val_videos_path, label, video+".h5")
-            if os.path.exists(video_path):
-                n_frames = get_n_frames_hdf5(video_path)
-                dst_data['database'][video]['annotations']['segment'] = (0, n_frames)
-                
+            video_path = os.path.join(val_videos_path, label, video)
+            try:
+                dst_data['database'][video] = video_dictionary(video_path, 
+                                                        "validation", label)
+            except OSError:
+                pass
 
     with dst_json_path.open('w') as dst_file:
         json.dump(dst_data, dst_file)

@@ -45,12 +45,15 @@ class VideoLoaderHDF5(object):
 
     def __call__(self, video_path, frame_indices):
         with h5py.File(video_path, 'r') as f:
+            print(video_path)
             video_data = f['video']
 
             video = []
             for i in frame_indices:
                 if i < len(video_data):
-                    video.append(Image.open(io.BytesIO(video_data[i])))
+                    print(i)
+                    # video.append(Image.open(io.BytesIO(video_data[i])))
+                    video.append(torch(video_data[i])) 
                 else:
                     return video
 
