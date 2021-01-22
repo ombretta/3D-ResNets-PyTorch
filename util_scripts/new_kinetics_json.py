@@ -78,7 +78,10 @@ def convert_kinetics_csv_to_json(train_csv_path, val_csv_path, test_csv_path,
                 dst_data['database'][video]['annotations']['segment'] = (0, n_frames)
         
         for video in valid_videos:
+            video = video.split(".h5")[0]
+            dst_data['database'][video] = {}
             dst_data['database'][video]["subset"] = "validation"
+            dst_data['database'][video]['annotations'] = {}
             dst_data['database'][video]['annotations']['label'] = label
             
             video_path = os.path.join(val_videos_path, label, video+".h5")
