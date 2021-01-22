@@ -100,6 +100,7 @@ class VideoDataset(data.Dataset):
                 frame_indices = list(range(segment[0], segment[1]))
             else:
                 segment = []
+                frame_indices = []
 
             sample = {
                 'video': video_path,
