@@ -65,16 +65,23 @@ def convert_kinetics_csv_to_json(train_csv_path, val_csv_path, test_csv_path,
         valid_videos = os.listdir(os.path.join(val_videos_path, label))
         
         for video in train_videos:
+            video = video.split(".h5")[0]
+            dst_data['database'][video] = {}
             dst_data['database'][video]["subset"] = "training"
+            dst_data['database'][video]['annotations'] = {}
             dst_data['database'][video]['annotations']['label'] = label
             
             video_path = os.path.join(train_videos_path, label, video+".h5")
             if os.path.exists(video_path):
+                print(video_path)
                 n_frames = get_n_frames_hdf5(video_path)
                 dst_data['database'][video]['annotations']['segment'] = (0, n_frames)
         
         for video in valid_videos:
+            video = video.split(".h5")[0]
+            dst_data['database'][video] = {}
             dst_data['database'][video]["subset"] = "validation"
+            dst_data['database'][video]['annotations'] = {}
             dst_data['database'][video]['annotations']['label'] = label
             
             video_path = os.path.join(val_videos_path, label, video+".h5")
