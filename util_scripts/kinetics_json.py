@@ -68,6 +68,7 @@ def convert_kinetics_csv_to_json(train_csv_path, val_csv_path, test_csv_path,
         else:
             # video_path = video_dir_path / label / f'{k}.hdf5'
             video_path = video_dir_path / label / f'{k}.h5'
+            print(video_path)
             if video_path.exists():
                 n_frames = get_n_frames_hdf5(video_path)
                 v['annotations']['segment'] = (0, n_frames)
