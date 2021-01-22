@@ -37,7 +37,10 @@ class VideoLoader(object):
         for i in frame_indices:
             image_path = video_path / self.image_name_formatter(i)
             if image_path.exists():
-                video.append(self.image_loader(image_path))
+                #video.append(self.image_loader(image_path))
+                frame = torch.tensor(video_data[i])
+                print(frame.shape)
+                video.append(transforms.ToPILImage()(frame).convert("RGB")) 
 
         return video
 
@@ -57,7 +60,6 @@ class VideoLoaderHDF5(object):
                     frame = torch.tensor(video_data[i])
                     print(frame.shape)
                     video.append(transforms.ToPILImage()(frame).convert("RGB")) 
-                    
                 else:
                     return video
 

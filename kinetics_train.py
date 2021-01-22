@@ -110,7 +110,7 @@ resume_path = None
 # If true, training is not performed.
 no_train = False
 # If true, validation is not performed.
-no_val = True
+no_val = False
 # If true, inference is performed.
 inference = False
 # Used subset in inference (train | val | test)

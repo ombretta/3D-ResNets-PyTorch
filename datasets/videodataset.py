@@ -31,6 +31,7 @@ def get_database(data, subset, root_path, video_path_formatter):
             else:
                 label = value['annotations']['label']
                 video_paths.append(video_path_formatter(root_path, label, key))
+                # print(video_path_formatter(root_path, label, key))
 
     return video_ids, video_paths, annotations
 
@@ -101,6 +102,7 @@ class VideoDataset(data.Dataset):
                     continue
                 frame_indices = list(range(segment[0], segment[1]))
             else:
+                # Added to deal with incomplete json files
                 segment = [0, 64]
                 frame_indices = list(range(segment[0], segment[1]))
 
