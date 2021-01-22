@@ -31,6 +31,7 @@ def get_database(data, subset, root_path, video_path_formatter):
             else:
                 label = value['annotations']['label']
                 video_paths.append(video_path_formatter(root_path, label, key))
+                print(video_path_formatter(root_path, label, key))
 
     return video_ids, video_paths, annotations
 
@@ -49,6 +50,8 @@ class VideoDataset(data.Dataset):
                                        root_path / label / video_id),
                  image_name_formatter=lambda x: f'image_{x:05d}.jpg',
                  target_type='label'):
+        
+        print(root_path)
         self.data, self.class_names = self.__make_dataset(
             root_path, annotation_path, subset, video_path_formatter)
 
