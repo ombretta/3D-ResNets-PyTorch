@@ -10,7 +10,7 @@ Created on Fri Jan 22 10:53:54 2021
 import json
 import os
 
-
+import cv2
 from .utils import get_n_frames, get_n_frames_hdf5
 
 import torch
@@ -25,6 +25,19 @@ def load_data(filename, with_torch = False):
     else: print("File", filename, "does not exists.")        
                 
 
+def get_video_properties(cap):
+    frameCount = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    frameWidth = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frameHeight = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+    return frameCount, frameWidth, frameHeight, fps
+
+
+def get_num_frames(video_path):
+    cap = cv2.VideoCapture(video_path)
+    frameCount, _, _, _ = get_video_properties(cap)
+    cap.release()
+    return frameCount
 
 
 def video_dictionary(video_path, subset, label):
@@ -35,7 +48,7 @@ def video_dictionary(video_path, subset, label):
     
     if os.path.exists(video_path):
         print(video_path)
-        n_frames = get_n_frames(video_path)
+        n_frames = get_num_frames(video_path)
         print(n_frames)
         video_dict['annotations']['segment'] = (0, n_frames)
     return video_dict
