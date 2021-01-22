@@ -45,9 +45,13 @@ def get_training_data(video_path,
             loader = VideoLoaderHDF5()
         else:
             loader = VideoLoaderFlowHDF5()
-        video_path_formatter = (lambda root_path, label, video_id: root_path /
-                                # label / f'{video_id}.hdf5')
-                                label / f'{video_id}.h5')
+            
+        if dataset_name == 'kinetics':
+            video_path_formatter = (lambda root_path, label, video_id: root_path /
+                                    label / f'{video_id}.h5')
+        else:
+            video_path_formatter = (lambda root_path, label, video_id: root_path /
+                                    label / f'{video_id}.hdf5')
 
     if dataset_name == 'activitynet':
         training_data = ActivityNet(video_path,
@@ -68,11 +72,6 @@ def get_training_data(video_path,
                                     target_transform=target_transform,
                                     video_loader=loader,
                                     video_path_formatter=video_path_formatter)
-    
-    # if dataset_name == 'breakfast':
-    #     # annotation_path = data_path, video_path = dataset_path
-    #     train_videos, _, _ = load_videos_sets(annotation_path, video_path)
-    #     training_data = get_breakfast_dataset(train_videos, video_path, sample_t_stride)
     
     else:
         print("Building VideoDataset for", dataset_name)
@@ -122,9 +121,13 @@ def get_validation_data(video_path,
             loader = VideoLoaderHDF5()
         else:
             loader = VideoLoaderFlowHDF5()
-        video_path_formatter = (lambda root_path, label, video_id: root_path /
-                                # label / f'{video_id}.hdf5')
-                                label / f'{video_id}.h5')
+            
+        if dataset_name == 'kinetics':
+            video_path_formatter = (lambda root_path, label, video_id: root_path /
+                                    label / f'{video_id}.h5')
+        else:
+            video_path_formatter = (lambda root_path, label, video_id: root_path /
+                                    label / f'{video_id}.hdf5')
 
     if dataset_name == 'activitynet':
         validation_data = ActivityNet(video_path,
@@ -146,11 +149,6 @@ def get_validation_data(video_path,
                             target_transform=target_transform,
                             video_loader=loader,
                             video_path_formatter=video_path_formatter)
-    
-    # if dataset_name == 'breakfast':
-    #     # annotation_path = data_path, video_path = dataset_path
-    #     _, _, valid_videos = load_videos_sets(annotation_path, video_path)
-    #     validation_data = get_breakfast_dataset(valid_videos, video_path, sample_t_stride)
         
     else:
         validation_data = VideoDatasetMultiClips(
