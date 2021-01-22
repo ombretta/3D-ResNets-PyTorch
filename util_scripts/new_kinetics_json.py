@@ -83,7 +83,8 @@ def convert_kinetics_csv_to_json(train_csv_path, val_csv_path, test_csv_path,
             try:
                 dst_data['database'][video] = video_dictionary(video_path, 
                                                         "training", label)
-            except OSError:
+            except:
+                print("Caught exception for", video)
                 pass
         
         for video in valid_videos:
@@ -91,7 +92,8 @@ def convert_kinetics_csv_to_json(train_csv_path, val_csv_path, test_csv_path,
             try:
                 dst_data['database'][video] = video_dictionary(video_path, 
                                                         "validation", label)
-            except OSError:
+            except:
+                print("Caught exception for", video)
                 pass
 
     with dst_json_path.open('w') as dst_file:

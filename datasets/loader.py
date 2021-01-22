@@ -2,6 +2,7 @@ import io
 
 import h5py
 from PIL import Image
+from torchvision import transforms
 
 import torch
 
@@ -55,8 +56,10 @@ class VideoLoaderHDF5(object):
             for i in frame_indices:
                 if i < len(video_data):
                     print(i)
-                    #video.append(Image.open(io.BytesIO(video_data[i])))
-                    video.append(torch.tensor(video_data[i])) 
+                    # video.append(Image.open(io.BytesIO(video_data[i])))
+                    frame = torch.tensor(video_data[i])
+                    print(frame.shape)
+                    video.append(transforms.ToPILImage()(frame).convert("RGB")) 
                 else:
                     return video
 
