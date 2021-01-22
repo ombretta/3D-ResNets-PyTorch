@@ -66,6 +66,10 @@ if __name__ == '__main__':
     valid_videos = load_data("/tudelft.net/staff-bulk/ewi/insy/VisionLab/"+\
                         "ombrettastraff/instructional_videos/i3d_breakfast/"+\
                         "data/processed/video_sets_split/valid_videos.dat")
+        
+    test_videos = load_data("/tudelft.net/staff-bulk/ewi/insy/VisionLab/"+\
+                        "ombrettastraff/instructional_videos/i3d_breakfast/"+\
+                        "data/processed/video_sets_split/test_videos.dat")
     
     labels = load_data("/tudelft.net/staff-bulk/ewi/insy/VisionLab/"+\
                         "ombrettastraff/instructional_videos/i3d_breakfast/"+\
@@ -95,7 +99,12 @@ if __name__ == '__main__':
                 video_name = cameras+"_"+original_video[:-4]
                 video_label = original_video.split("_")[1].split(".")[0]
                 
-                subset = "training" if video_name in train_videos else "validation"
+                if video_name in train_videos:
+                    subset = "training" 
+                elif video_name in valid_videos:
+                    subset = "validation"
+                else:
+                    subset = "testing"
                 
                 dst_data['database'][video_name] = video_dictionary(video_path, subset, video_label)
     
