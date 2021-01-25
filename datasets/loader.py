@@ -39,7 +39,7 @@ class VideoLoader(object):
             if image_path.exists():
                 #video.append(self.image_loader(image_path))
                 frame = torch.tensor(video_data[i])
-                print(frame.shape)
+                #print(frame.shape)
                 video.append(transforms.ToPILImage()(frame).convert("RGB")) 
 
         return video
@@ -49,16 +49,15 @@ class VideoLoaderHDF5(object):
 
     def __call__(self, video_path, frame_indices):
         with h5py.File(video_path, 'r') as f:
-            print(video_path)
             video_data = f['video']
+
+            #print(video_path, len(video_data))
 
             video = []
             for i in frame_indices:
                 if i < len(video_data):
-                    print(i)
                     # video.append(Image.open(io.BytesIO(video_data[i])))
                     frame = torch.tensor(video_data[i])
-                    print(frame.shape)
                     video.append(transforms.ToPILImage()(frame).convert("RGB")) 
                 else:
                     return video

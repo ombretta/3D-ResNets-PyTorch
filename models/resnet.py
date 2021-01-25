@@ -235,30 +235,30 @@ class ResNet(nn.Module):
 
     def forward(self, x):
 
-        print("CONV 1")
+        #print("CONV 1")
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
-        print("out CONV1", x.shape)
+        #print("out CONV1", x.shape)
         if not self.no_max_pool:
             x = self.maxpool(x)
-       	print("(maxpooled) out CONV1", x.shape)
+       	#print("(maxpooled) out CONV1", x.shape)
 
-       	print("LAYER1")
+       	#print("LAYER1")
         x = self.layer1(x)
-        print("LAYER2")
+        #print("LAYER2")
         x = self.layer2(x)
-        print("LAYER3")
+        #print("LAYER3")
         x = self.layer3(x)
-        print("LAYER4")
+        #print("LAYER4")
         x = self.layer4(x)
 
         x = self.avgpool(x)
-        print("out avg pool", x.shape)
+        #print("out avg pool", x.shape)
 
         x = x.view(x.size(0), -1)
         x = self.fc(x)
-        print("out", x.shape)
+        #print("out", x.shape)
 
         return x
 
