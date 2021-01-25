@@ -105,20 +105,20 @@ class Bottleneck(nn.Module):
         out = self.conv1(x)
         out = self.bn1(out)
         out = self.relu(out)
-        print("out conv1", out.shape)
+        #print("out conv1", out.shape)
 
         out = self.conv2(out)
         out = self.bn2(out)
         out = self.relu(out)
-       	print("out conv2", out.shape)
+       	#print("out conv2", out.shape)
 
         out = self.conv3(out)
         out = self.bn3(out)
-       	print("out conv3", out.shape)
+       	#print("out conv3", out.shape)
 
         if self.downsample is not None:
             residual = self.downsample(x)
-       	print("(downsampled) residual", residual.shape)
+       	#print("(downsampled) residual", residual.shape)
 
         out += residual
         out = self.relu(out)

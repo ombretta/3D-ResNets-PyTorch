@@ -10,7 +10,7 @@ Created on Mon Dec 21 10:23:32 2020
 
 import os 
 
-submit_on_cluster = False
+submit_on_cluster = True
 pretrained = False
 continue_training = False
 
@@ -20,7 +20,7 @@ if submit_on_cluster:
     text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
     '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=72:00:00\n'+\
+    '#SBATCH --time=96:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
@@ -100,7 +100,7 @@ inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 1
+n_epochs = 100
 # Number of validation samples for each activity
 n_val_samples = 3
 # Save data (.pth) of previous training
@@ -128,7 +128,7 @@ checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
 model = 'resnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 34
+model_depth = 18
 # Depth of resnet (9 | 17 | 33)
 receptive_size = 9
 # Kernel size in t dim of conv1.
@@ -152,7 +152,7 @@ manual_seed = 1
 # If true, accimage is used to load images.
 accimage = False
 # Top-k scores are saved in json file.
-output_topk = 5
+output_topk = 1
 # (jpg | hdf5)
 file_type = 'hdf5'
 # If true, output tensorboard log file.
