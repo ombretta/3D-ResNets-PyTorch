@@ -242,6 +242,7 @@ if model == 'resnet':
     result_path += "_" + str(model_depth)
 else:
     result_path += "_" + str(receptive_size)
+result_path += "_" + str(sample_duration) + "frames"
 #result_path += "_TESTwithfirst64frames"
 
 if pretrained:
