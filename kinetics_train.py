@@ -245,6 +245,10 @@ else:
 result_path += "_" + str(sample_duration) + "frames"
 #result_path += "_TESTwithfirst64frames"
 result_path += "_" + str(sample_duration) + "frames"
+if sample_t_stride != 1:
+    result_path += "_" + str(sample_t_stride) + "tstride"
+if sample_size != 64:
+    result_path += "_" + str(sample_size) + "size"
 
 if pretrained:
     result_path += "_kinetics_pretrained"
