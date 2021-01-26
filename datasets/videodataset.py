@@ -93,6 +93,7 @@ class VideoDataset(data.Dataset):
                 label_id = -1
 
             video_path = video_paths[i]
+            #print(video_path)
             if not video_path.exists():
                 continue
             
@@ -105,6 +106,8 @@ class VideoDataset(data.Dataset):
                 # Added to deal with incomplete json files
                 segment = [0, 8]
                 frame_indices = list(range(segment[0], segment[1]))
+            
+            #print(video_path, segment, frame_indices, video_ids[i], label_id)
 
             sample = {
                 'video': video_path,
@@ -113,6 +116,7 @@ class VideoDataset(data.Dataset):
                 'video_id': video_ids[i],
                 'label': label_id
             }
+            
             dataset.append(sample)
 
         return dataset, idx_to_class
