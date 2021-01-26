@@ -48,10 +48,11 @@ def get_training_data(video_path,
             
         if dataset_name == 'kinetics':
             video_path_formatter = (lambda root_path, label, video_id: root_path /
-                                    label / f'{video_id}.h5')
+                                    label / f'{video_id}')
         else:
             video_path_formatter = (lambda root_path, label, video_id: root_path /
                                     label / f'{video_id}.hdf5')
+    print("video_path_formatter", video_path_formatter)
 
     if dataset_name == 'activitynet':
         training_data = ActivityNet(video_path,
@@ -64,6 +65,10 @@ def get_training_data(video_path,
                                     video_path_formatter=video_path_formatter)
         
     elif dataset_name == 'kinetics':
+        print("Building VideoDataset for kineticcccs", dataset_name)
+        print(spatial_transform)
+        print(temporal_transform)
+        print(loader)
         training_data = VideoDataset(Path(os.path.join(video_path,"h5_train_frames")),
                                     annotation_path,
                                     'training',

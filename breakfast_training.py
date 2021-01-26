@@ -48,9 +48,9 @@ pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
-sample_size = 512
+sample_size = 64
 # Temporal duration of inputs
-sample_duration = 48
+sample_duration = 512
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 1
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -66,7 +66,7 @@ colorjitter = False
 # Temporal cropping method in training. random is uniform. (random | center)
 train_t_crop = 'random'
 # Initial learning rate (divided by 10 while training by lr scheduler)
-learning_rate = 0.001
+learning_rate = 0.1
 # Momentum
 momentum = 0.9
 # dampening of SGD
@@ -128,7 +128,7 @@ checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
 model = 'resnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 50
+model_depth = 18
 # Depth of resnet (9 | 17 | 33)
 receptive_size = 9
 # Kernel size in t dim of conv1.
