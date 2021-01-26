@@ -221,11 +221,6 @@ def get_inference_data(video_path,
                                      video_loader=loader,
                                      video_path_formatter=video_path_formatter,
                                      is_untrimmed_setting=True)
-    
-    if dataset_name == 'breakfast':
-        # annotation_path = data_path, video_path = dataset_path
-        _, test_videos, _ = load_videos_sets(annotation_path, video_path)
-        inference_data = get_breakfast_dataset(test_videos, video_path, sample_t_stride)
         
     else:
         inference_data = VideoDatasetMultiClips(
