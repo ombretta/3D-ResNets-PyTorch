@@ -48,7 +48,7 @@ pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
-sample_size = 64
+sample_size = 512
 # Temporal duration of inputs
 sample_duration = 48
 # If larger than 1, input frames are subsampled with the stride.
@@ -126,7 +126,7 @@ n_threads = 4
 # Trained model is saved at every this epochs.
 checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
-model = 'vidbagnet'
+model = 'resnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
 model_depth = 50
 # Depth of resnet (9 | 17 | 33)
@@ -240,7 +240,7 @@ if model == 'resnet':
     result_path += "_" + str(model_depth)
 else:
     result_path += "_" + str(receptive_size)
-
+result_path += "_" + str(sample_duration) + "frames"
 
 if pretrained:
     result_path += "_kinetics_pretrained"

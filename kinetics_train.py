@@ -52,7 +52,7 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 64
 # Temporal duration of inputs
-sample_duration = 8
+sample_duration = 48
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 1
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -68,7 +68,7 @@ colorjitter = False
 # Temporal cropping method in training. random is uniform. (random | center)
 train_t_crop = 'center'
 # Initial learning rate (divided by 10 while training by lr scheduler)
-learning_rate = 0.001
+learning_rate = 0.01
 # Momentum
 momentum = 0.9
 # dampening of SGD
@@ -102,7 +102,7 @@ inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 80
+n_epochs = 100
 # Number of validation samples for each activity
 n_val_samples = 3
 # Save data (.pth) of previous training
@@ -130,7 +130,7 @@ checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
 model = 'resnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 34
+model_depth = 18
 # Depth of resnet (9 | 17 | 33)
 receptive_size = 9
 # Kernel size in t dim of conv1.
@@ -244,6 +244,7 @@ else:
     result_path += "_" + str(receptive_size)
 result_path += "_" + str(sample_duration) + "frames"
 #result_path += "_TESTwithfirst64frames"
+result_path += "_" + str(sample_duration) + "frames"
 
 if pretrained:
     result_path += "_kinetics_pretrained"
