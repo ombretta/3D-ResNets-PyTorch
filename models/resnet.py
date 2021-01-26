@@ -99,7 +99,7 @@ class Bottleneck(nn.Module):
 
     def forward(self, x):
  
-        print("input x", x.shape)
+        #print("input x", x.shape)
         residual = x
 
         out = self.conv1(x)
