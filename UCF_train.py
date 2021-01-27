@@ -241,6 +241,11 @@ if model == 'resnet':
 else:
     result_path += "_" + str(receptive_size)
 result_path += "_" + str(sample_duration) + "frames"
+if sample_t_stride != 1:
+    result_path += "_" + str(sample_t_stride) + "tstride"
+if sample_size != 64:
+    result_path += "_" + str(sample_size) + "size"
+    
 
 
 if pretrained:
