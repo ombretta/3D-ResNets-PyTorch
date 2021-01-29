@@ -28,6 +28,9 @@ class VideoDatasetMultiClips(VideoDataset):
     def __loading(self, path, video_frame_indices):
         clips = []
         segments = []
+
+        print(path)
+
         for clip_frame_indices in video_frame_indices:
             clip = self.loader(path, clip_frame_indices)
             if self.spatial_transform is not None:

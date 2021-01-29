@@ -20,12 +20,12 @@ if submit_on_cluster:
     text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
     '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=96:00:00\n'+\
+    '#SBATCH --time=168:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
-    '#SBATCH --mem=5000\n'+\
-    '#SBATCH --gres=gpu:4\n'+\
+    '#SBATCH --mem=10000\n'+\
+    '#SBATCH --gres=gpu:8\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun '
@@ -128,11 +128,11 @@ n_threads = 4
 # Trained model is saved at every this epochs.
 checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
-model = 'vidbagnet'
+model = 'resnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 50
+model_depth = 18
 # Depth of resnet (9 | 17 | 33)
-receptive_size = 33
+receptive_size = 9
 # Kernel size in t dim of conv1.
 conv1_t_size = 7
 # Stride in t dim of conv1.
@@ -242,7 +242,6 @@ if model == 'resnet':
     result_path += "_" + str(model_depth)
 else:
     result_path += "_" + str(receptive_size)
-result_path += "_" + str(sample_duration) + "frames"
 #result_path += "_TESTwithfirst64frames"
 result_path += "_" + str(sample_duration) + "frames"
 if sample_t_stride != 1:

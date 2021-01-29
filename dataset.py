@@ -65,10 +65,6 @@ def get_training_data(video_path,
                                     video_path_formatter=video_path_formatter)
         
     elif dataset_name == 'kinetics':
-        print("Building VideoDataset for kineticcccs", dataset_name)
-        print(spatial_transform)
-        print(temporal_transform)
-        print(loader)
         training_data = VideoDataset(Path(os.path.join(video_path,"h5_train_frames")),
                                     annotation_path,
                                     'training',

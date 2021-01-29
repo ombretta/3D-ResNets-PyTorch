@@ -51,7 +51,7 @@ class VideoDataset(data.Dataset):
                  image_name_formatter=lambda x: f'image_{x:05d}.jpg',
                  target_type='label'):
         
-        print(root_path)
+        #print(root_path)
         self.data, self.class_names = self.__make_dataset(
             root_path, annotation_path, subset, video_path_formatter)
 
@@ -80,6 +80,8 @@ class VideoDataset(data.Dataset):
             idx_to_class[label] = name
 
         n_videos = len(video_ids)
+        #print(len(video_ids), "videos")        
+
         dataset = []
         for i in range(n_videos):
             if i % (n_videos // 5) == 0:
@@ -97,6 +99,7 @@ class VideoDataset(data.Dataset):
             if not video_path.exists():
                 continue
             
+            #print(annotations[i])
             if 'segment' in annotations[i]:
                 segment = annotations[i]['segment']
                 if segment[1] == 1:

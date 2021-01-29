@@ -24,8 +24,8 @@ if submit_on_cluster:
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
-    '#SBATCH --mem=5000\n'+\
-    '#SBATCH --gres=gpu:4\n'+\
+    '#SBATCH --mem=8000\n'+\
+    '#SBATCH --gres=gpu:8\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun '
@@ -50,7 +50,7 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 64
 # Temporal duration of inputs
-sample_duration = 512
+sample_duration = 256
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 15 #default: 1, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -94,7 +94,7 @@ overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 16
+batch_size = 4
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
