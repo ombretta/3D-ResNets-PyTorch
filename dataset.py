@@ -129,7 +129,7 @@ def get_validation_data(video_path,
             
         if dataset_name == 'kinetics':
             video_path_formatter = (lambda root_path, label, video_id: root_path /
-                                    label / f'{video_id}.h5')
+                                    label / f'{video_id}')
         else:
             video_path_formatter = (lambda root_path, label, video_id: root_path /
                                     label / f'{video_id}.hdf5')
