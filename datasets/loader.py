@@ -54,8 +54,9 @@ class VideoLoaderHDF5(object):
             for i in frame_indices:
                 if i < len(video_data):
                     # video.append(Image.open(io.BytesIO(video_data[i])))
-                    frame = torch.tensor(video_data[i])
-                    video.append(transforms.ToPILImage()(frame).convert("RGB")) 
+                    frame_bgr = torch.tensor(video_data[i])
+                    frame_rgb = frame_bgr[:, :, [2, 1, 0]] # Swap bgr to rgb
+                    video.append(transforms.ToPILImage()(frame_rgb).convert("RGB")) 
                 else:
                     return video
 
