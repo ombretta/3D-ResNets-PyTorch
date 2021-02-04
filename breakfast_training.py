@@ -50,9 +50,9 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 64
 # Temporal duration of inputs
-sample_duration = 256
+sample_duration = 512
 # If larger than 1, input frames are subsampled with the stride.
-sample_t_stride = 15 #default: 1, 15fps
+sample_t_stride = 1 #default: 1, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
 train_crop = 'random'
 # Min scale for random cropping in training
@@ -128,7 +128,7 @@ checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
 model = 'resnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 50
+model_depth = 18
 # Depth of resnet (9 | 17 | 33)
 receptive_size = 9
 # Kernel size in t dim of conv1.
