@@ -19,13 +19,13 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=96:00:00\n'+\
+    '#SBATCH --qos=short\n'+\
+    '#SBATCH --time=4:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=4\n'+\
     '#SBATCH --mem=8000\n'+\
-    '#SBATCH --gres=gpu:4\n'+\
+    '#SBATCH --gres=gpu:1\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun '
@@ -50,7 +50,7 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 64
 # Temporal duration of inputs
-sample_duration = 512
+sample_duration = 8
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 15 #default: 1, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -94,7 +94,7 @@ overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 8
+batch_size = 32
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
@@ -193,7 +193,7 @@ for model in ['resnet', 'vidbagnet']:
         if nesterov: text += " --nesterov"
         text += " --optimizer=" + optimizer
         text += " --lr_scheduler=" + lr_scheduler
-        text += " --multistep_milestones=" + str(multistep_milestones)
+        text += " --multistep_milestones " + str(multistep_milestones)
         if overwrite_milestones: text += " --overwrite_milestones"
         text += " --plateau_patience=" + str(plateau_patience)
         text += " --inference_batch_size=" + str(inference_batch_size)
