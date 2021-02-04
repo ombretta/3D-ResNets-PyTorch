@@ -241,6 +241,7 @@ if model == 'resnet':
     result_path += "_" + str(model_depth)
 else:
     result_path += "_" + str(receptive_size)
+result_path += "_bs" + str(batch_size)
 
 
 if pretrained:

@@ -245,7 +245,7 @@ if sample_t_stride != 1:
     result_path += "_" + str(sample_t_stride) + "tstride"
 if sample_size != 64:
     result_path += "_" + str(sample_size) + "size"
-    
+result_path += "_bs" + str(batch_size)
 
 
 if pretrained:
