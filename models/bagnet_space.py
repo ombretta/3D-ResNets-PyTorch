@@ -253,6 +253,9 @@ def generate_model(model_depth, receptive_size, strides=[2, 2, 2, 1], **kwargs):
                    17: [1, 1, 1, 0],
                    33: [1, 1, 1, 1]}
 
+    # Control to remove in the future:
+    model_depth = 50    
+
     if model_depth == 10:
         model = VidBagNet_Space(BasicBlock, [1, 1, 1, 1], get_inplanes(), **kwargs)
     elif model_depth == 18:
