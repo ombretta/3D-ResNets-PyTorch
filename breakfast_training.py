@@ -88,7 +88,7 @@ optimizer = 'sgd'
 # Type of LR scheduler (multistep | plateau)
 lr_scheduler = 'multistep'
 # Milestones of LR scheduler. See documentation of MultistepLR.
-multistep_milestones = 30
+multistep_milestones = "30 60 90"
 # If true, overwriting multistep_milestones when resuming training.
 overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
