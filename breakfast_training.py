@@ -166,6 +166,8 @@ world_size = 1
 
 for model in ['resnet', 'vidbagnet']:
     for model_depth, receptive_size in zip([18, 34, 50], [9, 17, 33]):
+        if model == 'vidbagnet':
+            model_depth = 50
 
         text = cluster_text + "python main.py "
         
