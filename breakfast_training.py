@@ -20,7 +20,7 @@ if submit_on_cluster:
     text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
     '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=32:00:00\n'+\
+    '#SBATCH --time=96:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=4\n'+\
@@ -50,7 +50,7 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 64
 # Temporal duration of inputs
-sample_duration = 8
+sample_duration = 512
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 1 #default: 1, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -74,7 +74,7 @@ dampening = 0.0
 # Weight Decay
 weight_decay = 1e-3
 # dataset for mean values of mean subtraction (activitynet | kinetics | 0.5)
-mean_dataset = 'breakfast_rgb'
+mean_dataset = 'kinetics'
 # If true, inputs are not normalized by mean.
 no_mean_norm = False
 # If true, inputs are not normalized by standard deviation.
@@ -94,7 +94,7 @@ overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 16
+batch_size = 8
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
