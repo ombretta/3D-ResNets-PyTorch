@@ -48,7 +48,7 @@ pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
-sample_size = 128 #Default: 64
+sample_size = 224 #Default: 64
 # Temporal duration of inputs
 sample_duration = 8
 # If larger than 1, input frames are subsampled with the stride.
@@ -94,7 +94,7 @@ overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 16
+batch_size = 8
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
