@@ -29,7 +29,7 @@ class VideoDatasetMultiClips(VideoDataset):
         clips = []
         segments = []
 
-        print(path)
+        #print(path)
 
         for clip_frame_indices in video_frame_indices:
             clip = self.loader(path, clip_frame_indices)
