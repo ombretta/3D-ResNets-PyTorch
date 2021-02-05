@@ -48,7 +48,7 @@ pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
-sample_size = 128 #Default: 64
+sample_size = 64 #Default: 64
 # Temporal duration of inputs
 sample_duration = 64
 # If larger than 1, input frames are subsampled with the stride.
@@ -74,7 +74,7 @@ dampening = 0.0
 # Weight Decay
 weight_decay = 1e-3
 # dataset for mean values of mean subtraction (activitynet | kinetics | 0.5)
-mean_dataset = 'kinetics'
+mean_dataset = '0.5'
 # If true, inputs are not normalized by mean.
 no_mean_norm = False
 # If true, inputs are not normalized by standard deviation.
@@ -164,10 +164,6 @@ dist_url = 'tcp://127.0.0.1:23456'
 # number of nodes for distributed training
 world_size = 1
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 7d56dc3753899e25906d055e22266bffa0b782c1
 # models = ['resnet', 'vidbagnet']
 models = ['resnet']
 
