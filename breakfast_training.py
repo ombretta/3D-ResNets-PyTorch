@@ -50,7 +50,7 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 128 #Default: 64
 # Temporal duration of inputs
-sample_duration = 32
+sample_duration = 64
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 15 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -164,10 +164,15 @@ dist_url = 'tcp://127.0.0.1:23456'
 # number of nodes for distributed training
 world_size = 1
 
-for model in ['resnet', 'vidbagnet']:
+# models = ['resnet', 'vidbagnet']
+models = ['resnet']
+
+for model in models:
     for model_depth, receptive_size in zip([18, 34, 50], [9, 17, 33]):
         if model == 'vidbagnet':
             model_depth = 50
+        if model == 'resnet':
+            receptive_size = 9
 
         text = cluster_text + "python main.py "
         
