@@ -164,6 +164,10 @@ dist_url = 'tcp://127.0.0.1:23456'
 # number of nodes for distributed training
 world_size = 1
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7d56dc3753899e25906d055e22266bffa0b782c1
 # models = ['resnet', 'vidbagnet']
 models = ['resnet']
 
