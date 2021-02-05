@@ -164,10 +164,16 @@ dist_url = 'tcp://127.0.0.1:23456'
 # number of nodes for distributed training
 world_size = 1
 
-for model in ['resnet', 'vidbagnet']:
+
+# models = ['resnet', 'vidbagnet']
+models = ['resnet']
+
+for model in models:
     for model_depth, receptive_size in zip([18, 34, 50], [9, 17, 33]):
         if model == 'vidbagnet':
             model_depth = 50
+        if model == 'resnet':
+            receptive_size = 9
 
         text = cluster_text + "python main.py "
         
