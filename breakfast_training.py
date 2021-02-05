@@ -50,17 +50,17 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 128 #Default: 64
 # Temporal duration of inputs
-sample_duration = 64
+sample_duration = 32
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 15 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
-train_crop = 'random'
+train_crop = 'center'
 # Min scale for random cropping in training
 train_crop_min_scale = 0.25
 # Min scale for random cropping in training
 train_crop_min_ratio = 0.75
 # If true holizontal flipping is not performed.
-no_hflip = False
+no_hflip = True
 # If true colorjitter is performed.
 colorjitter = False
 # Temporal cropping method in training. random is uniform. (random | center)
@@ -94,7 +94,7 @@ overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 4
+batch_size = 16
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
