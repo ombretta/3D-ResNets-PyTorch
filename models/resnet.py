@@ -63,6 +63,8 @@ class BasicBlock(nn.Module):
         self.stride = stride
 
     def forward(self, x):
+
+        print("input x", x.shape, "mean", x.mean(), "std", x.std())
         residual = x
 
         out = self.conv1(x)
@@ -77,6 +79,8 @@ class BasicBlock(nn.Module):
 
         out += residual
         out = self.relu(out)
+
+       	#print("out", out)
 
         return out
 
@@ -99,7 +103,7 @@ class Bottleneck(nn.Module):
 
     def forward(self, x):
  
-        #print("input x", x.shape)
+        print("input x", x.shape, "mean", x.mean(), "std", x.std())
         residual = x
 
         out = self.conv1(x)
@@ -123,6 +127,7 @@ class Bottleneck(nn.Module):
         out += residual
         out = self.relu(out)
 
+        #print("out", out)
         return out
 
 
@@ -259,6 +264,7 @@ class ResNet(nn.Module):
         x = x.view(x.size(0), -1)
         x = self.fc(x)
         #print("out", x.shape)
+        print("out", x)
 
         return x
 
