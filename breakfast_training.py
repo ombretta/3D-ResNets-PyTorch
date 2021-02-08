@@ -19,13 +19,13 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=short\n'+\
-    '#SBATCH --time=4:00:00\n'+\
+    '#SBATCH --qos=long\n'+\
+    '#SBATCH --time=72:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=4\n'+\
     '#SBATCH --mem=8000\n'+\
-    '#SBATCH --gres=gpu:1\n'+\
+    '#SBATCH --gres=gpu:4\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun '
@@ -48,11 +48,11 @@ pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
-sample_size = 64 #Default: 64
+sample_size = 128 #Default: 64
 # Temporal duration of inputs
-sample_duration = 128
+sample_duration = 512
 # If larger than 1, input frames are subsampled with the stride.
-sample_t_stride = 15 #default: 15, 15fps
+sample_t_stride = 1 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
 train_crop = 'center'
 # Min scale for random cropping in training
@@ -100,7 +100,7 @@ inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 100
+n_epochs = 70
 # Number of validation samples for each activity
 n_val_samples = 3
 # Save data (.pth) of previous training
