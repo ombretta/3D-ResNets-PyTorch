@@ -48,9 +48,9 @@ pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
-sample_size = 224 #Default: 64
+sample_size = 128 #Default: 64
 # Temporal duration of inputs
-sample_duration = 8
+sample_duration = 32
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 1 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -64,7 +64,7 @@ no_hflip = True
 # If true colorjitter is performed.
 colorjitter = False
 # Temporal cropping method in training. random is uniform. (random | center)
-train_t_crop = 'random'
+train_t_crop = 'center'
 # Initial learning rate (divided by 10 while training by lr scheduler)
 learning_rate = 0.01
 # Momentum
