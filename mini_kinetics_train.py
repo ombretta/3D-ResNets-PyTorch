@@ -150,7 +150,7 @@ resnext_cardinality = 32
 # (rgb | flow)
 input_type = 'rgb'
 # Manually set random seed
-manual_seed = 1
+manual_seed = 10
 # If true, accimage is used to load images.
 accimage = False
 # Top-k scores are saved in json file.

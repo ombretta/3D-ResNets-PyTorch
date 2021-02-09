@@ -152,7 +152,7 @@ manual_seed = 1
 # If true, accimage is used to load images.
 accimage = False
 # Top-k scores are saved in json file.
-output_topk = 1
+output_topk = 10
 # (jpg | hdf5)
 file_type = 'hdf5'
 # If true, output tensorboard log file.
