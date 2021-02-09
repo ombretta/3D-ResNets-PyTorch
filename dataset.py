@@ -24,7 +24,7 @@ def get_training_data(video_path,
                       target_transform=None, 
                       sample_t_stride=1):
     assert dataset_name in [
-        'kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast'
+        'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]
@@ -46,7 +46,7 @@ def get_training_data(video_path,
         else:
             loader = VideoLoaderFlowHDF5()
             
-        if dataset_name == 'kinetics':
+        if dataset_name in ['kinetics', 'mini_kinetics']:
             video_path_formatter = (lambda root_path, label, video_id: root_path /
                                     label / f'{video_id}')
         else:
@@ -64,7 +64,7 @@ def get_training_data(video_path,
                                     video_loader=loader,
                                     video_path_formatter=video_path_formatter)
         
-    elif dataset_name == 'kinetics':
+    elif dataset_name in ['kinetics', 'mini_kinetics']:
         training_data = VideoDataset(Path(os.path.join(video_path,"h5_train_frames")),
                                     annotation_path,
                                     'training',
@@ -101,7 +101,7 @@ def get_validation_data(video_path,
                         target_transform=None, 
                         sample_t_stride=1):
     assert dataset_name in [
-        'kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast'
+        'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]
@@ -123,7 +123,7 @@ def get_validation_data(video_path,
         else:
             loader = VideoLoaderFlowHDF5()
             
-        if dataset_name == 'kinetics':
+        if dataset_name in ['kinetics', 'mini_kinetics']:
             video_path_formatter = (lambda root_path, label, video_id: root_path /
                                     label / f'{video_id}')
         else:
@@ -140,7 +140,7 @@ def get_validation_data(video_path,
                                       video_loader=loader,
                                       video_path_formatter=video_path_formatter)
         
-    elif dataset_name == 'kinetics':
+    elif dataset_name in ['kinetics', 'mini_kinetics']:
         validation_data = VideoDatasetMultiClips(
                             Path(os.path.join(video_path,"h5_valid_frames")),
                             annotation_path,
@@ -176,7 +176,7 @@ def get_inference_data(video_path,
                        target_transform=None, 
                         sample_t_stride=1):
     assert dataset_name in [
-        'kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast'
+        'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]
