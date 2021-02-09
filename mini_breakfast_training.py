@@ -52,7 +52,7 @@ sample_size = 128 #Default: 64
 # Temporal duration of inputs
 sample_duration = 32
 # If larger than 1, input frames are subsampled with the stride.
-sample_t_stride = 15 #default: 15, 15fps
+sample_t_stride = 1 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
 train_crop = 'center'
 # Min scale for random cropping in training
@@ -68,7 +68,7 @@ train_t_crop = 'center'
 # Initial learning rate (divided by 10 while training by lr scheduler)
 learning_rate = 0.01
 # Momentum
-momentum = 0.5
+momentum = 0.9
 # dampening of SGD
 dampening = 0.0
 # Weight Decay
