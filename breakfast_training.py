@@ -44,7 +44,7 @@ n_classes = 10
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
 n_pretrain_classes = 10
 # Pretrained model path (.pth).
-pretrain_path = "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
+pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
