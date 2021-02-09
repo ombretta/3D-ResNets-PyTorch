@@ -66,6 +66,7 @@ class TemporalCenterCrop(object):
         end_index = min(begin_index + self.size, len(frame_indices))
 
         out = frame_indices[begin_index:end_index]
+        #print(begin_index, end_index)
 
         for index in out:
             if len(out) >= self.size:

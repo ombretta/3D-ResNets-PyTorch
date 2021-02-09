@@ -64,7 +64,7 @@ class BasicBlock(nn.Module):
 
     def forward(self, x):
 
-        print("input x", x.shape, "mean", x.mean(), "std", x.std())
+        #print("input x", x.shape, "mean", x.mean(), "std", x.std())
         residual = x
 
         out = self.conv1(x)
@@ -239,6 +239,8 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
+
+        print("input x", x.shape, "mean", x.mean(), "std", x.std())
 
         #print("CONV 1")
         x = self.conv1(x)
