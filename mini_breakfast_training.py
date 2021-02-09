@@ -10,8 +10,8 @@ Created on Mon Dec 21 10:23:32 2020
 
 import os 
 
-submit_on_cluster = True
-pretrained = True
+submit_on_cluster = False
+pretrained = False
 continue_training = False
 
 cluster_text = ''
@@ -24,7 +24,7 @@ if submit_on_cluster:
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
-    '#SBATCH --mem=16000\n'+\
+    '#SBATCH --mem=8000\n'+\
     '#SBATCH --gres=gpu:1\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
@@ -42,9 +42,9 @@ dataset = 'mini_breakfast'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
 n_classes = 2
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
-n_pretrain_classes = 700
+n_pretrain_classes = 10
 # Pretrained model path (.pth).
-pretrain_path = "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
+pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
