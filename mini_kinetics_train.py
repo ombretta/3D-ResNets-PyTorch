@@ -39,8 +39,8 @@ root_path = '/tudelft.net/staff-bulk/ewi/insy/'
 video_path = 'CV-DataSets/kinetics400/'
 # Annotation file path
 annotation_path = 'CV-DataSets/kinetics400/2classes_kinetics400.json'
-# Used dataset (activitynet | kinetics | ucf101 | hmdb51)
-dataset = 'kinetics'
+# Used dataset (activitynet | kinetics | mini_kinetics | ucf101 | hmdb51)
+dataset = 'mini_kinetics'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
 n_classes = 2
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
@@ -76,7 +76,7 @@ dampening = 0.0
 # Weight Decay
 weight_decay = 1e-3
 # dataset for mean values of mean subtraction (activitynet | kinetics | 0.5)
-mean_dataset = 'mini_kinetics'
+mean_dataset = 'kinetics'
 # If true, inputs are not normalized by mean.
 no_mean_norm = False
 # If true, inputs are not normalized by standard deviation.
