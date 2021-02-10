@@ -70,7 +70,7 @@ train_t_crop = 'center'
 # Initial learning rate (divided by 10 while training by lr scheduler)
 learning_rate = 0.01
 # Momentum
-momentum = 0.9
+momentum = 0.5
 # dampening of SGD
 dampening = 0.0
 # Weight Decay
