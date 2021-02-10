@@ -19,8 +19,8 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=24:00:00\n'+\
+    '#SBATCH --qos=short\n'+\
+    '#SBATCH --time=4:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
@@ -68,7 +68,7 @@ train_t_crop = 'center'
 # Initial learning rate (divided by 10 while training by lr scheduler)
 learning_rate = 0.01
 # Momentum
-momentum = 0.9
+momentum = 0.5
 # dampening of SGD
 dampening = 0.0
 # Weight Decay
@@ -152,7 +152,7 @@ manual_seed = 1
 # If true, accimage is used to load images.
 accimage = False
 # Top-k scores are saved in json file.
-output_topk = 10
+output_topk = 1
 # (jpg | hdf5)
 file_type = 'hdf5'
 # If true, output tensorboard log file.
