@@ -20,10 +20,10 @@ if submit_on_cluster:
     text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
     '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=168:00:00\n'+\
+    '#SBATCH --time=300:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
-    '#SBATCH --cpus-per-task=2\n'+\
+    '#SBATCH --cpus-per-task=8\n'+\
     '#SBATCH --mem=10000\n'+\
     '#SBATCH --gres=gpu:8\n'+\
     'module use /opt/insy/modulefiles\n'+\
@@ -46,7 +46,7 @@ n_classes = 400
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
 n_pretrain_classes = 400
 # Pretrained model path (.pth).
-pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
+pretrain_path = "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
@@ -82,7 +82,7 @@ no_mean_norm = False
 # If true, inputs are not normalized by standard deviation.
 no_std_norm = False
 # If 1, range of inputs is [0-1]. If 255, range of inputs is [0-255].
-value_scale = 1
+value_scale = 255
 # Nesterov momentum
 nesterov = False
 # Currently only support SGD
@@ -124,7 +124,7 @@ inference_no_average = False
 # If true, cuda is not used.
 no_cuda = False
 # Number of threads for multi-thread loading
-n_threads = 4
+n_threads = 8
 # Trained model is saved at every this epochs.
 checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
@@ -150,7 +150,7 @@ resnext_cardinality = 32
 # (rgb | flow)
 input_type = 'rgb'
 # Manually set random seed
-manual_seed = 1
+manual_seed = 10
 # If true, accimage is used to load images.
 accimage = False
 # Top-k scores are saved in json file.
