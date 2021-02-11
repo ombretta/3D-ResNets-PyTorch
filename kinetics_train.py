@@ -20,11 +20,11 @@ if submit_on_cluster:
     text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
     '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=300:00:00\n'+\
+    '#SBATCH --time=168:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=8\n'+\
-    '#SBATCH --mem=10000\n'+\
+    '#SBATCH --mem=32000\n'+\
     '#SBATCH --gres=gpu:8\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
@@ -90,13 +90,13 @@ optimizer = 'sgd'
 # Type of LR scheduler (multistep | plateau)
 lr_scheduler = 'multistep'
 # Milestones of LR scheduler. See documentation of MultistepLR.
-multistep_milestones = 30
+multistep_milestones = "30 60 90"
 # If true, overwriting multistep_milestones when resuming training.
 overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 16
+batch_size = 256
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
@@ -128,11 +128,11 @@ n_threads = 8
 # Trained model is saved at every this epochs.
 checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
-model = 'resnet'
+model = 'vidbagnet'
 # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 18
+model_depth = 50
 # Depth of resnet (9 | 17 | 33)
-receptive_size = 9
+receptive_size = 33
 # Kernel size in t dim of conv1.
 conv1_t_size = 7
 # Stride in t dim of conv1.
@@ -192,7 +192,7 @@ text += " --value_scale=" + str(value_scale)
 if nesterov: text += " --nesterov"
 text += " --optimizer=" + optimizer
 text += " --lr_scheduler=" + lr_scheduler
-text += " --multistep_milestones=" + str(multistep_milestones)
+text += " --multistep_milestones " + str(multistep_milestones)
 if overwrite_milestones: text += " --overwrite_milestones"
 text += " --plateau_patience=" + str(plateau_patience)
 text += " --inference_batch_size=" + str(inference_batch_size)
