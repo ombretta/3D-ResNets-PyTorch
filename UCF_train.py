@@ -11,21 +11,21 @@ Created on Mon Dec 21 10:23:32 2020
 import os 
 
 submit_on_cluster = True
-pretrained = False
-continue_training = True
+pretrained = True
+continue_training = False
 
-text = ''
+cluster_text = ''
 
 if submit_on_cluster:
-    text = '#!/bin/sh\n'+\
+    cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=72:00:00\n'+\
+    '#SBATCH --qos=short\n'+\
+    '#SBATCH --time=1:30:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
-    '#SBATCH --cpus-per-task=2\n'+\
-    '#SBATCH --mem=5000\n'+\
-    '#SBATCH --gres=gpu:4\n'+\
+    '#SBATCH --cpus-per-task=4\n'+\
+    '#SBATCH --mem=10000\n'+\
+    '#SBATCH --gres=gpu:2\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun '
@@ -50,7 +50,7 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 64
 # Temporal duration of inputs
-sample_duration = 48
+sample_duration = 8
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 1
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -60,13 +60,13 @@ train_crop_min_scale = 0.25
 # Min scale for random cropping in training
 train_crop_min_ratio = 0.75
 # If true holizontal flipping is not performed.
-no_hflip = False
+no_hflip = True
 # If true colorjitter is performed.
 colorjitter = False
 # Temporal cropping method in training. random is uniform. (random | center)
 train_t_crop = 'random'
 # Initial learning rate (divided by 10 while training by lr scheduler)
-learning_rate = 0.001
+learning_rate = 0.01
 # Momentum
 momentum = 0.9
 # dampening of SGD
@@ -88,7 +88,7 @@ optimizer = 'sgd'
 # Type of LR scheduler (multistep | plateau)
 lr_scheduler = 'multistep'
 # Milestones of LR scheduler. See documentation of MultistepLR.
-multistep_milestones = 30
+multistep_milestones = "30 60 90"
 # If true, overwriting multistep_milestones when resuming training.
 overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
@@ -100,7 +100,7 @@ inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 80
+n_epochs = 1
 # Number of validation samples for each activity
 n_val_samples = 3
 # Save data (.pth) of previous training
@@ -125,12 +125,12 @@ no_cuda = False
 n_threads = 4
 # Trained model is saved at every this epochs.
 checkpoint = 5
-# (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
-model = 'resnet'
-# Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 34
-# Depth of resnet (9 | 17 | 33)
-receptive_size = 9
+# # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
+# model = 'resnet'
+# # Depth of resnet (10 | 18 | 34 | 50 | 101)
+# model_depth = 34
+# # Depth of resnet (9 | 17 | 33)
+# receptive_size = 9
 # Kernel size in t dim of conv1.
 conv1_t_size = 7
 # Stride in t dim of conv1.
@@ -164,126 +164,131 @@ dist_url = 'tcp://127.0.0.1:23456'
 # number of nodes for distributed training
 world_size = 1
 
-text += "python main.py "
+# models = ['resnet', 'vidbagnet']
+models = ['resnet']
 
-if root_path: text += " --root_path=" + root_path
-text += " --video_path=" + video_path
-text += " --annotation_path=" + annotation_path
-text += " --dataset=" + dataset
-text += " --n_classes=" + str(n_classes)
-text += " --sample_size=" + str(sample_size)
-text += " --sample_duration=" + str(sample_duration)
-text += " --sample_t_stride=" + str(sample_t_stride)
-text += " --train_crop=" + train_crop
-text += " --train_crop_min_scale=" + str(train_crop_min_scale)
-text += " --train_crop_min_ratio=" + str(train_crop_min_ratio)
-if colorjitter: text += " --colorjitter"
-text += " --train_t_crop=" + str(train_t_crop)
-text += " --learning_rate=" + str(learning_rate)
-text += " --momentum=" + str(momentum)
-text += " --dampening=" + str(dampening)
-text += " --weight_decay=" + str(weight_decay)
-text += " --mean_dataset=" + mean_dataset
-if no_mean_norm: text += " --no_mean_norm"
-if no_std_norm: text += " --no_std_norm"
-text += " --value_scale=" + str(value_scale)
-if nesterov: text += " --nesterov"
-text += " --optimizer=" + optimizer
-text += " --lr_scheduler=" + lr_scheduler
-text += " --multistep_milestones=" + str(multistep_milestones)
-if overwrite_milestones: text += " --overwrite_milestones"
-text += " --plateau_patience=" + str(plateau_patience)
-text += " --inference_batch_size=" + str(inference_batch_size)
-if batchnorm_sync: text += " --batchnorm_sync"
-if resume_path: text += " --resume_path"
-if no_train: text += " --no_train"
-if no_val: text += " --no_val"
-if inference: text += " --inference"
-text += " --inference_subset=" + inference_subset
-text += " --inference_stride=" + str(inference_stride)
-text += " --inference_crop=" + inference_crop
-if no_cuda: text += " --no_cuda"
-if no_hflip: text += " --no_hflip"
-if no_mean_norm: text += " --no_mean_norm"
-if no_std_norm: text += " --no_std_norm"
-text += " --batch_size=" + str(batch_size)
-text += " --inference_batch_size=" + str(inference_batch_size)
-text += " --n_val_samples=" + str(n_val_samples)
-text += " --n_epochs=" + str(n_epochs)
-if inference_no_average: text += " --inference_no_average"
-text += " --n_threads=" + str(n_threads)
-text += " --checkpoint=" + str(checkpoint)
-text += " --model=" + model
-text += " --model_depth=" + str(model_depth)
-text += " --receptive_size=" + str(receptive_size)
-text += " --conv1_t_size=" + str(conv1_t_size)
-text += " --conv1_t_stride=" + str(conv1_t_stride)
-if no_max_pool: text += " --no_max_pool"
-text += " --resnet_shortcut=" + resnet_shortcut
-text += " --resnet_widen_factor=" + str(resnet_widen_factor)
-text += " --wide_resnet_k=" + str(wide_resnet_k)
-text += " --resnext_cardinality=" + str(resnext_cardinality)
-text += " --input_type=" + input_type
-text += " --manual_seed=" + str(manual_seed)
-if accimage: text += " --accimage"
-text += " --output_topk=" + str(output_topk)
-if file_type: text += " --file_type=" + file_type
-if tensorboard: text += " --tensorboard"
-if distributed: text += " --distributed"
-text += " --ft_begin_module="+ft_begin_module
-
-#last
-# Result directory path
-results_root = '3D-ResNets-PyTorch/results/'
-result_path = dataset + "_" + model#'3D-ResNets-PyTorch/results/UCF101_spacebagnet'
-if model == 'resnet':
-    result_path += "_" + str(model_depth)
-else:
-    result_path += "_" + str(receptive_size)
-result_path += "_" + str(sample_duration) + "frames"
-if sample_t_stride != 1:
-    result_path += "_" + str(sample_t_stride) + "tstride"
-if sample_size != 64:
-    result_path += "_" + str(sample_size) + "size"
-result_path += "_bs" + str(batch_size)
-
-
-if pretrained:
-    result_path += "_kinetics_pretrained"
-    text += " --pretrain_path=" + pretrain_path
-    text += " --n_pretrain_classes=" + str(n_pretrain_classes)
-    
-index = len([f for f in os.listdir(root_path+results_root) if result_path in f])
-if not os.path.exists(root_path+results_root+result_path+"_"+str(index)):
-    os.mkdir(root_path+results_root+result_path+"_"+str(index))
-
-text += " --result_path=" + results_root + result_path + "_" + str(index)
-
-if continue_training:
-    text += " --n_pretrain_classes=" + str(n_classes)
-    pretrain_path = root_path+results_root+result_path+"_"+str(max(0, index-1))
-    if os.path.exists(pretrain_path):
-        print(pretrain_path)
-        trained_models = [int(f.split("_")[1].split(".")[0]) for f in os.listdir(pretrain_path) if "save_" in f]
-        last_model_index = max(trained_models)
-        pretrain_path += "/save_"+str(last_model_index)+".pth" 
-    text += " --pretrain_path=" + pretrain_path
-
-if continue_training:
-    text += " --n_pretrain_classes=" + str(n_classes)
-    pretrain_path = root_path+results_root+result_path+"_"+str(max(0, index-1))
-    if os.path.exists(pretrain_path):
-        trained_models = [int(f.split("_")[1].split(".")[0]) for f in os.listdir(pretrain_path) if "save_" in f]
-        last_model_index = max(trained_models)
-        pretrain_path += "/save_"+str(last_model_index)+".pth" 
-    text += " --pretrain_path=" + pretrain_path
-
-print(text)
-
-if submit_on_cluster:
-    with open(result_path+"_"+str(index)+".sbatch", "w") as file:
-        file.write(text)
-    os.system("sbatch "+result_path+"_"+str(index)+".sbatch")    
-else:
-    os.system(text)
+for model in models:
+    for model_depth, receptive_size, pretrain_path in zip([18, 34, 50], 
+        [9, 17, 33],
+        ["3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
+         "3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth",
+         "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]):
+        if model == 'vidbagnet':
+            model_depth = 50
+        if model == 'resnet':
+            receptive_size = 9
+            
+        text = cluster_text + "python main.py "
+        
+        if root_path: text += " --root_path=" + root_path
+        text += " --video_path=" + video_path
+        text += " --annotation_path=" + annotation_path
+        text += " --dataset=" + dataset
+        text += " --n_classes=" + str(n_classes)
+        text += " --sample_size=" + str(sample_size)
+        text += " --sample_duration=" + str(sample_duration)
+        text += " --sample_t_stride=" + str(sample_t_stride)
+        text += " --train_crop=" + train_crop
+        text += " --train_crop_min_scale=" + str(train_crop_min_scale)
+        text += " --train_crop_min_ratio=" + str(train_crop_min_ratio)
+        if colorjitter: text += " --colorjitter"
+        text += " --train_t_crop=" + str(train_t_crop)
+        text += " --learning_rate=" + str(learning_rate)
+        text += " --momentum=" + str(momentum)
+        text += " --dampening=" + str(dampening)
+        text += " --weight_decay=" + str(weight_decay)
+        text += " --mean_dataset=" + mean_dataset
+        if no_mean_norm: text += " --no_mean_norm"
+        if no_std_norm: text += " --no_std_norm"
+        text += " --value_scale=" + str(value_scale)
+        if nesterov: text += " --nesterov"
+        text += " --optimizer=" + optimizer
+        text += " --lr_scheduler=" + lr_scheduler
+        text += " --multistep_milestones " + str(multistep_milestones)
+        if overwrite_milestones: text += " --overwrite_milestones"
+        text += " --plateau_patience=" + str(plateau_patience)
+        text += " --inference_batch_size=" + str(inference_batch_size)
+        if batchnorm_sync: text += " --batchnorm_sync"
+        if resume_path: text += " --resume_path"
+        if no_train: text += " --no_train"
+        if no_val: text += " --no_val"
+        if inference: text += " --inference"
+        text += " --inference_subset=" + inference_subset
+        text += " --inference_stride=" + str(inference_stride)
+        text += " --inference_crop=" + inference_crop
+        if no_cuda: text += " --no_cuda"
+        if no_hflip: text += " --no_hflip"
+        if no_mean_norm: text += " --no_mean_norm"
+        if no_std_norm: text += " --no_std_norm"
+        text += " --batch_size=" + str(batch_size)
+        text += " --inference_batch_size=" + str(inference_batch_size)
+        text += " --n_val_samples=" + str(n_val_samples)
+        text += " --n_epochs=" + str(n_epochs)
+        if inference_no_average: text += " --inference_no_average"
+        text += " --n_threads=" + str(n_threads)
+        text += " --checkpoint=" + str(checkpoint)
+        text += " --model=" + model
+        text += " --model_depth=" + str(model_depth)
+        text += " --receptive_size=" + str(receptive_size)
+        text += " --conv1_t_size=" + str(conv1_t_size)
+        text += " --conv1_t_stride=" + str(conv1_t_stride)
+        if no_max_pool: text += " --no_max_pool"
+        text += " --resnet_shortcut=" + resnet_shortcut
+        text += " --resnet_widen_factor=" + str(resnet_widen_factor)
+        text += " --wide_resnet_k=" + str(wide_resnet_k)
+        text += " --resnext_cardinality=" + str(resnext_cardinality)
+        text += " --input_type=" + input_type
+        text += " --manual_seed=" + str(manual_seed)
+        if accimage: text += " --accimage"
+        text += " --output_topk=" + str(output_topk)
+        if file_type: text += " --file_type=" + file_type
+        if tensorboard: text += " --tensorboard"
+        if distributed: text += " --distributed"
+        text += " --ft_begin_module="+ft_begin_module
+        
+        #last
+        # Result directory path
+        results_root = '3D-ResNets-PyTorch/results/'
+        result_path = dataset + "_" + model#'3D-ResNets-PyTorch/results/UCF101_spacebagnet'
+        if model == 'resnet':
+            result_path += "_" + str(model_depth)
+        else:
+            result_path += "_" + str(receptive_size)
+        result_path += "_" + str(sample_duration) + "frames"
+        if sample_t_stride != 1:
+            result_path += "_" + str(sample_t_stride) + "tstride"
+        if sample_size != 64:
+            result_path += "_" + str(sample_size) + "size"
+        result_path += "_bs" + str(batch_size)
+        
+        
+        if pretrained:
+            result_path += "_kinetics_pretrained"
+            text += " --pretrain_path=" + pretrain_path
+            text += " --n_pretrain_classes=" + str(n_pretrain_classes)
+            
+        index = len([f for f in os.listdir(root_path+results_root) if result_path in f])
+        if not os.path.exists(root_path+results_root+result_path+"_"+str(index)):
+            os.mkdir(root_path+results_root+result_path+"_"+str(index))
+        
+        text += " --result_path=" + results_root + result_path + "_" + str(index)
+        
+        if continue_training:
+            text += " --n_pretrain_classes=" + str(n_classes)
+            pretrain_path = root_path+results_root+result_path+"_"+str(max(0, index-1))
+            if os.path.exists(pretrain_path):
+                print("Pretrain_path", pretrain_path)
+                trained_models = [int(f.split("_")[1].split(".")[0]) for f in os.listdir(pretrain_path) if "save_" in f]
+                last_model_index = max(trained_models)
+                pretrain_path += "/save_"+str(last_model_index)+".pth" 
+            text += " --pretrain_path=" + pretrain_path
+        
+        print(text)
+        
+        if submit_on_cluster:
+            with open(result_path+"_"+str(index)+".sbatch", "w") as file:
+                file.write(text)
+            os.system("sbatch "+result_path+"_"+str(index)+".sbatch")    
+        else:
+            os.system(text)
 
