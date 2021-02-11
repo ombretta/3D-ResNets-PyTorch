@@ -20,7 +20,7 @@ if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
     '#SBATCH --qos=short\n'+\
-    '#SBATCH --time=1:30:00\n'+\
+    '#SBATCH --time=1:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=4\n'+\
@@ -50,9 +50,9 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 64 #Default: 64
 # Temporal duration of inputs
-sample_duration = 64
+sample_duration = 128
 # If larger than 1, input frames are subsampled with the stride.
-sample_t_stride = 1 #default: 15, 15fps
+sample_t_stride = 15 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
 train_crop = 'random'
 # Min scale for random cropping in training
