@@ -168,7 +168,11 @@ world_size = 1
 models = ['resnet']
 
 for model in models:
-    for model_depth, receptive_size in zip([18, 34, 50], [9, 17, 33]):
+    for model_depth, receptive_size, pretrain_path in zip([18, 34, 50], 
+        [9, 17, 33],
+        ["VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
+         "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth",
+         "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]):
         if model == 'vidbagnet':
             model_depth = 50
         if model == 'resnet':
