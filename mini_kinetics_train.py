@@ -10,7 +10,7 @@ Created on Mon Dec 21 10:23:32 2020
 
 import os 
 
-submit_on_cluster = True
+submit_on_cluster = False
 pretrained = False
 continue_training = False
 
@@ -19,8 +19,8 @@ text = ''
 if submit_on_cluster:
     text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=24:00:00\n'+\
+    '#SBATCH --qos=short\n'+\
+    '#SBATCH --time=1:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
@@ -96,7 +96,7 @@ overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 16
+batch_size = 64
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.

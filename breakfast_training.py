@@ -11,7 +11,7 @@ Created on Mon Dec 21 10:23:32 2020
 import os 
 
 submit_on_cluster = True
-pretrained = False
+pretrained = True
 continue_training = False
 
 cluster_text = ''
@@ -19,13 +19,13 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=72:00:00\n'+\
+    '#SBATCH --qos=short\n'+\
+    '#SBATCH --time=4:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=4\n'+\
-    '#SBATCH --mem=8000\n'+\
-    '#SBATCH --gres=gpu:4\n'+\
+    '#SBATCH --mem=10000\n'+\
+    '#SBATCH --gres=gpu:2\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun '
@@ -42,19 +42,19 @@ dataset = 'breakfast'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
 n_classes = 10
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
-n_pretrain_classes = 10
+n_pretrain_classes = 700
 # Pretrained model path (.pth).
-pretrain_path = "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
+pretrain_path = "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
-sample_size = 128 #Default: 64
+sample_size = 64 #Default: 64
 # Temporal duration of inputs
-sample_duration = 512
+sample_duration = 32
 # If larger than 1, input frames are subsampled with the stride.
-sample_t_stride = 15 #default: 15, 15fps
+sample_t_stride = 1 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
-train_crop = 'center'
+train_crop = 'random'
 # Min scale for random cropping in training
 train_crop_min_scale = 0.25
 # Min scale for random cropping in training
@@ -94,13 +94,13 @@ overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 8
+batch_size = 16
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 70
+n_epochs = 100
 # Number of validation samples for each activity
 n_val_samples = 3
 # Save data (.pth) of previous training
@@ -148,7 +148,7 @@ resnext_cardinality = 32
 # (rgb | flow)
 input_type = 'rgb'
 # Manually set random seed
-manual_seed = 1
+manual_seed = 10
 # If true, accimage is used to load images.
 accimage = False
 # Top-k scores are saved in json file.
@@ -168,7 +168,11 @@ world_size = 1
 models = ['resnet']
 
 for model in models:
-    for model_depth, receptive_size in zip([18, 34, 50], [9, 17, 33]):
+    for model_depth, receptive_size, pretrain_path in zip([18, 34, 50], 
+        [9, 17, 33],
+        ["VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
+         "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth",
+         "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]):
         if model == 'vidbagnet':
             model_depth = 50
         if model == 'resnet':
