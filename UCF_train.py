@@ -11,7 +11,7 @@ Created on Mon Dec 21 10:23:32 2020
 import os 
 
 submit_on_cluster = True
-pretrained = True
+pretrained = False
 continue_training = False
 
 cluster_text = ''
@@ -19,13 +19,13 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=short\n'+\
-    '#SBATCH --time=1:30:00\n'+\
+    '#SBATCH --qos=long\n'+\
+    '#SBATCH --time=86:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=4\n'+\
     '#SBATCH --mem=10000\n'+\
-    '#SBATCH --gres=gpu:2\n'+\
+    '#SBATCH --gres=gpu:4\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun '
@@ -50,9 +50,9 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 64
 # Temporal duration of inputs
-sample_duration = 8
+sample_duration = 16
 # If larger than 1, input frames are subsampled with the stride.
-sample_t_stride = 1
+sample_t_stride = 15
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
 train_crop = 'random'
 # Min scale for random cropping in training
@@ -94,13 +94,13 @@ overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 16
+batch_size = 64
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 1
+n_epochs = 80
 # Number of validation samples for each activity
 n_val_samples = 3
 # Save data (.pth) of previous training

@@ -19,13 +19,13 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=short\n'+\
-    '#SBATCH --time=1:00:00\n'+\
+    '#SBATCH --qos=long\n'+\
+    '#SBATCH --time=80:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=4\n'+\
     '#SBATCH --mem=10000\n'+\
-    '#SBATCH --gres=gpu:2\n'+\
+    '#SBATCH --gres=gpu:4\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun '
@@ -50,7 +50,7 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 64 #Default: 64
 # Temporal duration of inputs
-sample_duration = 128
+sample_duration = 256
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 15 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -100,7 +100,7 @@ inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 1
+n_epochs = 100
 # Number of validation samples for each activity
 n_val_samples = 3
 # Save data (.pth) of previous training
