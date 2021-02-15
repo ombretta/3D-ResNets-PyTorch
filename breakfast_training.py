@@ -25,7 +25,7 @@ if submit_on_cluster:
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=4\n'+\
     '#SBATCH --mem=10000\n'+\
-    '#SBATCH --gres=gpu:4\n'+\
+    '#SBATCH --gres=gpu:4,jobspernode:one:1\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun '
@@ -52,7 +52,7 @@ sample_size = 64 #Default: 64
 # Temporal duration of inputs
 sample_duration = 256
 # If larger than 1, input frames are subsampled with the stride.
-sample_t_stride = 15 #default: 15, 15fps
+sample_t_stride = 1 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
 train_crop = 'random'
 # Min scale for random cropping in training

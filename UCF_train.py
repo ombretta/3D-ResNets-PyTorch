@@ -26,6 +26,7 @@ if submit_on_cluster:
     '#SBATCH --cpus-per-task=4\n'+\
     '#SBATCH --mem=10000\n'+\
     '#SBATCH --gres=gpu:4\n'+\
+    '#SBATCH --gres=jobspernode:one:1\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun '
