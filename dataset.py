@@ -10,8 +10,11 @@ from datasets.loader import VideoLoader, VideoLoaderHDF5, VideoLoaderFlowHDF5
 import os
 from pathlib import Path
 
-def image_name_formatter(x):
+def usual_image_name_formatter(x):
     return f'image_{x:05d}.jpg'
+
+def mnist_image_name_formatter(x):
+    return f'{x:d}.jpg'
 
 
 def get_training_data(video_path,
@@ -31,6 +34,10 @@ def get_training_data(video_path,
 
     if file_type == 'jpg':
         assert input_type == 'rgb', 'flow input is supported only when input type is hdf5.'
+        
+        if dataset_name in ['movingmnist', 'movingmnistdata_blackframes']:
+            image_name_formatter = mnist_image_name_formatter
+        else: image_name_formatter = usual_image_name_formatter
 
         if get_image_backend() == 'accimage':
             from datasets.loader import ImageLoaderAccImage
@@ -114,6 +121,10 @@ def get_validation_data(video_path,
     if file_type == 'jpg':
         assert input_type == 'rgb', 'flow input is supported only when input type is hdf5.'
 
+        if dataset_name in ['movingmnist', 'movingmnistdata_blackframes']:
+            image_name_formatter = mnist_image_name_formatter
+        else: image_name_formatter = usual_image_name_formatter
+        
         if get_image_backend() == 'accimage':
             from datasets.loader import ImageLoaderAccImage
             loader = VideoLoader(image_name_formatter, ImageLoaderAccImage())
@@ -194,6 +205,10 @@ def get_inference_data(video_path,
     if file_type == 'jpg':
         assert input_type == 'rgb', 'flow input is supported only when input type is hdf5.'
 
+        if dataset_name in ['movingmnist', 'movingmnistdata_blackframes']:
+            image_name_formatter = mnist_image_name_formatter
+        else: image_name_formatter = usual_image_name_formatter
+        
         if get_image_backend() == 'accimage':
             from datasets.loader import ImageLoaderAccImage
             loader = VideoLoader(image_name_formatter, ImageLoaderAccImage())
