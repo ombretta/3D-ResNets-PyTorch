@@ -10,7 +10,7 @@ Created on Mon Dec 21 10:23:32 2020
 
 import os 
 
-submit_on_cluster = False
+submit_on_cluster = True
 pretrained = False
 continue_training = False
 
@@ -34,11 +34,11 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata_blackframes/'
+video_path = 'movingMNIST/movingmnistdata/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_blackframes/mnist_json.json'
+annotation_path = 'movingMNIST/movingmnistdata/mnist_json.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'movingmnist_blackframes'
+dataset = 'movingmnist'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
 n_classes = 10
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
@@ -88,7 +88,7 @@ optimizer = 'sgd'
 # Type of LR scheduler (multistep | plateau)
 lr_scheduler = 'multistep'
 # Milestones of LR scheduler. See documentation of MultistepLR.
-multistep_milestones = "30 60 90"
+multistep_milestones = "60" #30 60 90
 # If true, overwriting multistep_milestones when resuming training.
 overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
@@ -102,7 +102,7 @@ batchnorm_sync = False
 # Number of total epochs to run
 n_epochs = 100
 # Number of validation samples for each activity
-n_val_samples = 3
+n_val_samples = 1
 # Save data (.pth) of previous training
 resume_path = None
 # If true, training is not performed.
@@ -110,11 +110,11 @@ no_train = False
 # If true, validation is not performed.
 no_val = False
 # If true, inference is performed.
-inference = False
+inference = True
 # Used subset in inference (train | val | test)
-inference_subset = 'val'
+inference_subset = 'test'
 # Stride of sliding window in inference.
-inference_stride = 16
+inference_stride = 2
 # Cropping method in inference. (center | nocrop). When nocrop, fully convolutional inference is performed, and mini-batch consists of clips of one video.
 inference_crop = 'center'
 # If true, outputs for segments in a video are not averaged.
@@ -164,8 +164,8 @@ dist_url = 'tcp://127.0.0.1:23456'
 # number of nodes for distributed training
 world_size = 1
 
-models = ['resnet', 'vidbagnet']
-models = ['vidbagnet']
+models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
+#models = ['vidbagnet']
 #models = ['resnet']
 
 for model in models:
