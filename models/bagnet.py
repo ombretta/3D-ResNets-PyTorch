@@ -42,14 +42,17 @@ class BasicBlock(nn.Module):
 
     def forward(self, x):
         residual = x
-
+        
+        print("input", x.shape)
         out = self.conv1(x)
         out = self.bn1(out)
         out = self.relu(out)
 
+       	print("out_conv1", out.shape)
         out = self.conv2(out)
         out = self.bn2(out)
 
+        print("out_conv2", out.shape)
         if self.downsample is not None:
             residual = self.downsample(x)
 

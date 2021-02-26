@@ -31,7 +31,7 @@ def get_database(data, subset, root_path, video_path_formatter):
             else:
                 label = value['annotations']['label']
                 video_paths.append(video_path_formatter(root_path, label, key))
-                print(video_path_formatter(root_path, label, key))
+                # print(video_path_formatter(root_path, label, key))
 
     return video_ids, video_paths, annotations
 
@@ -80,7 +80,7 @@ class VideoDataset(data.Dataset):
             idx_to_class[label] = name
 
         n_videos = len(video_ids)
-        print(len(video_ids), "videos")        
+        #print(len(video_ids), "videos")        
 
         dataset = []
         for i in range(n_videos):
@@ -110,7 +110,7 @@ class VideoDataset(data.Dataset):
                 segment = [0, 8]
                 frame_indices = list(range(segment[0], segment[1]))
             
-            print(video_path, segment, frame_indices, video_ids[i], label_id)
+            #print(video_path, segment, frame_indices, video_ids[i], label_id)
 
             sample = {
                 'video': video_path,

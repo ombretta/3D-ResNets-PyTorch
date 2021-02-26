@@ -34,11 +34,11 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata/'
+video_path = 'movingMNIST/movingmnistdata_blackframes/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata/mnist_json.json'
+annotation_path = 'movingMNIST/movingmnistdata_blackframes/mnist_json.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'movingmnist'
+dataset = 'movingmnist_blackframes'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
 n_classes = 10
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
@@ -50,7 +50,7 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 32 #Default: 64
 # Temporal duration of inputs
-sample_duration = 16
+sample_duration = 32
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 2 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -100,9 +100,9 @@ inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 10
+n_epochs = 100
 # Number of validation samples for each activity
-n_val_samples = 1
+n_val_samples = 3
 # Save data (.pth) of previous training
 resume_path = None
 # If true, training is not performed.
@@ -164,8 +164,9 @@ dist_url = 'tcp://127.0.0.1:23456'
 # number of nodes for distributed training
 world_size = 1
 
-# models = ['resnet', 'vidbagnet']
-models = ['resnet']
+models = ['resnet', 'vidbagnet']
+models = ['vidbagnet']
+#models = ['resnet']
 
 for model in models:
     for model_depth, receptive_size, pretrain_path in zip([18, 34, 50], 

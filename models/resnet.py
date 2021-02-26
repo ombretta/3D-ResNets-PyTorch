@@ -103,7 +103,7 @@ class Bottleneck(nn.Module):
 
     def forward(self, x):
  
-        print("input x", x.shape, "mean", x.mean(), "std", x.std())
+        #print("input x", x.shape, "mean", x.mean(), "std", x.std())
         residual = x
 
         out = self.conv1(x)
@@ -240,7 +240,7 @@ class ResNet(nn.Module):
 
     def forward(self, x):
 
-        print("input x", x.shape, "mean", x.mean(), "std", x.std())
+        #print("input x", x.shape, "mean", x.mean(), "std", x.std())
 
         #print("CONV 1")
         x = self.conv1(x)
@@ -266,7 +266,7 @@ class ResNet(nn.Module):
         x = x.view(x.size(0), -1)
         x = self.fc(x)
         #print("out", x.shape)
-        print("out", x)
+        #print("out", x)
 
         return x
 
