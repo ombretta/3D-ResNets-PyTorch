@@ -164,7 +164,7 @@ dist_url = 'tcp://127.0.0.1:23456'
 # number of nodes for distributed training
 world_size = 1
 
-models = ['resnet', 'vidbagnet']
+models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
 models = ['vidbagnet']
 #models = ['resnet']
 
@@ -174,7 +174,7 @@ for model in models:
         ["VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
          "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth",
          "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]):
-        if model == 'vidbagnet':
+        if 'bagnet' in model:
             model_depth = 50
         if model == 'resnet':
             receptive_size = 9

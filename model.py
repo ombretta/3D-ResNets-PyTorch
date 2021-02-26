@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-from models import bagnet, resnet, resnet2p1d, pre_act_resnet, wide_resnet, resnext, densenet
+from models import bagnet, vid_bagnet_tem, resnet, resnet2p1d, pre_act_resnet, wide_resnet, resnext, densenet
 
 
 def get_module_name(name):
@@ -34,7 +34,7 @@ def get_fine_tuning_parameters(model, ft_begin_module):
 
 def generate_model(opt):
     assert opt.model in [
-        'vidbagnet', 'resnet', 'resnet2p1d', 'preresnet', 'wideresnet', 'resnext', 'densenet'
+        'vidbagnet', 'vidbagnet_tem', 'resnet', 'resnet2p1d', 'preresnet', 'wideresnet', 'resnext', 'densenet'
     ]
 
     if opt.model == 'resnet':
@@ -48,6 +48,14 @@ def generate_model(opt):
                                       widen_factor=opt.resnet_widen_factor)
     if opt.model == 'vidbagnet':
         model = bagnet.generate_model(model_depth=opt.model_depth,
+                                      receptive_size=opt.receptive_size,
+                                      n_classes=opt.n_classes,
+                                      n_input_channels=opt.n_input_channels,
+                                      shortcut_type=opt.resnet_shortcut,
+                                      no_max_pool=opt.no_max_pool,
+                                      widen_factor=opt.resnet_widen_factor)
+    if opt.model == 'vidbagnet_tem':
+        model = vid_bagnet_tem.generate_model(model_depth=opt.model_depth,
                                       receptive_size=opt.receptive_size,
                                       n_classes=opt.n_classes,
                                       n_input_channels=opt.n_input_channels,
