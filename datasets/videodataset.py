@@ -95,7 +95,7 @@ class VideoDataset(data.Dataset):
                 label_id = -1
 
             video_path = video_paths[i]
-            print(video_path)
+            #print(video_path)
             if not video_path.exists():
                 continue
             
