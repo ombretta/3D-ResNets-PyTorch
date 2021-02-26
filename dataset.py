@@ -24,7 +24,7 @@ def get_training_data(video_path,
                       target_transform=None, 
                       sample_t_stride=1):
     assert dataset_name in [
-        'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast'
+        'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast', 'movingmnist'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]
@@ -101,7 +101,7 @@ def get_validation_data(video_path,
                         target_transform=None, 
                         sample_t_stride=1):
     assert dataset_name in [
-        'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast'
+        'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast', 'movingmnist'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]
@@ -176,7 +176,7 @@ def get_inference_data(video_path,
                        target_transform=None, 
                         sample_t_stride=1):
     assert dataset_name in [
-        'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast'
+        'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 'breakfast', 'mini_breakfast', 'movingmnist'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]
