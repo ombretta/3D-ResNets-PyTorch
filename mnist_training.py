@@ -10,8 +10,8 @@ Created on Mon Dec 21 10:23:32 2020
 
 import os 
 
-submit_on_cluster = True
-pretrained = True
+submit_on_cluster = False
+pretrained = False
 continue_training = False
 
 cluster_text = ''
@@ -34,9 +34,9 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = '/movingMNIST/movingmnistdata/'
+video_path = 'movingMNIST/movingmnistdata/'
 # Annotation file path
-annotation_path = '/movingMNIST/movingmnistdata/mnist_json.json'
+annotation_path = 'movingMNIST/movingmnistdata/mnist_json.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
 dataset = 'movingmnist'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
@@ -50,11 +50,11 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 32 #Default: 64
 # Temporal duration of inputs
-sample_duration = 32
+sample_duration = 16
 # If larger than 1, input frames are subsampled with the stride.
-sample_t_stride = 1 #default: 15, 15fps
+sample_t_stride = 2 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
-train_crop = 'random'
+train_crop = 'center'
 # Min scale for random cropping in training
 train_crop_min_scale = 0.25
 # Min scale for random cropping in training
@@ -100,7 +100,7 @@ inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 100
+n_epochs = 10
 # Number of validation samples for each activity
 n_val_samples = 1
 # Save data (.pth) of previous training
@@ -164,8 +164,8 @@ dist_url = 'tcp://127.0.0.1:23456'
 # number of nodes for distributed training
 world_size = 1
 
-models = ['resnet', 'vidbagnet']
-# models = ['resnet']
+# models = ['resnet', 'vidbagnet']
+models = ['resnet']
 
 for model in models:
     for model_depth, receptive_size, pretrain_path in zip([18, 34, 50], 
@@ -248,7 +248,8 @@ for model in models:
         
         #last
         # Result directory path
-        results_root = 'VisionLab/ombrettastraff/3D-ResNets-PyTorch/results/'
+        # results_root = 'VisionLab/ombrettastraff/3D-ResNets-PyTorch/results/'
+        results_root = '3D-ResNets-PyTorch/results/'
         result_path = dataset + "_" + model
         if model == 'resnet':
             result_path += "_" + str(model_depth)

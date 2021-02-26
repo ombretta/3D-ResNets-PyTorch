@@ -40,6 +40,11 @@ def get_training_data(video_path,
 
         video_path_formatter = (
             lambda root_path, label, video_id: root_path / label / video_id)
+        
+        if dataset_name in ['movingmnist', 'movingmnistdata_blackframes']:
+            video_path_formatter = (
+            lambda root_path, label, video_id: root_path / video_id)
+
     else:
         if input_type == 'rgb':
             loader = VideoLoaderHDF5()
@@ -117,6 +122,10 @@ def get_validation_data(video_path,
 
         video_path_formatter = (
             lambda root_path, label, video_id: root_path / label / video_id)
+
+        if dataset_name in ['movingmnist', 'movingmnistdata_blackframes']:
+            video_path_formatter = (
+            lambda root_path, label, video_id: root_path / video_id)
     else:
         if input_type == 'rgb':
             loader = VideoLoaderHDF5()
@@ -193,6 +202,10 @@ def get_inference_data(video_path,
 
         video_path_formatter = (
             lambda root_path, label, video_id: root_path / label / video_id)
+
+        if dataset_name in ['movingmnist', 'movingmnistdata_blackframes']:
+            video_path_formatter = (
+            lambda root_path, label, video_id: root_path / video_id)
     else:
         if input_type == 'rgb':
             loader = VideoLoaderHDF5()

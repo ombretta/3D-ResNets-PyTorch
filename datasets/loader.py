@@ -36,6 +36,7 @@ class VideoLoader(object):
         video = []
         for i in frame_indices:
             image_path = video_path / self.image_name_formatter(i)
+            print(image_path)
             if image_path.exists():
                 video.append(self.image_loader(image_path))
 
