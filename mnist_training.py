@@ -10,7 +10,7 @@ Created on Mon Dec 21 10:23:32 2020
 
 import os 
 
-submit_on_cluster = True
+submit_on_cluster = False
 pretrained = False
 continue_training = False
 
