@@ -102,7 +102,7 @@ batchnorm_sync = False
 # Number of total epochs to run
 n_epochs = 100
 # Number of validation samples for each activity
-n_val_samples = 1
+n_val_samples = 2
 # Save data (.pth) of previous training
 resume_path = None
 # If true, training is not performed.
@@ -174,7 +174,7 @@ for model in models:
         ["VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
          "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth",
          "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]):
-        if model == 'vidbagnet':
+        if 'bagnet' in model:
             model_depth = 50
         if model == 'resnet':
             receptive_size = 9

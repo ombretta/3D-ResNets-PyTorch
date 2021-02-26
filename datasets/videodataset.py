@@ -51,7 +51,7 @@ class VideoDataset(data.Dataset):
                  image_name_formatter=lambda x: f'image_{x:05d}.jpg',
                  target_type='label'):
         
-        print(root_path)
+        #print(root_path)
         self.data, self.class_names = self.__make_dataset(
             root_path, annotation_path, subset, video_path_formatter)
 
