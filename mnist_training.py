@@ -164,132 +164,137 @@ dist_url = 'tcp://127.0.0.1:23456'
 # number of nodes for distributed training
 world_size = 1
 
+
+sample_durations = [8, 16, 32, 64]
+sample_t_strides = [1, 2, 4, 8]
 models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
 #models = ['resnet']
 
-for model in models:
-    for model_depth, receptive_size, pretrain_path in zip([18, 34, 50], 
-        [9, 17, 33],
-        ["VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
-         "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth",
-         "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]):
-        if 'bagnet' in model:
-            model_depth = 50
-        if model == 'resnet':
-            receptive_size = 9
-
-        text = cluster_text + "python main.py "
+for sample_duration in sample_durations:
+    for sample_t_stride in sample_t_strides:
+        for model in models:
+            for model_depth, receptive_size, pretrain_path in zip([18, 34, 50], 
+                [9, 17, 33],
+                ["VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
+                 "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth",
+                 "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]):
+                if 'bagnet' in model:
+                    model_depth = 50
+                if model == 'resnet':
+                    receptive_size = 9
         
-        if root_path: text += " --root_path=" + root_path
-        text += " --video_path=" + video_path
-        text += " --annotation_path=" + annotation_path
-        text += " --dataset=" + dataset
-        text += " --n_classes=" + str(n_classes)
-        text += " --sample_size=" + str(sample_size)
-        text += " --sample_duration=" + str(sample_duration)
-        text += " --sample_t_stride=" + str(sample_t_stride)
-        text += " --train_crop=" + train_crop
-        text += " --train_crop_min_scale=" + str(train_crop_min_scale)
-        text += " --train_crop_min_ratio=" + str(train_crop_min_ratio)
-        if colorjitter: text += " --colorjitter"
-        text += " --train_t_crop=" + str(train_t_crop)
-        text += " --learning_rate=" + str(learning_rate)
-        text += " --momentum=" + str(momentum)
-        text += " --dampening=" + str(dampening)
-        text += " --weight_decay=" + str(weight_decay)
-        text += " --mean_dataset=" + mean_dataset
-        if no_mean_norm: text += " --no_mean_norm"
-        if no_std_norm: text += " --no_std_norm"
-        text += " --value_scale=" + str(value_scale)
-        if nesterov: text += " --nesterov"
-        text += " --optimizer=" + optimizer
-        text += " --lr_scheduler=" + lr_scheduler
-        text += " --multistep_milestones " + str(multistep_milestones)
-        if overwrite_milestones: text += " --overwrite_milestones"
-        text += " --plateau_patience=" + str(plateau_patience)
-        text += " --inference_batch_size=" + str(inference_batch_size)
-        if batchnorm_sync: text += " --batchnorm_sync"
-        if resume_path: text += " --resume_path"
-        if no_train: text += " --no_train"
-        if no_val: text += " --no_val"
-        if inference: text += " --inference"
-        text += " --inference_subset=" + inference_subset
-        text += " --inference_stride=" + str(inference_stride)
-        text += " --inference_crop=" + inference_crop
-        if no_cuda: text += " --no_cuda"
-        if no_hflip: text += " --no_hflip"
-        if no_mean_norm: text += " --no_mean_norm"
-        if no_std_norm: text += " --no_std_norm"
-        text += " --batch_size=" + str(batch_size)
-        text += " --inference_batch_size=" + str(inference_batch_size)
-        text += " --n_val_samples=" + str(n_val_samples)
-        text += " --n_epochs=" + str(n_epochs)
-        if inference_no_average: text += " --inference_no_average"
-        text += " --n_threads=" + str(n_threads)
-        text += " --checkpoint=" + str(checkpoint)
-        text += " --model=" + model
-        text += " --model_depth=" + str(model_depth)
-        text += " --receptive_size=" + str(receptive_size)
-        text += " --conv1_t_size=" + str(conv1_t_size)
-        text += " --conv1_t_stride=" + str(conv1_t_stride)
-        if no_max_pool: text += " --no_max_pool"
-        text += " --resnet_shortcut=" + resnet_shortcut
-        text += " --resnet_widen_factor=" + str(resnet_widen_factor)
-        text += " --wide_resnet_k=" + str(wide_resnet_k)
-        text += " --resnext_cardinality=" + str(resnext_cardinality)
-        text += " --input_type=" + input_type
-        text += " --manual_seed=" + str(manual_seed)
-        if accimage: text += " --accimage"
-        text += " --output_topk=" + str(output_topk)
-        if file_type: text += " --file_type=" + file_type
-        if tensorboard: text += " --tensorboard"
-        if distributed: text += " --distributed"
-        text += " --ft_begin_module="+ft_begin_module
-        
-        #last
-        # Result directory path
-        # results_root = 'VisionLab/ombrettastraff/3D-ResNets-PyTorch/results/'
-        results_root = '3D-ResNets-PyTorch/results/'
-        result_path = dataset + "_" + model
-        if model == 'resnet':
-            result_path += "_" + str(model_depth)
-        else:
-            result_path += "_" + str(receptive_size)
-        result_path += "_" + str(sample_duration) + "frames"
-        if sample_t_stride != 1:
-            result_path += "_" + str(sample_t_stride) + "tstride"
-        if sample_size != 64:
-            result_path += "_" + str(sample_size) + "size"
-        result_path += "_bs" + str(batch_size)
-        
-        if pretrained:
-            result_path += "_kinetics_pretrained"
-            text += " --pretrain_path=" + pretrain_path
-            text += " --n_pretrain_classes=" + str(n_pretrain_classes)
-            
-        index = len([f for f in os.listdir(root_path+results_root) if result_path in f])
-        if not os.path.exists(root_path+results_root+result_path+"_"+str(index)):
-            os.mkdir(root_path+results_root+result_path+"_"+str(index))
-        
-        text += " --result_path=" + results_root + result_path + "_" + str(index)
-        
-        if continue_training:
-            text += " --n_pretrain_classes=" + str(n_classes)
-            pretrain_path = root_path+results_root+result_path+"_"+str(max(0, index-1))
-            if os.path.exists(pretrain_path):
-                print(pretrain_path)
-                trained_models = [int(f.split("_")[1].split(".")[0]) for f in os.listdir(pretrain_path) if "save_" in f]
-                last_model_index = max(trained_models)
-                pretrain_path += "/save_"+str(last_model_index)+".pth" 
-            text += " --pretrain_path=" + pretrain_path
-        
-        print(text)
-        
-        if submit_on_cluster:
-            with open(result_path+"_"+str(index)+".sbatch", "w") as file:
-                file.write(text)
-            os.system("sbatch "+result_path+"_"+str(index)+".sbatch")    
-        else:
-            os.system(text)
+                text = cluster_text + "python main.py "
+                
+                if root_path: text += " --root_path=" + root_path
+                text += " --video_path=" + video_path
+                text += " --annotation_path=" + annotation_path
+                text += " --dataset=" + dataset
+                text += " --n_classes=" + str(n_classes)
+                text += " --sample_size=" + str(sample_size)
+                text += " --sample_duration=" + str(sample_duration)
+                text += " --sample_t_stride=" + str(sample_t_stride)
+                text += " --train_crop=" + train_crop
+                text += " --train_crop_min_scale=" + str(train_crop_min_scale)
+                text += " --train_crop_min_ratio=" + str(train_crop_min_ratio)
+                if colorjitter: text += " --colorjitter"
+                text += " --train_t_crop=" + str(train_t_crop)
+                text += " --learning_rate=" + str(learning_rate)
+                text += " --momentum=" + str(momentum)
+                text += " --dampening=" + str(dampening)
+                text += " --weight_decay=" + str(weight_decay)
+                text += " --mean_dataset=" + mean_dataset
+                if no_mean_norm: text += " --no_mean_norm"
+                if no_std_norm: text += " --no_std_norm"
+                text += " --value_scale=" + str(value_scale)
+                if nesterov: text += " --nesterov"
+                text += " --optimizer=" + optimizer
+                text += " --lr_scheduler=" + lr_scheduler
+                text += " --multistep_milestones " + str(multistep_milestones)
+                if overwrite_milestones: text += " --overwrite_milestones"
+                text += " --plateau_patience=" + str(plateau_patience)
+                text += " --inference_batch_size=" + str(inference_batch_size)
+                if batchnorm_sync: text += " --batchnorm_sync"
+                if resume_path: text += " --resume_path"
+                if no_train: text += " --no_train"
+                if no_val: text += " --no_val"
+                if inference: text += " --inference"
+                text += " --inference_subset=" + inference_subset
+                text += " --inference_stride=" + str(inference_stride)
+                text += " --inference_crop=" + inference_crop
+                if no_cuda: text += " --no_cuda"
+                if no_hflip: text += " --no_hflip"
+                if no_mean_norm: text += " --no_mean_norm"
+                if no_std_norm: text += " --no_std_norm"
+                text += " --batch_size=" + str(batch_size)
+                text += " --inference_batch_size=" + str(inference_batch_size)
+                text += " --n_val_samples=" + str(n_val_samples)
+                text += " --n_epochs=" + str(n_epochs)
+                if inference_no_average: text += " --inference_no_average"
+                text += " --n_threads=" + str(n_threads)
+                text += " --checkpoint=" + str(checkpoint)
+                text += " --model=" + model
+                text += " --model_depth=" + str(model_depth)
+                text += " --receptive_size=" + str(receptive_size)
+                text += " --conv1_t_size=" + str(conv1_t_size)
+                text += " --conv1_t_stride=" + str(conv1_t_stride)
+                if no_max_pool: text += " --no_max_pool"
+                text += " --resnet_shortcut=" + resnet_shortcut
+                text += " --resnet_widen_factor=" + str(resnet_widen_factor)
+                text += " --wide_resnet_k=" + str(wide_resnet_k)
+                text += " --resnext_cardinality=" + str(resnext_cardinality)
+                text += " --input_type=" + input_type
+                text += " --manual_seed=" + str(manual_seed)
+                if accimage: text += " --accimage"
+                text += " --output_topk=" + str(output_topk)
+                if file_type: text += " --file_type=" + file_type
+                if tensorboard: text += " --tensorboard"
+                if distributed: text += " --distributed"
+                text += " --ft_begin_module="+ft_begin_module
+                
+                #last
+                # Result directory path
+                # results_root = 'VisionLab/ombrettastraff/3D-ResNets-PyTorch/results/'
+                results_root = '3D-ResNets-PyTorch/results/'
+                result_path = dataset + "_" + model
+                if model == 'resnet':
+                    result_path += "_" + str(model_depth)
+                else:
+                    result_path += "_" + str(receptive_size)
+                result_path += "_" + str(sample_duration) + "frames"
+                if sample_t_stride != 1:
+                    result_path += "_" + str(sample_t_stride) + "tstride"
+                if sample_size != 64:
+                    result_path += "_" + str(sample_size) + "size"
+                result_path += "_bs" + str(batch_size)
+                
+                if pretrained:
+                    result_path += "_kinetics_pretrained"
+                    text += " --pretrain_path=" + pretrain_path
+                    text += " --n_pretrain_classes=" + str(n_pretrain_classes)
+                    
+                index = len([f for f in os.listdir(root_path+results_root) if result_path in f])
+                if not os.path.exists(root_path+results_root+result_path+"_"+str(index)):
+                    os.mkdir(root_path+results_root+result_path+"_"+str(index))
+                
+                text += " --result_path=" + results_root + result_path + "_" + str(index)
+                
+                if continue_training:
+                    text += " --n_pretrain_classes=" + str(n_classes)
+                    pretrain_path = root_path+results_root+result_path+"_"+str(max(0, index-1))
+                    if os.path.exists(pretrain_path):
+                        print(pretrain_path)
+                        trained_models = [int(f.split("_")[1].split(".")[0]) for f in os.listdir(pretrain_path) if "save_" in f]
+                        last_model_index = max(trained_models)
+                        pretrain_path += "/save_"+str(last_model_index)+".pth" 
+                    text += " --pretrain_path=" + pretrain_path
+                
+                print(text)
+                
+                if submit_on_cluster:
+                    with open(result_path+"_"+str(index)+".sbatch", "w") as file:
+                        file.write(text)
+                    os.system("sbatch "+result_path+"_"+str(index)+".sbatch")    
+                else:
+                    os.system(text)
 
