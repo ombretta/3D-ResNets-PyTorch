@@ -166,13 +166,13 @@ world_size = 1
 
 
 sample_durations = [8, 16, 32, 64]
-sample_t_strides = [1, 2, 4, 8]
+sample_t_strides = [1, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
 #models = ['resnet']
 
-for sample_duration in sample_durations:
-    for sample_t_stride in sample_t_strides:
+for sample_duration, i in zip(sample_durations, range(len(sample_durations))):
+    for sample_t_stride in sample_t_strides[:-i-1]:
         for model in models:
             for model_depth, receptive_size, pretrain_path in zip([18, 34, 50], 
                 [9, 17, 33],
