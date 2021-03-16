@@ -20,7 +20,7 @@ if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
     '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=24:00:00\n'+\
+    '#SBATCH --time=26:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=4\n'+\
@@ -50,9 +50,9 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 32 #Default: 64
 # Temporal duration of inputs
-sample_duration = 32
+sample_duration = 64
 # If larger than 1, input frames are subsampled with the stride.
-sample_t_stride = 2 #default: 15, 15fps
+sample_t_stride = 1 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
 train_crop = 'center'
 # Min scale for random cropping in training
@@ -110,7 +110,7 @@ no_train = False
 # If true, validation is not performed.
 no_val = False
 # If true, inference is performed.
-inference = True
+inference = False
 # Used subset in inference (train | val | test)
 inference_subset = 'test'
 # Stride of sliding window in inference.
@@ -165,7 +165,7 @@ dist_url = 'tcp://127.0.0.1:23456'
 world_size = 1
 
 
-sample_durations = [8] #, 16, 32, 64]
+sample_durations = [32] #, 16, 32, 64]
 sample_t_strides = [1, 2] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
