@@ -37,8 +37,8 @@ def json_serial(obj):
         return str(obj)
 
 
-def get_opt():
-    opt = parse_opts()
+def get_opt(arguments_string=None):
+    opt = parse_opts(arguments_string)
 
     if opt.root_path is not None:
         opt.video_path = opt.root_path / opt.video_path
@@ -413,9 +413,11 @@ def main_worker(index, opt):
         inference_result_path = opt.result_path / '{}.json'.format(
             opt.inference_subset)
 
-        inference.inference(inference_loader, model, inference_result_path,
-                            inference_class_names, opt.inference_no_average,
-                            opt.output_topk)
+        inference_results = inference.inference(inference_loader, model, 
+                            inference_result_path, inference_class_names, 
+                            opt.inference_no_average, opt.output_topk)
+        return inference_results
+    return {}
 
 
 if __name__ == '__main__':

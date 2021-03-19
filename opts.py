@@ -1,8 +1,9 @@
 import argparse
 from pathlib import Path
+import shlex
 
 
-def parse_opts():
+def parse_opts(arguments_string=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--root_path',
                         default=None,
@@ -291,7 +292,10 @@ def parse_opts():
                         default=-1,
                         type=int,
                         help='number of nodes for distributed training')
-
-    args = parser.parse_args()
+    
+    if arguments_string != None: 
+        args = parser.parse_args(shlex.split(arguments_string))
+    else:    
+        args = parser.parse_args()
 
     return args
