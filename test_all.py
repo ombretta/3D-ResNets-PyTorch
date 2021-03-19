@@ -68,7 +68,7 @@ def read_dataset_info(file_path):
         attributes = []
         for row in reader:
             row = [decode(r) for r in row]
-            print(row)
+            # print(row)
             
             if count == 0: attributes = row
             else: 
@@ -98,7 +98,6 @@ filter_dataset = "mnist"
 results_dirs = [d for d in os.listdir(res_root) if os.path.exists(res_root+d+"/opts.json")]
 results_dirs = [d for d in results_dirs if filter_dataset in d]
 
-print(results_dirs)
 for r in results_dirs[:1]:
     print(r)
     
