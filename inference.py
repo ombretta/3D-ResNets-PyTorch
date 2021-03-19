@@ -37,10 +37,10 @@ def inference(data_loader, model, result_path, class_names, no_average,
     with torch.no_grad():
         for i, (inputs, targets) in enumerate(data_loader):
             data_time.update(time.time() - end_time)
-
+            
             video_ids, segments = zip(*targets)
-            print("INPUTS", inputs)
-            print("INPUTS size", len(inputs))
+            # print("INPUTS", inputs)
+            # print("INPUTS size", len(inputs))
             outputs = model(inputs)
             outputs = F.softmax(outputs, dim=1).cpu()
 
@@ -85,3 +85,5 @@ def inference(data_loader, model, result_path, class_names, no_average,
 
     with result_path.open('w') as f:
         json.dump(inference_results, f)
+    
+    return inference_results

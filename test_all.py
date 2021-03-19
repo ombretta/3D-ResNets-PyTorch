@@ -9,7 +9,7 @@ Created on Thu Mar 18 10:39:58 2021
 import os 
 import numpy as np
 import csv
-
+from  opts.py
 
 class model_parameters:
     
@@ -113,11 +113,13 @@ for r in results_dirs[:1]:
     checkpoints = [f for f in os.listdir(res_root+r) if "pth" in f]
     checkpoints.sort(key=lambda x: int(x.split("_")[1].split(".")[0]))
     
+    model_results = {}
+    
     for c in checkpoints[:1]:
         
         epoch  = c.split("_")[1].split(".")[0]
         print(c, epoch)
-        input_text = "python main.py --root_path=" + model_configs.root_path + \
+        input_text = "--root_path=" + model_configs.root_path + \
             " --video_path=" + model_configs.dataset_path + \
             " --annotation_path=" + model_configs.annotation_file + \
             " --dataset=" + model_configs.dataset + \
@@ -137,8 +139,22 @@ for r in results_dirs[:1]:
             " --tensorboard --ft_begin_module=3D-ResNets-PyTorch/" + res_root+r+"/"+c + \
             " --result_path=3D-ResNets-PyTorch/" + res_root+r + \
             " --no_train --no_val --inference"
+            
+        opt = get_opt(arguments_string = input_text)
+
+        opt.device = torch.device('cpu' if opt.no_cuda else 'cuda')
+        if not opt.no_cuda:
+            cudnn.benchmark = True
+        if opt.accimage:
+            torchvision.set_image_backend('accimage')
     
-        os.system(input_text)
+        opt.ngpus_per_node = torch.cuda.device_count()
+        inference_results = main_worker(-1, opt)
+        
+        model_results['epoch'] = inference_results
+    
+    with open(res_root+r+"/checkpoints_test_results.json", "w") as f:
+        json.dump(inference_results, f)
     
     
     
