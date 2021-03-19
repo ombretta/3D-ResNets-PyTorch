@@ -9,7 +9,12 @@ Created on Thu Mar 18 10:39:58 2021
 import os 
 import numpy as np
 import csv
-from  opts.py
+from  opts import parse_opts
+from main import get_opt, main_worker
+import torch
+from torch.backends import cudnn
+import json 
+import torchvision
 
 class model_parameters:
     
