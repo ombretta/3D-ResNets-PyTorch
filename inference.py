@@ -6,6 +6,7 @@ import torch
 import torch.nn.functional as F
 
 from utils import AverageMeter
+from utils import AverageMeter, calculate_accuracy
 
 
 def get_video_results(outputs, class_names, output_topk):
@@ -30,9 +31,11 @@ def inference(data_loader, model, result_path, class_names, no_average,
 
     batch_time = AverageMeter()
     data_time = AverageMeter()
+    accuracies = AverageMeter()
     results = {'results': defaultdict(list)}
 
-    end_time = time.time()
+    end_time = time.time() 
+    
 
     with torch.no_grad():
         for i, (inputs, targets) in enumerate(data_loader):
@@ -43,6 +46,8 @@ def inference(data_loader, model, result_path, class_names, no_average,
             # print("INPUTS size", len(inputs))
             outputs = model(inputs)
             outputs = F.softmax(outputs, dim=1).cpu()
+            acc = calculate_accuracy(outputs, targets)
+            accuracies.update(acc, inputs.size(0))
 
             for j in range(outputs.size(0)):
                 results['results'][video_ids[j]].append({
@@ -55,11 +60,13 @@ def inference(data_loader, model, result_path, class_names, no_average,
 
             print('[{}/{}]\t'
                   'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
-                  'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'.format(
+                  'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
+                  'Acc {acc.val:.3f} ({acc.avg:.3f})'.format(
                       i + 1,
                       len(data_loader),
                       batch_time=batch_time,
-                      data_time=data_time))
+                      data_time=data_time),
+                      acc=accuracies)
 
     inference_results = {'results': {}}
     if not no_average:
@@ -82,7 +89,8 @@ def inference(data_loader, model, result_path, class_names, no_average,
                     'segment': segment,
                     'result': result
                 })
-
+    inference_results['accuracy'] = accuracies.avg
+    
     with result_path.open('w') as f:
         json.dump(inference_results, f)
     

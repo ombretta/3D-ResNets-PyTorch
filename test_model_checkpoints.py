@@ -76,10 +76,10 @@ def main(r, res_root):
         opt.ngpus_per_node = torch.cuda.device_count()
         inference_results = main_worker(-1, opt)
         
-        model_results['epoch'] = inference_results
+        model_results['epoch_'+epoch] = inference_results
     
     with open(res_root+r+"/checkpoints_test_results.json", "w") as f:
-        json.dump(inference_results, f)
+        json.dump(model_results, f)
     
     
 if __name__ == '__main__':
