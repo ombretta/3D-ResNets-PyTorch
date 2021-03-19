@@ -40,7 +40,7 @@ def main(r, res_root):
     
     model_results = {}
     
-    for c in checkpoints[:1]:
+    for c in checkpoints[round(len(checkpoints)/2):]:
         
         epoch  = c.split("_")[1].split(".")[0]
         print(c, epoch)
