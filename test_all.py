@@ -32,6 +32,7 @@ class model_parameters:
            self.inference_subset = self.get_dataset_info(datasets_info, self.dataset)
 
     def get_configs(self, dir_name, configs_list, default=""):
+        dir_name = "".join(dir_name.split("_")[:5])
         config = [d for d in configs_list if d in dir_name.lower()]
         if len(config) == 0: return default
         config = config[np.argmax([len(d) for d in config])]
@@ -67,7 +68,7 @@ def read_dataset_info(file_path):
         attributes = []
         for row in reader:
             row = [decode(r) for r in row]
-            print(row)
+            # print(row)
             
             if count == 0: attributes = row
             else: 
@@ -93,7 +94,11 @@ datasets_info_file = "datasets_info.csv"
 datasets_info = read_dataset_info(datasets_info_file)
 # print(datasets_info)
 
-for r in os.listdir(res_root)[:1]:
+filter_dataset = "mnist"
+results_dirs = [d for d in os.listdir(res_root) if os.path.exists(res_root+d+"/opts.json")]
+results_dirs = [d for d in results_dirs if filter_dataset in d]
+
+for r in results_dirs[:1]:
     print(r)
     
     model_configs = model_parameters(r, datasets, models, datasets_info)
@@ -129,8 +134,8 @@ for r in os.listdir(res_root)[:1]:
             " --model_depth=" + model_configs.model_size + \
             " --receptive_size=" + model_configs.receptive_size + \
             " --output_topk=1 --file_type=" + model_configs.file_type + \
-            " --tensorboard --ft_begin_module=" + res_root+r+"/"+c + \
-            " --result_path=" + res_root+r + \
+            " --tensorboard --ft_begin_module=3D-ResNets-PyTorch/" + res_root+r+"/"+c + \
+            " --result_path=3D-ResNets-PyTorch/" + res_root+r + \
             " --no_train --no_val --inference"
     
         os.system(input_text)
