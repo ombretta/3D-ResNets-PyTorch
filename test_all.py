@@ -80,39 +80,42 @@ def read_dataset_info(file_path):
     return datasets_info        
         
 
+def main(r, res_root):
+    res_root = "results/"
+    
+    datasets = ['kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 
+            'breakfast', 'mini_breakfast', 'movingmnist', 'movingmnist_blackframes',
+            'movingmnist_longterm']
+    models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
+    datasets_info_file = "datasets_info.csv"
+    datasets_info = read_dataset_info(datasets_info_file)
+    # print(datasets_info)
+    
+    filter_dataset = "mnist"
+    results_dirs = [d for d in os.listdir(res_root) if os.path.exists(res_root+d+"/opts.json")]
+    results_dirs = [d for d in results_dirs if filter_dataset in d]
+    
+    for r in results_dirs[:1]:
+        print(r)
         
-res_root = "results/"
-
-datasets = ['kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 
-        'breakfast', 'mini_breakfast', 'movingmnist', 'movingmnist_blackframes',
-        'movingmnist_longterm']
-models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
-datasets_info_file = "datasets_info.csv"
-datasets_info = read_dataset_info(datasets_info_file)
-# print(datasets_info)
-
-filter_dataset = "mnist"
-results_dirs = [d for d in os.listdir(res_root) if os.path.exists(res_root+d+"/opts.json")]
-results_dirs = [d for d in results_dirs if filter_dataset in d]
-
-for r in results_dirs[:1]:
-    print(r)
-    
-    submit_job_text = 'sbatch '+\
-    '#!/bin/sh\n'+\
-    '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=24:00:00\n'+\
-    '#SBATCH --ntasks=1\n'+\
-    '#SBATCH --mail-type=END\n'+\
-    '#SBATCH --cpus-per-task=4\n'+\
-    '#SBATCH --mem=4000\n'+\
-    '#SBATCH --gres=gpu:2,jobspernode:one:1\n'+\
-    'module use /opt/insy/modulefiles\n'+\
-    'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
-    'srun python test_model_checkpoints.py --r='+r+' --res_root='+res_root
-    
-    os.system(submit_job_text)
-    
+        submit_job_text = '#!/bin/sh\n'+\
+        '#SBATCH --partition=general\n'+\
+        '#SBATCH --qos=long\n'+\
+        '#SBATCH --time=24:00:00\n'+\
+        '#SBATCH --ntasks=1\n'+\
+        '#SBATCH --mail-type=END\n'+\
+        '#SBATCH --cpus-per-task=4\n'+\
+        '#SBATCH --mem=4000\n'+\
+        '#SBATCH --gres=gpu:2,jobspernode:one:1\n'+\
+        'module use /opt/insy/modulefiles\n'+\
+        'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
+        'srun python test_model_checkpoints.py --r='+r+' --res_root='+res_root
+        
+        with open("test_"+r+".sbatch", "w") as file:
+            file.write(submit_job_text)
+        os.system("sbatch test_"+r+".sbatch")    
+        
+if __name__ == '__main__':
+    main()
     
     
