@@ -20,10 +20,10 @@ class model_parameters:
        self.dataset = self.get_configs(result_directory, datasets_list, dataset)
        self.model = self.get_configs(result_directory, models_list, model)
        self.model_size, self.receptive_size = self.get_model_size(result_directory, self.model)
-       self.num_frames = self.get_input_parameters_values(r, 'frames', default=num_frames)
-       self.t_stride = self.get_input_parameters_values(r, 'stride', default=t_stride)
-       self.size = self.get_input_parameters_values(r, 'size', default=size)
-       self.bs = self.get_input_parameters_values(r, 'bs', default=bs)
+       self.num_frames = self.get_input_parameters_values(result_directory, 'frames', default=num_frames)
+       self.t_stride = self.get_input_parameters_values(result_directory, 'stride', default=t_stride)
+       self.size = self.get_input_parameters_values(result_directory, 'size', default=size)
+       self.bs = self.get_input_parameters_values(result_directory, 'bs', default=bs)
        self.pretrained = True if "pretrained" in result_directory else False
        self.num_run = result_directory.split("_")[-1]
        self.root_path, self.dataset_path, self.annotation_file, \
@@ -39,6 +39,7 @@ class model_parameters:
     
     def get_model_size(self, r, model):
         if model not in r: return '50'
+        if '_tem_' in model: r = r.replace("temp_", "")
         size = r.split(model+"_")[1].split("_")[0]
         if "bagnet" in model: model_size, receptive_size = '50', size 
         else: model_size, receptive_size = size, '9' 
