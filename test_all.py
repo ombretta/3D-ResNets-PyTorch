@@ -32,6 +32,7 @@ class model_parameters:
            self.inference_subset = self.get_dataset_info(datasets_info, self.dataset)
 
     def get_configs(self, dir_name, configs_list, default=""):
+        dir_name = "".join(dir_name.split("_")[:5])
         config = [d for d in configs_list if d in dir_name.lower()]
         if len(config) == 0: return default
         config = config[np.argmax([len(d) for d in config])]
@@ -93,7 +94,9 @@ datasets_info_file = "datasets_info.csv"
 datasets_info = read_dataset_info(datasets_info_file)
 # print(datasets_info)
 
-for r in os.listdir(res_root)[:1]:
+results_dirs = [d for d in os.listdir(res_root) if os.path.exists(res_root+d+"/opts.json")]
+print(results_dirs)
+for r in results_dirs[:1]:
     print(r)
     
     model_configs = model_parameters(r, datasets, models, datasets_info)
