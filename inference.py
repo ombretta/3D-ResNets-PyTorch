@@ -44,9 +44,9 @@ def inference(data_loader, model, result_path, class_names, no_average,
             video_ids, segments = zip(*targets)
             # print("INPUTS", inputs)
             # print("INPUTS size", len(inputs))
-            outputs = model(inputs)
-            outputs = F.softmax(outputs, dim=1).cpu()
-            acc = calculate_accuracy(outputs, targets)
+            outputs_unnorm = model(inputs)
+            outputs = F.softmax(outputs_unnorm, dim=1).cpu()
+            acc = calculate_accuracy(outputs_unnorm, targets)
             print(len(inputs))
             accuracies.update(acc, inputs.size(0))
 
