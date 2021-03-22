@@ -138,8 +138,7 @@ def get_validation_data(video_path,
         video_path_formatter = (
             lambda root_path, label, video_id: root_path / label / video_id)
 
-        if dataset_name in ['movingmnist', 'movingmnist_blackframes',
-        'movingmnist_longterm']:
+        if 'movingmnist' in dataset_name:
             video_path_formatter = (
             lambda root_path, label, video_id: root_path / video_id)
     else:
@@ -212,8 +211,7 @@ def get_inference_data(video_path,
     if file_type == 'jpg':
         assert input_type == 'rgb', 'flow input is supported only when input type is hdf5.'
 
-        if dataset_name in ['movingmnist', 'movingmnist_blackframes',
-        'movingmnist_longterm']:
+        if 'movingmnist' in dataset_name:
             image_name_formatter = mnist_image_name_formatter
         else: image_name_formatter = usual_image_name_formatter
         

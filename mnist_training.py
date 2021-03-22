@@ -34,11 +34,11 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata_motiondiff/'
+video_path = 'movingMNIST/movingmnistdata_motionsame/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_motiondiff/mnist_json.json'
+annotation_path = 'movingMNIST/movingmnistdata_motionsame/mnist_json.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'movingmnist_motiondiff'
+dataset = 'movingmnist_motionsame'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
 n_classes = 2
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
