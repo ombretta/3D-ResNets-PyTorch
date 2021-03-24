@@ -5,7 +5,6 @@ from collections import defaultdict
 import torch
 import torch.nn.functional as F
 
-from utils import AverageMeter
 from utils import AverageMeter, calculate_accuracy
 
 
@@ -24,7 +23,7 @@ def get_video_results(outputs, class_names, output_topk):
 
 
 def inference(data_loader, model, result_path, class_names, no_average,
-              output_topk):
+              output_topk, device):
     print('inference')
 
     model.eval()
@@ -42,6 +41,7 @@ def inference(data_loader, model, result_path, class_names, no_average,
             data_time.update(time.time() - end_time)
             
             video_ids, segments = zip(*targets)
+            targets = targets.to(device, non_blocking=True)
             # print("INPUTS", inputs)
             # print("INPUTS size", len(inputs))
             outputs_unnorm = model(inputs)
