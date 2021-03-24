@@ -21,7 +21,7 @@ class model_parameters:
        self.model = self.get_configs(result_directory, models_list, model)
        self.model_size, self.receptive_size = self.get_model_size(result_directory, self.model)
        self.num_frames = self.get_input_parameters_values(result_directory, 'frames', default=num_frames)
-       self.t_stride = self.get_input_parameters_values(result_directory, 'stride', default=t_stride)
+       self.t_stride = self.get_input_parameters_values(result_directory, 'tstride', default=t_stride)
        self.size = self.get_input_parameters_values(result_directory, 'size', default=size)
        self.bs = self.get_input_parameters_values(result_directory, 'bs', default=bs)
        self.pretrained = True if "pretrained" in result_directory else False
@@ -97,7 +97,7 @@ def main():
     results_dirs = [d for d in os.listdir(res_root) if os.path.exists(res_root+d+"/opts.json")]
     results_dirs = [d for d in results_dirs if filter_dataset in d]
     
-    for r in results_dirs[:1]:
+    for r in results_dirs:
         print(r)
         
         submit_job_text = '#!/bin/sh\n'+\
