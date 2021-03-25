@@ -63,7 +63,9 @@ def main(r, res_root):
             " --output_topk=1 --file_type=" + model_configs.file_type + \
             " --tensorboard --ft_begin_module=3D-ResNets-PyTorch/" + res_root+r+"/"+c + \
             " --result_path=3D-ResNets-PyTorch/" + res_root+r + \
-            " --no_train --no_val --inference"
+            " --no_train --no_val --inference" + \
+            " --n_pretrain_classe=s" + model_configs.num_classes + \
+            " --pretrain_path=3D-ResNets-PyTorch/" + res_root+r+"/"+c 
             
         opt = get_opt(arguments_string = input_text)
     
