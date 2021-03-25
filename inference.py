@@ -39,15 +39,22 @@ def inference(data_loader, model, result_path, class_names, no_average,
     with torch.no_grad():
         for i, (inputs, targets) in enumerate(data_loader):
             data_time.update(time.time() - end_time)
+            #print(targets)
+            #print(len(targets))
+
+            label_targets = torch.Tensor([t[0] for t in targets])
+            #print(label_targets)
+            other_targets = [[t[0], t[1]] for t in targets]
+            #print(other_targets)
             
-            video_ids, segments = zip(*targets)
-            targets = targets.to(device, non_blocking=True)
+            video_ids, segments = zip(*other_targets)
+            targets = label_targets.to(device, non_blocking=True)
             # print("INPUTS", inputs)
             # print("INPUTS size", len(inputs))
             outputs_unnorm = model(inputs)
             outputs = F.softmax(outputs_unnorm, dim=1).cpu()
             acc = calculate_accuracy(outputs_unnorm, targets)
-            print(len(inputs))
+            #print(len(inputs))
             accuracies.update(acc, inputs.size(0))
 
             for j in range(outputs.size(0)):
@@ -66,8 +73,8 @@ def inference(data_loader, model, result_path, class_names, no_average,
                       i + 1,
                       len(data_loader),
                       batch_time=batch_time,
-                      data_time=data_time),
-                      acc=accuracies)
+                      data_time=data_time,
+                      acc=accuracies))
 
     inference_results = {'results': {}}
     if not no_average:
