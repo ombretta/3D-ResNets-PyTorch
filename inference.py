@@ -67,7 +67,7 @@ def inference(data_loader, model, result_path, class_names, no_average,
             batch_time.update(time.time() - end_time)
             end_time = time.time()
 
-            print('[{}/{}/{}]\t'
+            print('[{}/{}]\t'
                   'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
                   'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
                   'Acc {acc.val:.3f} ({acc.avg:.3f})'.format(
