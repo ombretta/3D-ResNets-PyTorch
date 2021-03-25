@@ -415,7 +415,7 @@ def main_worker(index, opt):
 
         inference_results = inference.inference(inference_loader, model, 
                             inference_result_path, inference_class_names, 
-                            opt.inference_no_average, opt.output_topk)
+                            opt.inference_no_average, opt.output_topk, opt.device)
         return inference_results
     return {}
 

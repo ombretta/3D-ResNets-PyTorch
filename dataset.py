@@ -263,6 +263,6 @@ def get_inference_data(video_path,
             target_transform=target_transform,
             video_loader=loader,
             video_path_formatter=video_path_formatter,
-            target_type=['video_id', 'segment'])
+            target_type=['label', 'video_id', 'segment'])
 
     return inference_data, collate_fn
