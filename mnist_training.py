@@ -19,13 +19,13 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=short\n'+\
-    '#SBATCH --time=4:00:00\n'+\
+    '#SBATCH --qos=long\n'+\
+    '#SBATCH --time=48:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
     '#SBATCH --mem=4000\n'+\
-    '#SBATCH --gres=gpu:1\n'+\
+    '#SBATCH --gres=gpu:2\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun ' #,jobspernode:one:1\n'+\
@@ -34,13 +34,13 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata_motionsame/'
+video_path = 'movingMNIST/movingmnistdata_longterm/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_motionsame/mnist_json.json'
+annotation_path = 'movingMNIST/movingmnistdata_longterm/mnist_json.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'movingmnist_motionsame'
+dataset = 'movingmnist_longterm'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
-n_classes = 2
+n_classes = 3
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
 n_pretrain_classes = 700
 # Pretrained model path (.pth).
@@ -50,7 +50,7 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 32 #Default: 64
 # Temporal duration of inputs
-sample_duration = 32
+sample_duration = 128
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 1 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -110,7 +110,7 @@ no_train = False
 # If true, validation is not performed.
 no_val = False
 # If true, inference is performed.
-inference = False
+inference = True
 # Used subset in inference (train | val | test)
 inference_subset = 'test'
 # Stride of sliding window in inference.
@@ -165,7 +165,7 @@ dist_url = 'tcp://127.0.0.1:23456'
 world_size = 1
 
 
-sample_durations = [32] #, 16, 32, 64]
+sample_durations = [128] #, 16, 32, 64]
 sample_t_strides = [1,2] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
