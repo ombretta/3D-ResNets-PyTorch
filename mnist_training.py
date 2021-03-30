@@ -20,12 +20,12 @@ if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
     '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=48:00:00\n'+\
+    '#SBATCH --time=24:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
     '#SBATCH --mem=4000\n'+\
-    '#SBATCH --gres=gpu:2\n'+\
+    '#SBATCH --gres=gpu:1\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun ' #,jobspernode:one:1\n'+\
@@ -34,13 +34,13 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata_longterm/'
+video_path = 'movingMNIST/movingmnistdata/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_longterm/mnist_json.json'
+annotation_path = 'movingMNIST/movingmnistdata/mnist_json.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'movingmnist_longterm'
+dataset = 'movingmnist'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
-n_classes = 3
+n_classes = 10
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
 n_pretrain_classes = 700
 # Pretrained model path (.pth).
@@ -50,7 +50,7 @@ ft_begin_module = ''
 # Height and width of inputs
 sample_size = 32 #Default: 64
 # Temporal duration of inputs
-sample_duration = 128
+sample_duration = 8
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 1 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
@@ -94,7 +94,7 @@ overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 8
+batch_size = 16
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
@@ -165,8 +165,8 @@ dist_url = 'tcp://127.0.0.1:23456'
 world_size = 1
 
 
-sample_durations = [128] #, 16, 32, 64]
-sample_t_strides = [2, 1] #, 2, 4, 8, 16]
+sample_durations = [8] #, 16, 32, 64]
+sample_t_strides = [1, 2, 4, 1] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
 #models = ['resnet']

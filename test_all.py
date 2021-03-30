@@ -97,7 +97,7 @@ def main():
     results_dirs = [d for d in os.listdir(res_root) if os.path.exists(res_root+d+"/opts.json")]
     results_dirs = [d for d in results_dirs if filter_dataset in d]
     
-    for r in results_dirs:
+    for r in results_dirs[:1]:
         print(r)
         
         submit_job_text = '#!/bin/sh\n'+\
