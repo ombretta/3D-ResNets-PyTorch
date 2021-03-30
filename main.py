@@ -346,7 +346,7 @@ def main_worker(index, opt):
         model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
     if opt.pretrain_path:
         model = load_pretrained_model(model, opt.pretrain_path, opt.model,
-                                      opt.n_finetune_classes)
+                                      opt.n_finetune_classes, opt.device)
     if opt.resume_path is not None:
         model = resume_model(opt.resume_path, opt.arch, model)
     model = make_data_parallel(model, opt.distributed, opt.device)

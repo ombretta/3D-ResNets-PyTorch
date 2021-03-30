@@ -110,10 +110,11 @@ def generate_model(opt):
     return model
 
 
-def load_pretrained_model(model, pretrain_path, model_name, n_finetune_classes):
+def load_pretrained_model(model, pretrain_path, model_name, n_finetune_classes, device):
     if pretrain_path:
         print('loading pretrained model {}'.format(pretrain_path))
-        pretrain = torch.load(pretrain_path, map_location='cpu')
+        # pretrain = torch.load(pretrain_path, map_location='cpu')
+        pretrain = torch.load(pretrain_path, map_location=device)
 
         model.load_state_dict(pretrain['state_dict'])
         tmp_model = model
