@@ -53,6 +53,8 @@ class model_parameters:
         return value
 
     def get_dataset_info(self, datasets_info, dataset_name):
+        print(dataset_name)
+        print(datasets_info[dataset_name])
         return list(datasets_info[dataset_name].values())
     
     
