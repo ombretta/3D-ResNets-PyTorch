@@ -31,7 +31,7 @@ class model_parameters:
            self.inference_subset = self.get_dataset_info(datasets_info, self.dataset)
 
     def get_configs(self, dir_name, configs_list, default=""):
-        dir_name = "".join(dir_name.split("_")[:5])
+        dir_name = "_".join(dir_name.split("_")[:5])
         config = [d for d in configs_list if d in dir_name.lower()]
         if len(config) == 0: return default
         config = config[np.argmax([len(d) for d in config])]
@@ -99,7 +99,7 @@ def main():
     results_dirs = [d for d in os.listdir(res_root) if os.path.exists(res_root+d+"/opts.json")]
     results_dirs = [d for d in results_dirs if filter_dataset in d]
     
-    for r in results_dirs[:1]:
+    for r in results_dirs:
         print(r)
         
         submit_job_text = '#!/bin/sh\n'+\
