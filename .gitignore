@@ -120,3 +120,4 @@ kinetics_pretrained_breakfast_shuffled_segments_results/
 kinetics_pretrained_breakfast_shuffled_frames_results/
 pretrained_models/
 ftbegin_layer4_kinetics_pretrained_breakfast_results/
+*checkpoints_test_results.json

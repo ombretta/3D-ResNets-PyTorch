@@ -65,7 +65,8 @@ def main(r, res_root):
             " --result_path=3D-ResNets-PyTorch/" + res_root+r + \
             " --no_train --no_val --inference" + \
             " --n_pretrain_classe=" + model_configs.num_classes + \
-            " --pretrain_path=3D-ResNets-PyTorch/" + res_root+r+"/"+c 
+            " --pretrain_path=3D-ResNets-PyTorch/" + res_root+r+"/"+c + \
+            " --resume_path=3D-ResNets-PyTorch/" + res_root+r+"/"+c
             
         opt = get_opt(arguments_string = input_text)
     

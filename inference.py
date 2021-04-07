@@ -63,7 +63,7 @@ def inference(data_loader, model, result_path, class_names, no_average,
                     'segment': segments[j],
                     'output': outputs[j]
                 })
-                print('segment', segments[j], 'output', outputs[j])
+                #print('segment', segments[j], 'output', outputs[j])
 
             batch_time.update(time.time() - end_time)
             end_time = time.time()
