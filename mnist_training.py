@@ -34,9 +34,9 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata_longterm0.5/'
+video_path = 'movingMNIST/movingmnistdata_longterm/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_longterm0.5/mnist_json_100.json'
+annotation_path = 'movingMNIST/movingmnistdata_longterm/mnist_json.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
 dataset = 'movingmnist_longterm'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
@@ -165,8 +165,8 @@ dist_url = 'tcp://127.0.0.1:23456'
 world_size = 1
 
 
-sample_durations = [256] #, 16, 32, 64]
-sample_t_strides = [1, 2] #, 2, 4, 8, 16]
+sample_durations = [128] #, 16, 32, 64]
+sample_t_strides = [1, 1] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
 #models = ['resnet']
