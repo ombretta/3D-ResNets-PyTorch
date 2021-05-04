@@ -23,7 +23,8 @@ from spatial_transforms import (Compose, Normalize, Resize, CenterCrop,
                                 PickFirstChannels)
 from temporal_transforms import (LoopPadding, TemporalRandomCrop,
                                  TemporalCenterCrop, TemporalEvenCrop,
-                                 SlidingWindow, TemporalSubsampling)
+                                 SlidingWindow, TemporalSubsampling, 
+                                 EvenCropsSampling)
 from temporal_transforms import Compose as TemporalCompose
 from dataset import get_training_data, get_validation_data, get_inference_data
 from utils import Logger, worker_init_fn, get_lr
@@ -162,6 +163,8 @@ def get_train_utils(opt, model_parameters):
         temporal_transform.append(TemporalRandomCrop(opt.sample_duration))
     elif opt.train_t_crop == 'center':
         temporal_transform.append(TemporalCenterCrop(opt.sample_duration))
+    elif opt.train_t_crop == 'even_crops':
+        temporal_transform.append(EvenCropsSampling(opt.sample_duration))
     temporal_transform = TemporalCompose(temporal_transform)
 
     train_data = get_training_data(opt.video_path, opt.annotation_path,

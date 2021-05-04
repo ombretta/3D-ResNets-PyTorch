@@ -147,7 +147,7 @@ class SlidingWindow(object):
                 break
             else:
                 out.append(sample)
-
+        print(out)
         return out
 
 
@@ -173,3 +173,34 @@ class Shuffle(object):
         random.shuffle(frame_indices)
         frame_indices = [t for block in frame_indices for t in block]
         return frame_indices
+
+
+# Added as training sampling strategy 
+class EvenCropsSampling(object):
+
+    def __init__(self, size, crop_size=8):
+        self.size = size
+        self.crop_size = crop_size
+        self.n_samples = math.floor(self.size/self.crop_size)
+        self.loop = LoopPadding(size)
+
+    def __call__(self, frame_indices):
+        n_frames = len(frame_indices)
+        
+        stride = max(
+            1, math.ceil((n_frames - 1 - self.size) / (self.n_samples - 1)))
+
+        out = []
+        for begin_index in frame_indices[::stride]:
+            if len(out) >= self.n_samples:
+                break
+            end_index = min(frame_indices[-1] + 1, begin_index + self.size)
+            sample = list(range(begin_index, end_index))
+
+            if len(sample) < self.size:
+                out = out + self.loop(sample)
+                break
+            else:
+                out = out + sample
+        print(out)
+        return out
