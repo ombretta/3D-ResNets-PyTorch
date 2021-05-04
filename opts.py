@@ -89,7 +89,7 @@ def parse_opts(arguments_string=None):
                         type=str,
                         help=('Temporal cropping method in training. '
                               'random is uniform. '
-                              '(random | center)'))
+                              '(random | center | even_crops)'))
     parser.add_argument('--learning_rate',
                         default=0.1,
                         type=float,

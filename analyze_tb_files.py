@@ -24,7 +24,7 @@ res_dirs = [f for f in res_dirs if all([d not in f for d in discard_dirs])]
 colors = ["red", "green", "orange", "black"]
 filtering_criteria1 = ["bagnet_tem"]
 # filtering_criteria1 = [""] #["bagnet_tem", "resnet_18", "resnet_50"]
-filtering_criteria2 = [""]
+filtering_criteria2 = ["64frames"]
 filtering_criteria3 = [""] #["256"]
 filtering_criteria_annotation_path = ["longterm/"]
 
@@ -62,7 +62,7 @@ for r in res_dirs:
                 val_losses, val_epochs, val_accs = zip(*event_acc.Scalars('val/acc'))
                 if len(val_losses) <10:
                     os.system("rm -r results/"+r)
-                if len(val_losses) >= 50 or train_accs[-1] > 0.95:
+                if len(val_losses) >= 20 or train_accs[-1] > 0.95:
                     print(r)
                     if low_data_regime: print("low_data_regime")
                     # print(len(val_losses))
