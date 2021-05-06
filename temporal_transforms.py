@@ -106,6 +106,7 @@ class TemporalEvenCrop(object):
         self.loop = LoopPadding(size)
 
     def __call__(self, frame_indices):
+        print(frame_indices)
         n_frames = len(frame_indices)
         stride = max(
             1, math.ceil((n_frames - 1 - self.size) / (self.n_samples - 1)))
@@ -115,14 +116,16 @@ class TemporalEvenCrop(object):
             if len(out) >= self.n_samples:
                 break
             end_index = min(frame_indices[-1] + 1, begin_index + self.size)
-            sample = list(range(begin_index, end_index))
-
+            # The following line cancels the effect of the strided sampling! I re-implemented it.
+            # sample = list(range(begin_index, end_index))
+            sample = list(frame_indices[begin_index:end_index])
+            
             if len(sample) < self.size:
                 out.append(self.loop(sample))
                 break
             else:
                 out.append(sample)
-
+        print(out)
         return out
 
 
@@ -147,7 +150,6 @@ class SlidingWindow(object):
                 break
             else:
                 out.append(sample)
-        print(out)
         return out
 
 
@@ -188,19 +190,18 @@ class EvenCropsSampling(object):
         n_frames = len(frame_indices)
         
         stride = max(
-            1, math.ceil((n_frames - 1 - self.size) / (self.n_samples - 1)))
+            1, math.ceil((n_frames - self.size) / (self.n_samples)))
 
         out = []
-        for begin_index in frame_indices[::stride]:
+        print([i for i in range(0, n_frames, self.crop_size+stride)])
+        for begin_index in range(0, n_frames, self.crop_size+stride):
             if len(out) >= self.n_samples:
                 break
-            end_index = min(frame_indices[-1] + 1, begin_index + self.size)
-            sample = list(range(begin_index, end_index))
-
-            if len(sample) < self.size:
+            end_index = min(n_frames-1, begin_index + self.crop_size)
+            # sample = list(range(begin_index, end_index))
+            sample = list(frame_indices[begin_index:end_index])
+            out = out + sample
+        if len(sample) < self.size:
                 out = out + self.loop(sample)
-                break
-            else:
-                out = out + sample
         print(out)
         return out
