@@ -17,16 +17,17 @@ if not os.path.exists("plots/"): os.mkdir("plots/")
 plots_name = "movingmnist_longterm_1_2_4"
 
 res_dirs = [f for f in os.listdir("results/") if "mnist" in f]
-discard_dirs = ["motion", "blackframes"]
+discard_dirs = ["motion", "blackframes", "val_1tstride"]
 res_dirs = [f for f in res_dirs if all([d not in f for d in discard_dirs])]
 
 # Filter according to training setting
 colors = ["red", "green", "orange", "black"]
-filtering_criteria1 = ["bagnet_tem"]
+filtering_criteria1 = ["resnet_18"]
 # filtering_criteria1 = [""] #["bagnet_tem", "resnet_18", "resnet_50"]
-filtering_criteria2 = ["64frames"]
+filtering_criteria2 = [""]
 filtering_criteria3 = [""] #["256"]
 filtering_criteria_annotation_path = ["longterm/"]
+filtering_criteria_sampling = ["even_crops"]
 
 fig_train, ax_train = plt.subplots(figsize=(12, 8))
 fig_val, ax_val = plt.subplots(figsize=(12, 8))
@@ -52,11 +53,12 @@ for r in res_dirs:
             if "mnist_json_100.json" in opts["annotation_path"]: 
                 low_data_regime = True
             # print(opts)
-            # print(opts.keys())
+            print(opts.keys())
             # print(opts['annotation_path'])
         
-        if (True or low_data_regime) and \
-            any([c in opts['annotation_path'] for c in filtering_criteria_annotation_path]):
+        if (False or low_data_regime) and \
+            any([c in opts['annotation_path'] for c in filtering_criteria_annotation_path]) \
+            and any ([c in opts['train_t_crop'] for c in filtering_criteria_sampling]):
             if event_acc.scalars.Keys() != []:
                 train_losses, train_epochs, train_accs = zip(*event_acc.Scalars('train/acc'))
                 val_losses, val_epochs, val_accs = zip(*event_acc.Scalars('val/acc'))

@@ -236,6 +236,8 @@ def get_val_utils(opt):
     temporal_transform = []
     if opt.sample_t_stride > 1:
         temporal_transform.append(TemporalSubsampling(opt.sample_t_stride))
+    if opt.train_t_crop == "even_crops":
+        temporal_transform.append(EvenCropsSampling(opt.sample_duration))
     temporal_transform.append(
         TemporalEvenCrop(opt.sample_duration, opt.n_val_samples))
     temporal_transform = TemporalCompose(temporal_transform)
