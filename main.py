@@ -154,7 +154,7 @@ def get_train_utils(opt, model_parameters):
     spatial_transform.append(normalize)
     spatial_transform = Compose(spatial_transform)
 
-    assert opt.train_t_crop in ['random', 'center', None]
+    assert opt.train_t_crop in ['random', 'center', 'even_crops', None]
     print(opt.train_t_crop)
     temporal_transform = []
     if opt.sample_t_stride > 1:

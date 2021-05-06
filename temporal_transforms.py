@@ -106,7 +106,8 @@ class TemporalEvenCrop(object):
         self.loop = LoopPadding(size)
 
     def __call__(self, frame_indices):
-        print(frame_indices)
+        print("frame_indices", frame_indices)
+
         n_frames = len(frame_indices)
         stride = max(
             1, math.ceil((n_frames - 1 - self.size) / (self.n_samples - 1)))
@@ -119,13 +120,13 @@ class TemporalEvenCrop(object):
             # The following line cancels the effect of the strided sampling! I re-implemented it.
             # sample = list(range(begin_index, end_index))
             sample = list(frame_indices[begin_index:end_index])
-            
+
             if len(sample) < self.size:
                 out.append(self.loop(sample))
                 break
             else:
                 out.append(sample)
-        print(out)
+        print("out", out)
         return out
 
 
@@ -194,14 +195,15 @@ class EvenCropsSampling(object):
 
         out = []
         print([i for i in range(0, n_frames, self.crop_size+stride)])
-        for begin_index in range(0, n_frames, self.crop_size+stride):
-            if len(out) >= self.n_samples:
+        for begin_index in range(0, len(frame_indices), self.crop_size+stride):
+            print("begin_index", begin_index)
+            if len(out) >= self.size:
                 break
-            end_index = min(n_frames-1, begin_index + self.crop_size)
+            end_index = min(len(frame_indices)-1, begin_index + self.crop_size)
             # sample = list(range(begin_index, end_index))
-            sample = list(frame_indices[begin_index:end_index])
+            sample = frame_indices[begin_index:end_index]
             out = out + sample
-        if len(sample) < self.size:
+        if len(out) < self.size:
                 out = out + self.loop(sample)
         print(out)
         return out

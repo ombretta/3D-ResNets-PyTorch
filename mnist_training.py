@@ -36,7 +36,7 @@ root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
 video_path = 'movingMNIST/movingmnistdata_longterm/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_longterm/mnist_json.json'
+annotation_path = 'movingMNIST/movingmnistdata_longterm/mnist_json_100.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
 dataset = 'movingmnist_longterm'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
@@ -64,7 +64,7 @@ no_hflip = True
 # If true colorjitter is performed.
 colorjitter = False
 # Temporal cropping method in training. random is uniform. (random | center)
-train_t_crop = 'random'
+train_t_crop = 'even_crops'
 # Initial learning rate (divided by 10 while training by lr scheduler)
 learning_rate = 0.01
 # Momentum
@@ -165,7 +165,7 @@ dist_url = 'tcp://127.0.0.1:23456'
 world_size = 1
 
 
-sample_durations = [128] #, 16, 32, 64]
+sample_durations = [64] #, 16, 32, 64]
 sample_t_strides = [1, 1] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
