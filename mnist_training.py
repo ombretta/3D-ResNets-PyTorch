@@ -165,7 +165,7 @@ dist_url = 'tcp://127.0.0.1:23456'
 world_size = 1
 
 
-sample_durations = [64] #, 16, 32, 64]
+sample_durations = [64, 128] #, 16, 32, 64]
 sample_t_strides = [1, 1] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
