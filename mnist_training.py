@@ -19,8 +19,8 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=24:00:00\n'+\
+    '#SBATCH --qos=short\n'+\
+    '#SBATCH --time=4:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
@@ -34,11 +34,11 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata_longterm/'
+video_path = 'movingMNIST/movingmnistdata/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_longterm/mnist_json_10.json'
+annotation_path = 'movingMNIST/movingmnistdata/mnist_json_10.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'movingmnist_longterm'
+dataset = 'movingmnist'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
 n_classes = 10
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
@@ -165,7 +165,7 @@ dist_url = 'tcp://127.0.0.1:23456'
 world_size = 1
 
 
-sample_durations = [64, 128, 256] #, 16, 32, 64]
+sample_durations = [32] #, 16, 32, 64]
 sample_t_strides = [1, 1] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
@@ -274,8 +274,12 @@ for sample_duration, i in zip(sample_durations, range(len(sample_durations))):
                     text += " --n_pretrain_classes=" + str(n_pretrain_classes)
                     
                 index = len([f for f in os.listdir(root_path+results_root) if result_path in f])
-                if not os.path.exists(root_path+results_root+result_path+"_"+str(index)):
-                    os.mkdir(root_path+results_root+result_path+"_"+str(index))
+                for index in range(100):
+                    if not os.path.exists(root_path+results_root+result_path+"_"+str(index)):
+                        os.mkdir(root_path+results_root+result_path+"_"+str(index))
+                        break
+                #if not os.path.exists(root_path+results_root+result_path+"_"+str(index)):
+                #    os.mkdir(root_path+results_root+result_path+"_"+str(index))
                 
                 text += " --result_path=" + results_root + result_path + "_" + str(index)
                 
