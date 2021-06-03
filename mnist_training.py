@@ -100,7 +100,7 @@ inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 70
+n_epochs = 150
 # Number of validation samples for each activity
 n_val_samples = 2
 # Save data (.pth) of previous training
