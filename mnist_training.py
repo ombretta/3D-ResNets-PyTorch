@@ -10,7 +10,7 @@ Created on Mon Dec 21 10:23:32 2020
 
 import os 
 
-submit_on_cluster = True
+submit_on_cluster = False
 pretrained = False
 continue_training = False
 
@@ -34,11 +34,11 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata/'
+video_path = 'movingMNIST/movingmnistdata_longterm_x8speed/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata/mnist_json_10.json'
+annotation_path = 'movingMNIST/movingmnistdata_longterm_x8speed/mnist_json_10.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'movingmnist'
+dataset = 'movingmnist_longterm'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
 n_classes = 10
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
