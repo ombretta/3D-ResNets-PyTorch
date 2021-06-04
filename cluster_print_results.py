@@ -32,8 +32,6 @@ def main(dirs_dataset_filter="mnist", more_discard_dirs=[],
         #             opts = json.load(f)
         #         print(opts["annotation_path"])
         
-        low_data_regime = False
-        
         if [f for f in os.listdir("results/"+r) if "events.out" in f] and \
             any([c in r for c in filtering_criteria_models]) and \
             any([c in r for c in filtering_criteria_frames]) and \
@@ -47,6 +45,8 @@ def main(dirs_dataset_filter="mnist", more_discard_dirs=[],
             
             with open("results/"+r+"/opts.json", "r") as f:
                 opts = json.load(f)            
+            
+            print(opts['annotation_path'])
     
             if any([c in opts['annotation_path'] for c in filtering_criteria_annotation_path]) \
                 and any ([c in opts['train_t_crop'] for c in filtering_criteria_sampling]):

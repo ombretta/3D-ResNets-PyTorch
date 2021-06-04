@@ -22,12 +22,11 @@ res_dirs = [f for f in res_dirs if all([d not in f for d in discard_dirs])]
 
 # Filter according to training setting
 colors = ["red", "green", "orange", "black"]
-filtering_criteria1 = ["resnet_50", "resnet_34", "resnet_18", "bagnet_tem_9"] #["32frames", "64frames", "128frames"]
-# filtering_criteria1 = [""] #["bagnet_tem", "resnet_18", "resnet_50"]
-filtering_criteria2 = ['32frames_32'] #["64frames"]
+filtering_criteria1 = ["resnet_50", "resnet_34", "resnet_18", "bagnet_tem"] #["32frames", "64frames", "128frames"]
+filtering_criteria2 = [''] #["64frames"]
 filtering_criteria3 = ["longterm"] #["32frames_8", "64frames_4", "128frames_2", "256"] #["256"]
-filtering_criteria_annotation_path = ['mnist_json_10.json'] #["longterm/"]
-filtering_criteria_sampling = [''] #["even_crops"]
+filtering_criteria_annotation_path = [''] #["longterm/"]
+filtering_criteria_sampling = ["even_crops"]
 fig_train, ax_train = plt.subplots(figsize=(12, 8))
 fig_val, ax_val = plt.subplots(figsize=(12, 8))
 
@@ -37,8 +36,8 @@ for r in res_dirs:
             with open("results/"+r+"/opts.json", "r") as f:
                 opts = json.load(f)
             # print(opts["annotation_path"])
-            if "mnist_json_10.json" in opts["annotation_path"]: 
-                print(r)
+            # if "mnist_json_10.json" in opts["annotation_path"]: 
+            #     print(r)
     
     low_data_regime = False
     
@@ -57,7 +56,7 @@ for r in res_dirs:
         if os.path.exists("results/"+r+"/opts.json"):
             with open("results/"+r+"/opts.json", "r") as f:
                 opts = json.load(f)
-            print(opts["annotation_path"])
+            # print(opts["annotation_path"])
             # if "mnist_json_10.json" in opts["annotation_path"]: 
             #     print(r)
             #     low_data_regime = True
@@ -72,10 +71,10 @@ for r in res_dirs:
                 val_losses, val_epochs, val_accs = zip(*event_acc.Scalars('val/acc'))
                 if len(val_losses) <10:
                     os.system("rm -r results/"+r)
-                if len(val_losses) >= 10: # or train_accs[-1] > 0.95:
+                if len(val_losses) >= 1: # or train_accs[-1] > 0.95:
                     
                     # print(len(val_losses))
-                    # print(r)
+                    print(r)
                     print("train", round(np.max(train_accs)*100, 2), np.argmax(train_accs), \
                           "val", round(np.max(val_accs)*100, 2), np.argmax(val_accs))
                     
