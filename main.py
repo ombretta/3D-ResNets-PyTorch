@@ -38,7 +38,7 @@ def json_serial(obj):
         return str(obj)
 
 
-def get_opt(arguments_string=None):
+def get_opt(arguments_string=None, save=True):
     opt = parse_opts(arguments_string)
 
     if opt.root_path is not None:
@@ -74,8 +74,9 @@ def get_opt(arguments_string=None):
 
         if opt.dist_rank == 0:
             print(opt)
-            with (opt.result_path / 'opts.json').open('w') as opt_file:
-                json.dump(vars(opt), opt_file, default=json_serial)
+            if save:
+                with (opt.result_path / 'opts.json').open('w') as opt_file:
+                    json.dump(vars(opt), opt_file, default=json_serial)
     else:
         print(opt)
         with (opt.result_path / 'opts.json').open('w') as opt_file:

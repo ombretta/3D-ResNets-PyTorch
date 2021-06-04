@@ -38,39 +38,70 @@ def main(r, res_root):
     checkpoints.sort(key=lambda x: int(x.split("_")[1].split(".")[0]))
     
     
+    '''{"root_path": "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff", 
+    "video_path": "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/movingMNIST/movingmnistdata", 
+    "annotation_path": "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/movingMNIST/movingmnistdata/mnist_json.json", 
+    "result_path": "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/3D-ResNets-PyTorch/results/movingmnist_resnet_18_32frames_32size_bs16_1", 
+    "dataset": "movingmnist", "n_classes": 10, "n_pretrain_classes": 10,
+    "pretrain_path": "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/3D-ResNets-PyTorch/results/movingmnist_resnet_18_32frames_32size_bs16_1/save_100.pth", 
+    "ft_begin_module": "3D-ResNets-PyTorch/results/movingmnist_resnet_18_32frames_32size_bs16_1/save_100.pth", 
+    "sample_size": 32, "sample_duration": 32, "sample_t_stride": 1, "train_crop": "center", "train_crop_min_scale": 0.25, 
+    "train_crop_min_ratio": 0.75, "no_hflip": false, "colorjitter": false, "train_t_crop": "random", "learning_rate": 0.1, 
+    "momentum": 0.9, "dampening": 0.0, "weight_decay": 0.001, "mean_dataset": "kinetics", "no_mean_norm": false, "no_std_norm": 
+        false, "value_scale": 1, "nesterov": false, "optimizer": "sgd", "lr_scheduler": "multistep", "multistep_milestones": [50, 100, 150], 
+        "overwrite_milestones": false, "plateau_patience": 10, "batch_size": 128, "inference_batch_size": 1, 
+        "batchnorm_sync": false, "n_epochs": 200, "n_val_samples": 3, 
+        "resume_path": "/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/3D-ResNets-PyTorch/results/movingmnist_resnet_18_32frames_32size_bs16_1/save_100.pth", 
+        "no_train": true, "no_val": true, "inference": true, "inference_subset": "test", "inference_stride": 2, 
+        "inference_crop": "center", "inference_no_average": false, "no_cuda": false, "n_threads": 4, 
+        "checkpoint": 10, "model": "resnet", "model_depth": 18, "receptive_size": 9, "conv1_t_size": 7,
+        "conv1_t_stride": 1, "no_max_pool": false, "resnet_shortcut": "B", "resnet_widen_factor": 1.0, 
+        "wide_resnet_k": 2, "resnext_cardinality": 32, "input_type": "rgb", "manual_seed": 1, 
+        "accimage": false, "output_topk": 1, "file_type": "jpg", "tensorboard": true,
+        "distributed": false, "dist_url": "tcp://127.0.0.1:23456", "world_size": -1, 
+        "n_finetune_classes": 10, "arch": "resnet-18", "begin_epoch": 1, "mean": [0.4345, 0.4051, 0.3775], 
+        "std": [0.2768, 0.2713, 0.2737], "n_input_channels": 3}'''
+    
     model_results = {}
+    
+    if os.path.exists(os.path.join(res_root, r, "/opts.json")):
+        with open(os.path.join(res_root, r, "/opts.json"), "r") as f:
+            model_opts = json.load(f)
     
     for c in checkpoints[round(len(checkpoints)/2):]:
         
         epoch  = c.split("_")[1].split(".")[0]
         print(c, epoch)
-        input_text = "--root_path=" + model_configs.root_path + \
-            " --video_path=" + model_configs.dataset_path + \
-            " --annotation_path=" + model_configs.annotation_file + \
-            " --dataset=" + model_configs.dataset + \
-            " --n_classes=" + model_configs.num_classes + \
-            " --sample_size=" + model_configs.size + \
-            " --sample_duration=" + model_configs.num_frames + \
-            " --sample_t_stride=" + model_configs.t_stride + \
-            " --train_crop=center --train_t_crop=random " + \
-            " --value_scale=" + model_configs.value_scale + \
+        input_text = "--root_path=" + model_opts.root_path + \
+            " --video_path=" + model_opts.video_path + \
+            " --annotation_path=" + model_opts.annotation_path + \
+            " --dataset=" + model_opts.dataset + \
+            " --n_classes=" + model_opts.n_classes + \
+            " --sample_size=" + model_opts.sample_size + \
+            " --sample_duration=" + model_opts.sample_duration + \
+            " --sample_t_stride=" + model_opts.sample_t_stride + \
+            " --train_crop=" + model_opts.train_crop + \
+            " --train_t_crop=" + model_opts.train_t_crop + \
+            " --value_scale=" + model_opts.value_scale + \
             " --inference_batch_size=1 " + \
-            " --inference_subset=" + model_configs.inference_subset + \
-            " --inference_stride=2 --inference_crop=center --n_threads=4 " + \
-            " --model=" + model_configs.model + \
-            " --model_depth=" + model_configs.model_size + \
-            " --receptive_size=" + model_configs.receptive_size + \
-            " --output_topk=1 --file_type=" + model_configs.file_type + \
-            " --tensorboard --ft_begin_module=3D-ResNets-PyTorch/" + res_root+r+"/"+c + \
-            " --result_path=3D-ResNets-PyTorch/" + res_root+r + \
+            " --inference_subset=" + model_opts.inference_subset + \
+            " --inference_stride=" + model_opts.sample_t_stride + \
+            " --inference_crop=" + model_opts.train_crop + \
+            " --n_threads=4 " + \
+            " --model=" + model_opts.model + \
+            " --model_depth=" + model_opts.model_depth + \
+            " --receptive_size=" + model_opts.receptive_size + \
+            " --output_topk=1 --file_type=" + model_opts.file_type + \
+            " --ft_begin_module=3D-ResNets-PyTorch/" + res_root+r+"/"+c + \
+            " --result_path=" + model_opts.result_path + \
             " --no_train --no_val --inference" + \
-            " --n_pretrain_classe=" + model_configs.num_classes + \
+            " --n_pretrain_classes=" + model_opts.n_classes + \
             " --pretrain_path=3D-ResNets-PyTorch/" + res_root+r+"/"+c + \
             " --resume_path=3D-ResNets-PyTorch/" + res_root+r+"/"+c
             
-        opt = get_opt(arguments_string = input_text)
+        opt = get_opt(arguments_string = input_text, save=False)
     
-        opt.device = torch.device('cpu' if opt.no_cuda else 'cuda')
+        opt.device = torch.device('cpu' if model_configs.no_cuda else 'cuda')
         if not opt.no_cuda:
             cudnn.benchmark = True
         if opt.accimage:
