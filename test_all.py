@@ -95,8 +95,9 @@ def main():
     datasets_info = read_dataset_info(datasets_info_file)
     # print(datasets_info)
     
-    filter_dataset = "mnist_resnet_18"
+    filter_dataset = "mnist"
     results_dirs = [d for d in os.listdir(res_root) if os.path.exists(res_root+d+"/opts.json")]
+    results_dirs = [d for d in results_dirs if not os.path.exists(res_root+d+"/checkpoints_test_results.json")]
     results_dirs = [d for d in results_dirs if filter_dataset in d]
     
     for r in results_dirs:

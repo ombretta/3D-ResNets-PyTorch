@@ -64,44 +64,46 @@ def main(r, res_root):
     
     model_results = {}
     
-    if os.path.exists(os.path.join(res_root, r, "/opts.json")):
-        with open(os.path.join(res_root, r, "/opts.json"), "r") as f:
+    if os.path.exists(os.path.join(res_root, r, "opts.json")):
+        with open(os.path.join(res_root, r, "opts.json"), "r") as f:
             model_opts = json.load(f)
-    
-        for c in checkpoints[round(len(checkpoints)/2):]:
+
+        print("Testing", r)
+
+        for c in checkpoints[round(len(checkpoints)*3/4):]:
             
             epoch  = c.split("_")[1].split(".")[0]
             print(c, epoch)
-            input_text = "--root_path=" + model_opts.root_path + \
-                " --video_path=" + model_opts.video_path + \
-                " --annotation_path=" + model_opts.annotation_path + \
-                " --dataset=" + model_opts.dataset + \
-                " --n_classes=" + model_opts.n_classes + \
-                " --sample_size=" + model_opts.sample_size + \
-                " --sample_duration=" + model_opts.sample_duration + \
-                " --sample_t_stride=" + model_opts.sample_t_stride + \
-                " --train_crop=" + model_opts.train_crop + \
-                " --train_t_crop=" + model_opts.train_t_crop + \
-                " --value_scale=" + model_opts.value_scale + \
+            input_text = "--root_path=" + model_opts["root_path"] + \
+                " --video_path=" + model_opts["video_path"] + \
+                " --annotation_path=" + model_opts["annotation_path"] + \
+                " --dataset=" + model_opts["dataset"] + \
+                " --n_classes=" + str(model_opts["n_classes"]) + \
+                " --sample_size=" + str(model_opts["sample_size"]) + \
+                " --sample_duration=" + str(model_opts["sample_duration"]) + \
+                " --sample_t_stride=" + str(model_opts["sample_t_stride"]) + \
+                " --train_crop=" + model_opts["train_crop"] + \
+                " --train_t_crop=" + model_opts["train_t_crop"] + \
+                " --value_scale=" + str(model_opts["value_scale"]) + \
                 " --inference_batch_size=1 " + \
-                " --inference_subset=" + model_opts.inference_subset + \
-                " --inference_stride=" + model_opts.sample_t_stride + \
-                " --inference_crop=" + model_opts.train_crop + \
+                " --inference_subset=" + model_opts["inference_subset"] + \
+                " --inference_stride=" + str(model_opts["sample_t_stride"]) + \
+                " --inference_crop=" + model_opts["train_crop"] + \
                 " --n_threads=4 " + \
-                " --model=" + model_opts.model + \
-                " --model_depth=" + model_opts.model_depth + \
-                " --receptive_size=" + model_opts.receptive_size + \
-                " --output_topk=1 --file_type=" + model_opts.file_type + \
+                " --model=" + model_opts["model"] + \
+                " --model_depth=" + str(model_opts["model_depth"]) + \
+                " --receptive_size=" + str(model_opts["receptive_size"]) + \
+                " --output_topk=1 --file_type=" + model_opts["file_type"] + \
                 " --ft_begin_module=3D-ResNets-PyTorch/" + res_root+r+"/"+c + \
-                " --result_path=" + model_opts.result_path + \
+                " --result_path=" + model_opts["result_path"] + \
                 " --no_train --no_val --inference" + \
-                " --n_pretrain_classes=" + model_opts.n_classes + \
+                " --n_pretrain_classes=" + str(model_opts["n_classes"]) + \
                 " --pretrain_path=3D-ResNets-PyTorch/" + res_root+r+"/"+c + \
                 " --resume_path=3D-ResNets-PyTorch/" + res_root+r+"/"+c
                 
             opt = get_opt(arguments_string = input_text, save=False)
         
-            opt.device = torch.device('cpu' if model_configs.no_cuda else 'cuda')
+            opt.device = torch.device('cpu' if model_opts["no_cuda"] else 'cuda')
             if not opt.no_cuda:
                 cudnn.benchmark = True
             if opt.accimage:
@@ -111,6 +113,7 @@ def main(r, res_root):
             inference_results = main_worker(-1, opt)
             
             model_results['epoch_'+epoch] = inference_results
+            print('epoch', epoch, 'test acc', inference_results)
         
         with open(res_root+r+"/checkpoints_test_results.json", "w") as f:
             json.dump(model_results, f)
