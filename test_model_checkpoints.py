@@ -23,17 +23,17 @@ def main(r, res_root):
             'movingmnist_longterm']
     models = ['resnet', 'vidbagnet', 'vidbagnet_tem']
     datasets_info_file = "datasets_info.csv"
-    datasets_info = read_dataset_info(datasets_info_file)
+    #datasets_info = read_dataset_info(datasets_info_file)
     
-    model_configs = model_parameters(r, datasets, models, datasets_info)
+    #model_configs = model_parameters(r, datasets, models, datasets_info)
         
-    print(model_configs.dataset)
-    print(model_configs.model)
-    print(model_configs.model_size)
-    print('num_frames', model_configs.num_frames, 't_stride',\
-          model_configs.t_stride, 'size', model_configs.size,\
-              'bs', model_configs.bs)
-    print("num_run", model_configs.num_run)
+    #print(model_configs.dataset)
+    #print(model_configs.model)
+    #print(model_configs.model_size)
+    #print('num_frames', model_configs.num_frames, 't_stride',\
+    #      model_configs.t_stride, 'size', model_configs.size,\
+    #          'bs', model_configs.bs)
+    #print("num_run", model_configs.num_run)
     checkpoints = [f for f in os.listdir(res_root+r) if "pth" in f]
     checkpoints.sort(key=lambda x: int(x.split("_")[1].split(".")[0]))
     
