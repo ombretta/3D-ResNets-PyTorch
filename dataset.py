@@ -29,7 +29,8 @@ def get_training_data(video_path,
     assert dataset_name in [
         'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 
         'breakfast', 'mini_breakfast', 'movingmnist', 'movingmnist_blackframes',
-        'movingmnist_longterm', 'movingmnist_motiondiff', 'movingmnist_motionsame'
+        'movingmnist_longterm', 'movingmnist_motiondiff', 'movingmnist_motionsame', 
+        'movingmnist_frequencies'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]
@@ -117,7 +118,8 @@ def get_validation_data(video_path,
     assert dataset_name in [
         'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 
         'breakfast', 'mini_breakfast', 'movingmnist', 'movingmnist_blackframes',
-        'movingmnist_longterm',	'movingmnist_motiondiff', 'movingmnist_motionsame'
+        'movingmnist_longterm',	'movingmnist_motiondiff', 'movingmnist_motionsame', 
+        'movingmnist_frequencies'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]
@@ -202,7 +204,8 @@ def get_inference_data(video_path,
     assert dataset_name in [
         'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 
         'breakfast', 'mini_breakfast', 'movingmnist', 'movingmnist_blackframes',
-        'movingmnist_longterm',	'movingmnist_motiondiff', 'movingmnist_motionsame'
+        'movingmnist_longterm',	'movingmnist_motiondiff', 'movingmnist_motionsame', 
+        'movingmnist_frequencies'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]

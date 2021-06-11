@@ -11,15 +11,16 @@ Created on Fri Jun 11 15:54:59 2021
 import os 
 
 submit_on_cluster = True
-pretrained = True
+pretrained = False
 continue_training = False
 
 cluster_text = ''
 
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
-    '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=long\n'+\
+    '#SBATCH --partition=visionlab\n'+\
+    '#SBATCH --qos=reservation\n'+\
+    '#SBATCH --reservation=bmvc\n'+\
     '#SBATCH --time=80:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
@@ -48,7 +49,7 @@ sample_size = 224 #Default: 64
 # Temporal duration of inputs
 sample_duration = 256
 # If larger than 1, input frames are subsampled with the stride.
-sample_t_stride = 1 #default: 15, 15fps
+sample_t_stride = 15 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
 train_crop = 'random'
 # Min scale for random cropping in training
@@ -120,9 +121,9 @@ n_threads = 4
 # Trained model is saved at every this epochs.
 checkpoint = 5
 # (resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | vidbagnet |
-model = 'vidbagnet'
+model = 'resnet'
 # # Depth of resnet (10 | 18 | 34 | 50 | 101)
-model_depth = 18
+model_depth = 50
 # # Depth of resnet (9 | 17 | 33)
 receptive_size = 9
 # Kernel size in t dim of conv1.

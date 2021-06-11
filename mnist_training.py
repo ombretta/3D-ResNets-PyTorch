@@ -34,13 +34,13 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata_longterm/' #'movingMNIST/movingmnistdata_longterm_x8speed32frames/'
+video_path = 'movingMNIST/movingmnistdata_longterm/' #'movingMNIST/movingmnistdata_frequencies/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_longterm/mnist_json_10.json'
+annotation_path = 'movingMNIST/movingmnistdata_frequencies/mnist_json_10.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'movingmnist_longterm'
+dataset = 'movingmnist_frequencies'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
-n_classes = 3
+n_classes = 10
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
 n_pretrain_classes = 700
 # Pretrained model path (.pth).
@@ -165,8 +165,8 @@ dist_url = 'tcp://127.0.0.1:23456'
 world_size = 1
 
 
-sample_durations = [64] #, 16, 32, 64]
-sample_t_strides = [4, 1] #, 2, 4, 8, 16]
+sample_durations = [32] #, 16, 32, 64]
+sample_t_strides = [1, 1] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
 #models = ['resnet']
