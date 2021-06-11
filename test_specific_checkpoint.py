@@ -69,7 +69,8 @@ def main(r, res_root, checkpoint_epoch=0, test_data_path='', annotation_path = '
         
         print(r, checkpoint, 'test acc', inference_results)
         print("Test set:", test_data_path, annotation_path)
-        
+
+    else: print("Opts does not exist.")        
     
     
 if __name__ == '__main__':

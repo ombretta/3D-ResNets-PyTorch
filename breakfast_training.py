@@ -11,7 +11,7 @@ Created on Mon Dec 21 10:23:32 2020
 import os 
 
 submit_on_cluster = True
-pretrained = True
+pretrained = False
 continue_training = False
 
 cluster_text = ''
