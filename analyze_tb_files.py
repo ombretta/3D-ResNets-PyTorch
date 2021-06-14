@@ -17,7 +17,7 @@ if not os.path.exists("plots/"): os.mkdir("plots/")
 plots_name = "movingmnist_longterm_x8speed32frames"
 
 res_dirs = [f for f in os.listdir("results/") if "mnist" in f]
-discard_dirs = ["motion", "blackframes", "val_1tstride"]
+discard_dirs = ["mini", "motion", "blackframes", "val_1tstride"]
 res_dirs = [f for f in res_dirs if all([d not in f for d in discard_dirs])]
 
 # Filter according to training setting
@@ -25,7 +25,7 @@ colors = ["red", "green", "orange", "black"]
 filtering_criteria1 = ["resnet_50", "resnet_18", "bagnet_tem_17", "bagnet_tem_9"] #["32frames", "64frames", "128frames"]
 filtering_criteria2 = ["longterm"] #["64frames"]
 filtering_criteria3 = ["256"] #["32frames_8", "64frames_4", "128frames_2", "256"] #["256"]
-filtering_criteria_annotation_path = ['json_100', 'json.json'] #["longterm/"]
+filtering_criteria_annotation_path = ['100.json', "json.json"] #["longterm/"]
 filtering_criteria_sampling = [""]
 fig_train, ax_train = plt.subplots(figsize=(12, 8))
 fig_val, ax_val = plt.subplots(figsize=(12, 8))
