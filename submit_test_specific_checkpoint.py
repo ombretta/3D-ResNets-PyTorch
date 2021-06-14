@@ -14,9 +14,8 @@ cluster_text = ''
 
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
-    '#SBATCH --partition=visionlab\n'+\
-    '#SBATCH --qos=reservation\n'+\
-    '#SBATCH --reservation=bmvc\n'+\
+    '#SBATCH --partition=general\n'+\
+    '#SBATCH --qos=short\n'+\
     '#SBATCH --time=4:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
@@ -30,7 +29,7 @@ if submit_on_cluster:
 text = cluster_text + "python test_specific_checkpoint.py "
 
 res_root = "results/" 
-r = "movingmnist_longterm_vidbagnet_tem_17_256frames_32size_bs16_0" 
+r = "movingmnist_longterm_resnet_50_256frames_32size_bs8_0" 
 test_data_path = "movingMNIST/movingmnistdata_longterm"
 #test_data_path = "movingMNIST/movingmnistdata_longterm_permutedtestonly_permuted" 
 #annotation_path = "movingMNIST/movingmnistdata_longterm_permutedtestonly_permuted/mnist_json_30.json"
