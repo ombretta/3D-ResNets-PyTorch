@@ -19,8 +19,8 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=short\n'+\
-    '#SBATCH --time=4:00:00\n'+\
+    '#SBATCH --qos=long\n'+\
+    '#SBATCH --time=10:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
@@ -34,13 +34,13 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata_longterm/' #'movingMNIST/movingmnistdata_frequencies/'
+video_path = 'movingMNIST/movingmnistdata/' #'movingMNIST/movingmnistdata_frequencies/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_longterm/mnist_json_4.json'
+annotation_path = 'movingMNIST/movingmnistdata/mnist_json_70.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'movingmnist_longterm'
+dataset = 'movingmnist'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
-n_classes = 3
+n_classes = 10
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
 n_pretrain_classes = 700
 # Pretrained model path (.pth).
@@ -165,8 +165,8 @@ dist_url = 'tcp://127.0.0.1:23456'
 world_size = 1
 
 
-sample_durations = [64] #, 16, 32, 64]
-sample_t_strides = [4, 1] #, 2, 4, 8, 16]
+sample_durations = [32] #, 16, 32, 64]
+sample_t_strides = [1, 1] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
 #models = ['resnet']
@@ -174,8 +174,8 @@ models = ['resnet', 'vidbagnet_tem']
 for sample_duration, i in zip(sample_durations, range(len(sample_durations))):
     for sample_t_stride in sample_t_strides[:-i-1]:
         for model in models:
-            for model_depth, receptive_size, pretrain_path in zip([18, 34, 50], 
-                [9, 17, 33],
+            for model_depth, receptive_size, pretrain_path in zip([18, 50], 
+                [9, 17],
                 ["VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
                  "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth",
                  "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]):
