@@ -20,7 +20,7 @@ if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
     '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=20:00:00\n'+\
+    '#SBATCH --time=48:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
@@ -36,7 +36,7 @@ root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
 video_path = 'movingMNIST/movingmnistdata/' #'movingMNIST/movingmnistdata_frequencies/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata/mnist_json_100.json'
+annotation_path = 'movingMNIST/movingmnistdata/mnist_json_1000.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
 dataset = 'movingmnist'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
@@ -100,7 +100,7 @@ inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 100
+n_epochs = 70
 # Number of validation samples for each activity
 n_val_samples = 2
 # Save data (.pth) of previous training
