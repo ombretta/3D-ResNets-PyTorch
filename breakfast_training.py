@@ -18,8 +18,9 @@ cluster_text = ''
 
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
-    '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=long\n'+\
+    '#SBATCH --partition=visionlab\n'+\
+    '#SBATCH --qos=reservation\n'+\
+    '#SBATCH --reservation=bmvc\n'+\
     '#SBATCH --time=80:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
@@ -48,13 +49,13 @@ pretrain_path = "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r
 # Module name of beginning of fine-tuning (conv1, layer1, fc, denseblock1, classifier, ...). The default means all layers are fine-tuned.
 ft_begin_module = ''
 # Height and width of inputs
-sample_size = 64 #Default: 64
+sample_size = 224 #Default: 64
 # Temporal duration of inputs
 sample_duration = 256
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 1 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
-train_crop = 'random'
+train_crop = 'center'
 # Min scale for random cropping in training
 train_crop_min_scale = 0.25
 # Min scale for random cropping in training
@@ -64,7 +65,7 @@ no_hflip = True
 # If true colorjitter is performed.
 colorjitter = False
 # Temporal cropping method in training. random is uniform. (random | center)
-train_t_crop = 'random'
+train_t_crop = 'even_crops'
 # Initial learning rate (divided by 10 while training by lr scheduler)
 learning_rate = 0.01
 # Momentum
@@ -94,7 +95,7 @@ overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 16
+batch_size = 4
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
@@ -164,16 +165,16 @@ dist_url = 'tcp://127.0.0.1:23456'
 # number of nodes for distributed training
 world_size = 1
 
-# models = ['resnet', 'vidbagnet']
-models = ['resnet']
+models = ['resnet', 'vidbagnet_tem']
+#models = ['resnet']
 
 for model in models:
-    for model_depth, receptive_size, pretrain_path in zip([18, 34, 50], 
-        [9, 17, 33],
+    for model_depth, receptive_size, pretrain_path in zip([18, 50], 
+        [9, 33],
         ["VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
          "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth",
          "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]):
-        if model == 'vidbagnet':
+        if 'vidbagnet' in model:
             model_depth = 50
         if model == 'resnet':
             receptive_size = 9
