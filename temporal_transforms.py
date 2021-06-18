@@ -204,6 +204,6 @@ class EvenCropsSampling(object):
             sample = frame_indices[begin_index:end_index]
             out = out + sample
         if len(out) < self.size:
-                out = out + self.loop(sample)
+                out = self.loop(out)
         print(out)
         return out

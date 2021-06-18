@@ -25,7 +25,7 @@ colors = ["red", "green", "orange", "black"]
 filtering_criteria1 = ["resnet_50", "resnet_18", "bagnet_tem_17", "bagnet_tem_9"] #["32frames", "64frames", "128frames"]
 filtering_criteria2 = [""] #["64frames"]
 filtering_criteria3 = [""] #["32frames_8", "64frames_4", "128frames_2", "256"] #["256"]
-filtering_criteria_annotation_path = ['json.json'] #["longterm/"]
+filtering_criteria_annotation_path = ['50.json'] #["longterm/"]
 filtering_criteria_sampling = [""]
 fig_train, ax_train = plt.subplots(figsize=(12, 8))
 fig_val, ax_val = plt.subplots(figsize=(12, 8))
