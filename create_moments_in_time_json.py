@@ -66,10 +66,12 @@ def main(dataset_dir=".../../../CV-DataSets/Moments_in_Time_Raw/"):
                 segment =  [0, tot_frames]
                 
                 print(v, subset, label, tot_frames)
-                
-                mom_in_time['database'][v] = {}
-                mom_in_time['database'][v]['subset'] = subset
-                mom_in_time['database'][v]['annotations'] = {'label': label, 'segment': segment}
+                if tot_frames > 0:
+                    mom_in_time['database'][v] = {}
+                    mom_in_time['database'][v]['subset'] = subset
+                    mom_in_time['database'][v]['annotations'] = {'label': label, 'segment': segment}
+                else: 
+                    print("skipped")
             
     # Validation
     validation_path = dataset_dir+"validation/"
@@ -89,10 +91,12 @@ def main(dataset_dir=".../../../CV-DataSets/Moments_in_Time_Raw/"):
                 segment =  [0, tot_frames]
                 
                 print(v, subset, label, tot_frames)
-                
-                mom_in_time['database'][v] = {}
-                mom_in_time['database'][v]['subset'] = subset
-                mom_in_time['database'][v]['annotations'] = {'label': label, 'segment': segment}
+                if tot_frames > 0:
+                    mom_in_time['database'][v] = {}
+                    mom_in_time['database'][v]['subset'] = subset
+                    mom_in_time['database'][v]['annotations'] = {'label': label, 'segment': segment}
+                else: 
+                    print("skipped")
                 
         
     with open(json_file, "w") as file: 
