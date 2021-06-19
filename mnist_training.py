@@ -18,7 +18,7 @@ cluster_text = ''
 
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
-    '#SBATCH --partition=general\n'+\
+    '#SBATCH --partition=visionlab\n'+\
     '#SBATCH --qos=long\n'+\
     '#SBATCH --time=48:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
@@ -34,13 +34,13 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata/' #'movingMNIST/movingmnistdata_frequencies/'
+video_path = 'movingMNIST/movingmnistdata_frequencies_complex/' #'movingMNIST/movingmnistdata_frequencies/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata/mnist_json_1000.json'
+annotation_path = 'movingMNIST/movingmnistdata_frequencies_complex/mnist_json_100.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'movingmnist'
+dataset = 'movingmnist_frequencies_complex'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
-n_classes = 10
+n_classes = 100
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
 n_pretrain_classes = 700
 # Pretrained model path (.pth).
@@ -94,13 +94,13 @@ overwrite_milestones = False
 # Patience of LR scheduler. See documentation of ReduceLROnPlateau.
 plateau_patience = 10
 # Batch Size
-batch_size = 16
+batch_size = 32
 # Batch Size for inference. 0 means this is the same as batch_size.
 inference_batch_size = 0
 # If true, SyncBatchNorm is used instead of BatchNorm.
 batchnorm_sync = False
 # Number of total epochs to run
-n_epochs = 70
+n_epochs = 100
 # Number of validation samples for each activity
 n_val_samples = 2
 # Save data (.pth) of previous training

@@ -93,8 +93,8 @@ class TemporalRandomCrop(object):
         if len(out) < self.size:
             out = self.loop(out)
         
-        print(out)    
-        print(len(out))
+        #print(out)    
+        #print(len(out))
         return out
 
 
@@ -126,7 +126,7 @@ class TemporalEvenCrop(object):
                 break
             else:
                 out.append(sample)
-        print("out", out)
+        #print("out", out)
         return out
 
 
@@ -194,9 +194,9 @@ class EvenCropsSampling(object):
             1, math.ceil((n_frames - self.size) / (self.n_samples)))
 
         out = []
-        print([i for i in range(0, n_frames, self.crop_size+stride)])
+        #print([i for i in range(0, n_frames, self.crop_size+stride)])
         for begin_index in range(0, len(frame_indices), self.crop_size+stride):
-            print("begin_index", begin_index)
+            #print("begin_index", begin_index)
             if len(out) >= self.size:
                 break
             end_index = min(len(frame_indices)-1, begin_index + self.crop_size)
@@ -205,5 +205,5 @@ class EvenCropsSampling(object):
             out = out + sample
         if len(out) < self.size:
                 out = self.loop(out)
-        print(out)
+        #print(out)
         return out
