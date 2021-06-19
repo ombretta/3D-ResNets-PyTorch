@@ -45,7 +45,7 @@ def main(dataset_dir=".../../../CV-DataSets/Moments_in_Time_Raw/"):
     
     # Filling the dataset dictionary
     mom_in_time = {}
-    mom_in_time['labels'] = list(classes.values())
+    mom_in_time['labels'] = list(classes.keys())
     mom_in_time['database'] = {}
     
     # Training
@@ -56,7 +56,7 @@ def main(dataset_dir=".../../../CV-DataSets/Moments_in_Time_Raw/"):
         
         if os.path.isdir(os.path.join(training_path, video_class)):
             
-            label = classes[video_class]
+            label = video_class
             print(video_class, label)
             
             for v in os.path.listdir(os.path.join(training_path, video_class)):
@@ -81,7 +81,7 @@ def main(dataset_dir=".../../../CV-DataSets/Moments_in_Time_Raw/"):
         
         if os.path.isdir(os.path.join(validation_path, video_class)):
             
-            label = classes[video_class]
+            label = video_class
             print(video_class, label)
             
             for v in os.path.listdir(os.path.join(validation_path, video_class)):
