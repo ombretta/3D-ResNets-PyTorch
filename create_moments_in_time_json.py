@@ -32,14 +32,14 @@ def get_classes(file):
     print(classes)
     return classes
 
-def main(dataset_dir=".../../../CV-DataSets/Moments_in_Time_Raw/"):
+def main(dataset_dir="../../../CV-DataSets/Moments_in_Time_Raw/"):
         
     json_file = os.path.join(dataset_dir, "moments_in_time.json")
     print("dataset folder:", dataset_dir)
     
     # Get classes
     moments_categories_file = dataset_dir+"moments_categories.txt"
-    moments_categories_file = "/Users/ombretta/Desktop/moments_categories.txt" # to delete
+    #moments_categories_file = "/Users/ombretta/Desktop/moments_categories.txt" # to delete
     classes = get_classes(moments_categories_file)
     
     
@@ -59,7 +59,7 @@ def main(dataset_dir=".../../../CV-DataSets/Moments_in_Time_Raw/"):
             label = classes[video_class]
             print(video_class, label)
             
-            for v in os.path.listdir(os.path.join(training_path, video_class)):
+            for v in os.listdir(os.path.join(training_path, video_class)):
                 
                 video_path = os.path.join(training_path, video_class, v)
                 tot_frames, _, _, _ = get_video_properties(video_path)
@@ -82,7 +82,7 @@ def main(dataset_dir=".../../../CV-DataSets/Moments_in_Time_Raw/"):
             label = classes[video_class]
             print(video_class, label)
             
-            for v in os.path.listdir(os.path.join(validation_path, video_class)):
+            for v in os.listdir(os.path.join(validation_path, video_class)):
                 
                 video_path = os.path.join(validation_path, video_class, v)
                 tot_frames, _, _, _ = get_video_properties(video_path)
