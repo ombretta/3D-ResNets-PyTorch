@@ -65,11 +65,12 @@ def main(dataset_dir="../../../CV-DataSets/Moments_in_Time_Raw/"):
                 tot_frames, _, _, _ = get_video_properties(video_path)
                 segment =  [0, tot_frames]
                 
-                print(v, subset, label, tot_frames)
+                video_name = v.split(".mp4")[0]
+                print(video_name, subset, label, tot_frames)
                 if tot_frames > 0:
-                    mom_in_time['database'][v] = {}
-                    mom_in_time['database'][v]['subset'] = subset
-                    mom_in_time['database'][v]['annotations'] = {'label': label, 'segment': segment}
+                    mom_in_time['database'][video_name] = {}
+                    mom_in_time['database'][video_name]['subset'] = subset
+                    mom_in_time['database'][video_name]['annotations'] = {'label': label, 'segment': segment}
                 else: 
                     print("skipped")
             
@@ -89,12 +90,13 @@ def main(dataset_dir="../../../CV-DataSets/Moments_in_Time_Raw/"):
                 video_path = os.path.join(validation_path, video_class, v)
                 tot_frames, _, _, _ = get_video_properties(video_path)
                 segment =  [0, tot_frames]
-                
-                print(v, subset, label, tot_frames)
+
+                video_name = v.split(".mp4")[0]                
+                print(video_name, subset, label, tot_frames)
                 if tot_frames > 0:
-                    mom_in_time['database'][v] = {}
-                    mom_in_time['database'][v]['subset'] = subset
-                    mom_in_time['database'][v]['annotations'] = {'label': label, 'segment': segment}
+                    mom_in_time['database'][video_name] = {}
+                    mom_in_time['database'][video_name]['subset'] = subset
+                    mom_in_time['database'][video_name]['annotations'] = {'label': label, 'segment': segment}
                 else: 
                     print("skipped")
                 
