@@ -23,7 +23,7 @@ for data_set in ["training", "validation"]:
         for v in os.listdir(dataset_path+data_set+"/"+video_class):
             
             video_path = dataset_path+data_set+"/"+video_class+"/"+v
-            video_dest = dest + video_class + "/" + v
+            video_dest = dest + video_class + "/" + v.split(".mp4")[0]
             
             print("Saving", video_dest)
             
