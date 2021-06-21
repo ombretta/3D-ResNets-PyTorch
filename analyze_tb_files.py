@@ -14,10 +14,10 @@ import json
 
 if not os.path.exists("plots/"): os.mkdir("plots/")
 
-plots_name = "movingmnist_50_videos_per_digit"
+plots_name = "frequency_complex"
 
 res_dirs = [f for f in os.listdir("results/") if "mnist" in f]
-discard_dirs = ["longterm", "mini", "motion", "blackframes", "val_1tstride"]
+discard_dirs = ["bs32_2", "longterm", "mini", "motion", "blackframes", "val_1tstride"]
 res_dirs = [f for f in res_dirs if all([d not in f for d in discard_dirs])]
 
 # Filter according to training setting
