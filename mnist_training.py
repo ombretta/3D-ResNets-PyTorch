@@ -11,7 +11,7 @@ Created on Mon Dec 21 10:23:32 2020
 import os 
 
 submit_on_cluster = True
-pretrained = False
+pretrained = True
 continue_training = False
 
 cluster_text = ''
@@ -167,18 +167,17 @@ world_size = 1
 
 sample_durations = [32] #, 16, 32, 64]
 sample_t_strides = [1, 1] #, 2, 4, 8, 16]
-models = ['resnet', 'vidbagnet_tem']
+#models = ['resnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
-#models = ['resnet']
+models = ['resnet']
 
 for sample_duration, i in zip(sample_durations, range(len(sample_durations))):
     for sample_t_stride in sample_t_strides[:-i-1]:
         for model in models:
             for model_depth, receptive_size, pretrain_path in zip([18, 50], 
                 [9, 17],
-                ["VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
-                 "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth",
-                 "VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]):
+                ["3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
+                 "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]): #"VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth"
                 if 'bagnet' in model:
                     model_depth = 50
                 if model == 'resnet':
