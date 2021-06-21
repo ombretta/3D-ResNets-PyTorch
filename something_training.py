@@ -24,8 +24,8 @@ if submit_on_cluster:
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
-    '#SBATCH --mem=4000\n'+\
-    '#SBATCH --gres=gpu:1\n'+\
+    '#SBATCH --mem=16000\n'+\
+    '#SBATCH --gres=gpu:4\n'+\
     'module use /opt/insy/modulefiles\n'+\
     'module load cuda/10.0 cudnn/10.0-7.6.0.64\n'+\
     'srun ' #,jobspernode:one:1\n'+\
@@ -38,7 +38,7 @@ video_path = '../xinliu/tmp/tsm/temporal-shift-module/something/v1/20bn-somethin
 # Annotation file path
 annotation_path = '../xinliu/tmp/tsm/temporal-shift-module/something/v1/somethingv1.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'somthing'
+dataset = 'something'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
 n_classes = 174
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
@@ -54,7 +54,7 @@ sample_duration = 112
 # If larger than 1, input frames are subsampled with the stride.
 sample_t_stride = 1 #default: 15, 15fps
 # Spatial cropping method in training. random is uniform. corner is selection from 4 corners and 1 center. random | corner | center)
-train_crop = 'even_crops'
+train_crop = 'center'
 # Min scale for random cropping in training
 train_crop_min_scale = 0.25
 # Min scale for random cropping in training
@@ -64,7 +64,7 @@ no_hflip = True
 # If true colorjitter is performed.
 colorjitter = False
 # Temporal cropping method in training. random is uniform. (random | center | even_crops)
-train_t_crop = 'center'
+train_t_crop = 'even_crops'
 # Initial learning rate (divided by 10 while training by lr scheduler)
 learning_rate = 0.01
 # Momentum

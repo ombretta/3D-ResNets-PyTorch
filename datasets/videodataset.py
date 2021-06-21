@@ -11,6 +11,7 @@ def get_class_labels(data):
     class_labels_map = {}
     index = 0
     for class_label in data['labels']:
+        print(class_label, index)
         class_labels_map[class_label] = index
         index += 1
     return class_labels_map
@@ -77,10 +78,12 @@ class VideoDataset(data.Dataset):
         class_to_idx = get_class_labels(data)
         idx_to_class = {}
         for name, label in class_to_idx.items():
+            print(name, label)
             idx_to_class[label] = name
 
         n_videos = len(video_ids)
-        # print(len(video_ids), "videos")        
+        print(len(video_ids), "videos")        
+        print(class_to_idx)
 
         dataset = []
         for i in range(n_videos):
@@ -89,7 +92,10 @@ class VideoDataset(data.Dataset):
 
             if 'label' in annotations[i]:
                 label = annotations[i]['label']
-                label_id = class_to_idx[label]
+                if label in class_to_idx:
+                    label_id = class_to_idx[label]
+                else: 
+                    label_id = int(label)
             else:
                 label = 'test'
                 label_id = -1

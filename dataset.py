@@ -30,7 +30,7 @@ def get_training_data(video_path,
         'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 
         'breakfast', 'mini_breakfast', 'movingmnist', 'movingmnist_blackframes',
         'movingmnist_longterm', 'movingmnist_motiondiff', 'movingmnist_motionsame', 
-        'movingmnist_frequencies', 'movingmnist_frequencies_complex'
+        'movingmnist_frequencies', 'movingmnist_frequencies_complex', 'something'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]
@@ -51,7 +51,7 @@ def get_training_data(video_path,
         video_path_formatter = (
             lambda root_path, label, video_id: root_path / label / video_id)
         
-        if 'movingmnist' in dataset_name:
+        if 'movingmnist' in dataset_name or 'something' in dataset_name:
             video_path_formatter = (
             lambda root_path, label, video_id: root_path / video_id)
 
@@ -119,7 +119,7 @@ def get_validation_data(video_path,
         'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 
         'breakfast', 'mini_breakfast', 'movingmnist', 'movingmnist_blackframes',
         'movingmnist_longterm',	'movingmnist_motiondiff', 'movingmnist_motionsame', 
-        'movingmnist_frequencies', 'movingmnist_frequencies_complex'
+        'movingmnist_frequencies', 'movingmnist_frequencies_complex', 'something'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]
@@ -140,7 +140,7 @@ def get_validation_data(video_path,
         video_path_formatter = (
             lambda root_path, label, video_id: root_path / label / video_id)
 
-        if 'movingmnist' in dataset_name:
+        if 'movingmnist' in dataset_name or 'something' in dataset_name:
             video_path_formatter = (
             lambda root_path, label, video_id: root_path / video_id)
     else:
@@ -205,7 +205,7 @@ def get_inference_data(video_path,
         'kinetics', 'mini_kinetics', 'activitynet', 'ucf101', 'hmdb51', 'mit', 
         'breakfast', 'mini_breakfast', 'movingmnist', 'movingmnist_blackframes',
         'movingmnist_longterm',	'movingmnist_motiondiff', 'movingmnist_motionsame', 
-        'movingmnist_frequencies', 'movingmnist_frequencies_complex'
+        'movingmnist_frequencies', 'movingmnist_frequencies_complex', 'something'
     ]
     assert input_type in ['rgb', 'flow']
     assert file_type in ['jpg', 'hdf5', None]
@@ -228,7 +228,7 @@ def get_inference_data(video_path,
             lambda root_path, label, video_id: root_path / label / video_id)
 
         if dataset_name in ['movingmnist', 'movingmnist_blackframes',
-        'movingmnist_longterm']:
+        'movingmnist_longterm', 'something']:
             video_path_formatter = (
             lambda root_path, label, video_id: root_path / video_id)
     else:
