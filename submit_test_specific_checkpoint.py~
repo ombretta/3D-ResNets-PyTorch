@@ -29,11 +29,11 @@ if submit_on_cluster:
 text = cluster_text + "python test_specific_checkpoint.py "
 
 res_root = "results/" 
-r = "movingmnist_longterm_resnet_50_256frames_32size_bs32_kinetics_pretrained_1" 
-#test_data_path = "movingMNIST/movingmnistdata_longterm"
-test_data_path = "movingMNIST/movingmnistdata_longterm_permutedtestonly_permuted" 
-annotation_path = "movingMNIST/movingmnistdata_longterm_permutedtestonly_permuted/mnist_json_30.json"
-#annotation_path = "movingMNIST/movingmnistdata_longterm/mnist_json_100.json"
+r = "movingmnist_longterm_resnet_18_256frames_32size_bs32_kinetics_pretrained_1" 
+test_data_path = "movingMNIST/movingmnistdata_longterm"
+#test_data_path = "movingMNIST/movingmnistdata_longterm_permutedtestonly_permuted" 
+#annotation_path = "movingMNIST/movingmnistdata_longterm_permutedtestonly_permuted/mnist_json_30.json"
+annotation_path = "movingMNIST/movingmnistdata_longterm/mnist_json_100.json"
 checkpoint_epoch = 95
 
 text += " --res_root="+res_root 

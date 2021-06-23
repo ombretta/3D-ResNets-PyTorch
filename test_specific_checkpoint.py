@@ -22,9 +22,11 @@ def main(r, res_root, checkpoint_epoch=0, test_data_path='', annotation_path = '
     if os.path.exists(os.path.join(res_root, r, "opts.json")):
         with open(os.path.join(res_root, r, "opts.json"), "r") as f:
             model_opts = json.load(f)
-
+        print(model_opts)
         print("Testing", r, checkpoint)
         
+        model_opts["n_classes"] = 3
+
         if test_data_path == '': test_data_path = model_opts["video_path"]
         if annotation_path == '': annotation_path = model_opts["annotation_path"]
         print("Test set:", test_data_path, annotation_path)
