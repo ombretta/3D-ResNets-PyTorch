@@ -19,7 +19,8 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=visionlab\n'+\
-    '#SBATCH --qos=long\n'+\
+    '#SBATCH --qos=reservation\n'+\
+    '#SBATCH --reservation=bmvc\n'+\
     '#SBATCH --time=96:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\

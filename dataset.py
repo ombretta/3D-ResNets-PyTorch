@@ -16,6 +16,9 @@ def usual_image_name_formatter(x):
 def mnist_image_name_formatter(x):
     return f'{x:d}.jpg'
 
+def something_image_name_formatter(x):
+    return f'{x:05d}.jpg'
+
 
 def get_training_data(video_path,
                       annotation_path,
@@ -40,6 +43,8 @@ def get_training_data(video_path,
         
         if 'movingmnist' in dataset_name:
             image_name_formatter = mnist_image_name_formatter
+        elif 'something' in dataset_name:
+            image_name_formatter = something_image_name_formatter
         else: image_name_formatter = usual_image_name_formatter
 
         if get_image_backend() == 'accimage':
@@ -129,6 +134,8 @@ def get_validation_data(video_path,
 
         if 'movingmnist' in dataset_name:
             image_name_formatter = mnist_image_name_formatter
+        elif 'something' in dataset_name:
+            image_name_formatter = something_image_name_formatter
         else: image_name_formatter = usual_image_name_formatter
         
         if get_image_backend() == 'accimage':
@@ -216,6 +223,8 @@ def get_inference_data(video_path,
 
         if 'movingmnist' in dataset_name:
             image_name_formatter = mnist_image_name_formatter
+        elif 'something' in dataset_name:
+            image_name_formatter = something_image_name_formatter
         else: image_name_formatter = usual_image_name_formatter
         
         if get_image_backend() == 'accimage':
