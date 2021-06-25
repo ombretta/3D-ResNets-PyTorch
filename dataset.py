@@ -96,9 +96,9 @@ def get_training_data(video_path,
     
     else:
         print("Building VideoDataset for", dataset_name)
-        print(spatial_transform)
-        print(temporal_transform)
-        print(loader)
+        #print(spatial_transform)
+        #print(temporal_transform)
+        #print(loader)
         training_data = VideoDataset(video_path,
                                      annotation_path,
                                      'training',

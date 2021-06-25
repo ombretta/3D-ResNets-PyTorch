@@ -78,7 +78,7 @@ class VideoDataset(data.Dataset):
         class_to_idx = get_class_labels(data)
         idx_to_class = {}
         for name, label in class_to_idx.items():
-            print(name, label)
+            #print(name, label)
             idx_to_class[label] = name
 
         n_videos = len(video_ids)
@@ -132,8 +132,8 @@ class VideoDataset(data.Dataset):
 
     def __loading(self, path, frame_indices):
         clip = self.loader(path, frame_indices)
-        print(clip)
-        print(path, frame_indices)
+        #print(clip)
+        #print(path, frame_indices)
         if self.spatial_transform is not None:
             self.spatial_transform.randomize_parameters()
             clip = [self.spatial_transform(img) for img in clip]
