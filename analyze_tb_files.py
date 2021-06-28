@@ -16,14 +16,14 @@ if not os.path.exists("plots/"): os.mkdir("plots/")
 
 plots_name = "frequency_complex"
 
-res_dirs = [f for f in os.listdir("results/") if "mnist" in f]
+res_dirs = [f for f in os.listdir("results/") if "something" in f]
 discard_dirs = ["bs32_2", "longterm", "mini", "motion", "blackframes", "val_1tstride"]
 res_dirs = [f for f in res_dirs if all([d not in f for d in discard_dirs])]
 
 # Filter according to training setting
 colors = ["red", "green", "orange", "black"]
 filtering_criteria1 = ["resnet_50", "resnet_18", "bagnet_tem_17", "bagnet_tem_9"] #["32frames", "64frames", "128frames"]
-filtering_criteria2 = ["complex"] #["64frames"]
+filtering_criteria2 = [""] #["64frames"]
 filtering_criteria3 = [""] #["32frames_8", "64frames_4", "128frames_2", "256"] #["256"]
 filtering_criteria_annotation_path = [''] #["longterm/"]
 filtering_criteria_sampling = [""]
