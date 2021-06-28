@@ -50,6 +50,8 @@ class VideoLoaderHDF5(object):
             video_data = f['video']
 
             #print(video_path, len(video_data))
+            
+            if "Moments_in_Time_Raw" in video_path: return video_data
 
             video = []
             for i in frame_indices:
