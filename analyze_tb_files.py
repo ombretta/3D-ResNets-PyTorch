@@ -14,7 +14,7 @@ import json
 
 if not os.path.exists("plots/"): os.mkdir("plots/")
 
-plots_name = "frequency_complex"
+plots_name = "static_100_digits"
 
 res_dirs = [f for f in os.listdir("results/") if "something" in f]
 discard_dirs = ["bs32_2", "longterm", "mini", "motion", "blackframes", "val_1tstride"]
