@@ -20,7 +20,7 @@ def extract_frames(video_path, video_dest):
         print(video_path, frameCount, frameWidth, frameHeight, fps)
         
         # Read all video frames 
-        buf = np.empty((frameCount, frameWidth, frameHeight, 3), np.dtype('float32'))
+        buf = np.empty((frameCount, frameHeight, frameWidth, 3), np.dtype('float32'))
         
         fc = 0
         ret = True
@@ -36,6 +36,7 @@ def extract_frames(video_path, video_dest):
         h5_file.create_dataset('video', data=frame_rgb)
         num_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         num_images = h5_file['video'][...].shape[0]
+        print(num_frames, num_images)
     return num_frames == num_images
 
 

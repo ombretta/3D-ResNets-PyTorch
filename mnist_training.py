@@ -18,9 +18,9 @@ cluster_text = ''
 
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
-    '#SBATCH --partition=visionlab\n'+\
-    '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=24:00:00\n'+\
+    '#SBATCH --partition=general\n'+\
+    '#SBATCH --qos=short\n'+\
+    '#SBATCH --time=4:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
@@ -34,13 +34,13 @@ if submit_on_cluster:
 # Root directory path
 root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
-video_path = 'movingMNIST/movingmnistdata_frequencies_complex/' #'movingMNIST/movingmnistdata_frequencies/'
+video_path = 'movingMNIST/movingmnistdata_static2/' #'movingMNIST/movingmnistdata_frequencies/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_frequencies_complex/mnist_json_30.json'
+annotation_path = 'movingMNIST/movingmnistdata_static2/mnist_json_100.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
-dataset = 'movingmnist_frequencies_complex'
+dataset = 'movingmnist_static'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
-n_classes = 100
+n_classes = 10
 # Number of classes of pretraining task. When using --pretrain_path, this must be set.
 n_pretrain_classes = 700
 # Pretrained model path (.pth).
@@ -165,7 +165,7 @@ dist_url = 'tcp://127.0.0.1:23456'
 world_size = 1
 
 
-sample_durations = [32] #, 16, 32, 64]
+sample_durations = [33] #, 16, 32, 64]
 sample_t_strides = [1, 1] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
