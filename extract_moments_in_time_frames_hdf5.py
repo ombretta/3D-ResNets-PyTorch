@@ -20,7 +20,7 @@ def extract_frames(video_path, video_dest):
         print(video_path, frameCount, frameWidth, frameHeight, fps)
         
         # Read all video frames 
-        buf = np.empty((frameCount, frameWidth, frameHeight, 3), np.dtype('float32'))
+        buf = np.empty((frameCount, frameHeight, frameWidth, 3), np.dtype('float32'))
         
         fc = 0
         ret = True
