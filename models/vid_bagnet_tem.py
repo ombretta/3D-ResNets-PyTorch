@@ -226,7 +226,7 @@ class VidBegNet(nn.Module):
         x = self.layer2(x)
         x = self.layer3(x)
         x = self.layer4(x)
-        print('output size', x.size())
+        # print('output size', x.size())
 
         x = self.avgpool(x)
 
