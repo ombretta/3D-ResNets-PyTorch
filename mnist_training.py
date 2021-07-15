@@ -19,8 +19,8 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=short\n'+\
-    '#SBATCH --time=4:00:00\n'+\
+    '#SBATCH --qos=long\n'+\
+    '#SBATCH --time=24:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
@@ -36,7 +36,7 @@ root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
 video_path = 'movingMNIST/movingmnistdata_static2/' #'movingMNIST/movingmnistdata_frequencies/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_static2/mnist_json_10.json'
+annotation_path = 'movingMNIST/movingmnistdata_static2/mnist_json_1000.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
 dataset = 'movingmnist_static'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
