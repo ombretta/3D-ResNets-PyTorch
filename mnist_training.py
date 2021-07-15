@@ -11,7 +11,7 @@ Created on Mon Dec 21 10:23:32 2020
 import os 
 
 submit_on_cluster = True
-pretrained = True
+pretrained = False
 continue_training = False
 
 cluster_text = ''
@@ -19,8 +19,8 @@ cluster_text = ''
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
     '#SBATCH --partition=general\n'+\
-    '#SBATCH --qos=long\n'+\
-    '#SBATCH --time=24:00:00\n'+\
+    '#SBATCH --qos=short\n'+\
+    '#SBATCH --time=4:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
     '#SBATCH --cpus-per-task=2\n'+\
@@ -36,7 +36,7 @@ root_path = '/tudelft.net/staff-bulk/ewi/insy/VisionLab/ombrettastraff/'
 # Directory path of videos
 video_path = 'movingMNIST/movingmnistdata_static2/' #'movingMNIST/movingmnistdata_frequencies/'
 # Annotation file path
-annotation_path = 'movingMNIST/movingmnistdata_static2/mnist_json_1000.json'
+annotation_path = 'movingMNIST/movingmnistdata_static2/mnist_json_10.json'
 # Used dataset (activitynet | kinetics | ucf101 | hmdb51 | breakfast | movingmnist)
 dataset = 'movingmnist_static'
 # Number of classes (activitynet: 200, kinetics: 400 or 600, ucf101: 101, hmdb51: 51)
@@ -169,13 +169,13 @@ sample_durations = [33] #, 16, 32, 64]
 sample_t_strides = [1, 1] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
-models = ['resnet']
+#models = ['resnet']
 
 for sample_duration, i in zip(sample_durations, range(len(sample_durations))):
     for sample_t_stride in sample_t_strides[:-i-1]:
         for model in models:
             for model_depth, receptive_size, pretrain_path in zip([18, 50], 
-                [9, 17],
+                [9, 33],
                 ["3D-ResNets-PyTorch/pretrained_models/r3d18_K_200ep.pth",
                  "3D-ResNets-PyTorch/pretrained_models/r3d50_K_200ep.pth"]): #"VisionLab/ombrettastraff/3D-ResNets-PyTorch/pretrained_models/r3d34_K_200ep.pth"
                 if 'bagnet' in model:

@@ -11,16 +11,15 @@ Created on Mon Jun 21 17:19:41 2021
 import os 
 
 submit_on_cluster = True
-pretrained = False
+pretrained = True
 continue_training = False
 
 cluster_text = ''
 
 if submit_on_cluster:
     cluster_text = '#!/bin/sh\n'+\
-    '#SBATCH --partition=visionlab\n'+\
-    '#SBATCH --qos=reservation\n'+\
-    '#SBATCH --reservation=bmvc\n'+\
+    '#SBATCH --partition=general\n'+\
+    '#SBATCH --qos=long\n'+\
     '#SBATCH --time=96:00:00\n'+\
     '#SBATCH --ntasks=1\n'+\
     '#SBATCH --mail-type=END\n'+\
@@ -170,7 +169,7 @@ sample_durations = [112] #, 16, 32, 64]
 sample_t_strides = [1, 1] #, 2, 4, 8, 16]
 models = ['resnet', 'vidbagnet_tem']
 #models = ['vidbagnet']
-# models = ['resnet']
+models = ['resnet']
 
 for sample_duration, i in zip(sample_durations, range(len(sample_durations))):
     for sample_t_stride in sample_t_strides[:-i-1]:
