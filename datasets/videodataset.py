@@ -11,7 +11,7 @@ def get_class_labels(data):
     class_labels_map = {}
     index = 0
     for class_label in data['labels']:
-        print(class_label, index)
+        # print(class_label, index)¡
         class_labels_map[class_label] = index
         index += 1
     return class_labels_map

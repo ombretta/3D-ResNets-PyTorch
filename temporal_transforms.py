@@ -94,7 +94,7 @@ class TemporalRandomCrop(object):
             out = self.loop(out)
         
         #print(out)    
-        #print(len(out))
+        # print(len(out))
         return out
 
 
@@ -106,7 +106,7 @@ class TemporalEvenCrop(object):
         self.loop = LoopPadding(size)
 
     def __call__(self, frame_indices):
-        print("frame_indices", frame_indices)
+        # print("frame_indices", frame_indices)
 
         n_frames = len(frame_indices)
         stride = max(
